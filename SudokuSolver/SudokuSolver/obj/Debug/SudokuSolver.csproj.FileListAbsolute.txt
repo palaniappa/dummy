@@ -1,0 +1,5 @@
+C:\Users\pamaniv\source\repos\SudokuSolver\SudokuSolver\obj\Debug\SudokuSolver.csprojAssemblyReference.cache
+C:\Users\pamaniv\source\repos\SudokuSolver\SudokuSolver\bin\Debug\SudokuSolver.dll
+C:\Users\pamaniv\source\repos\SudokuSolver\SudokuSolver\bin\Debug\SudokuSolver.pdb
+C:\Users\pamaniv\source\repos\SudokuSolver\SudokuSolver\obj\Debug\SudokuSolver.dll
+C:\Users\pamaniv\source\repos\SudokuSolver\SudokuSolver\obj\Debug\SudokuSolver.pdb

@@ -1,6 +1,0 @@
-C:\Users\pamaniv\source\repos\biggerIsGreater\biggerIsGreater\bin\Debug\biggerIsGreater.exe.config
-C:\Users\pamaniv\source\repos\biggerIsGreater\biggerIsGreater\bin\Debug\biggerIsGreater.exe
-C:\Users\pamaniv\source\repos\biggerIsGreater\biggerIsGreater\bin\Debug\biggerIsGreater.pdb
-C:\Users\pamaniv\source\repos\biggerIsGreater\biggerIsGreater\obj\Debug\biggerIsGreater.csprojAssemblyReference.cache
-C:\Users\pamaniv\source\repos\biggerIsGreater\biggerIsGreater\obj\Debug\biggerIsGreater.exe
-C:\Users\pamaniv\source\repos\biggerIsGreater\biggerIsGreater\obj\Debug\biggerIsGreater.pdb

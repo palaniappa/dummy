@@ -1,9 +1,0 @@
-C:\Users\pamaniv\source\repos\SudokuSolver\SudokuSolverConsoleTest\bin\Debug\SudokuSolverConsoleTest.exe.config
-C:\Users\pamaniv\source\repos\SudokuSolver\SudokuSolverConsoleTest\bin\Debug\SudokuSolverConsoleTest.exe
-C:\Users\pamaniv\source\repos\SudokuSolver\SudokuSolverConsoleTest\bin\Debug\SudokuSolverConsoleTest.pdb
-C:\Users\pamaniv\source\repos\SudokuSolver\SudokuSolverConsoleTest\bin\Debug\SudokuSolver.dll
-C:\Users\pamaniv\source\repos\SudokuSolver\SudokuSolverConsoleTest\bin\Debug\SudokuSolver.pdb
-C:\Users\pamaniv\source\repos\SudokuSolver\SudokuSolverConsoleTest\obj\Debug\SudokuSolverConsoleTest.csprojAssemblyReference.cache
-C:\Users\pamaniv\source\repos\SudokuSolver\SudokuSolverConsoleTest\obj\Debug\SudokuSolverConsoleTest.csproj.CopyComplete
-C:\Users\pamaniv\source\repos\SudokuSolver\SudokuSolverConsoleTest\obj\Debug\SudokuSolverConsoleTest.exe
-C:\Users\pamaniv\source\repos\SudokuSolver\SudokuSolverConsoleTest\obj\Debug\SudokuSolverConsoleTest.pdb

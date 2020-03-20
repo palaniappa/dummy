@@ -1,0 +1,8 @@
+#Files that should be treated as binary
+*.exe       binary
+*.pdb       binary
+*.snk       binary
+*.dll       binary
+
+#Set the default behavior, in case people don't have core.autocrlf set
+*           text=auto

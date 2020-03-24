@@ -1,0 +1,7 @@
+C:\repos\dummy\MaxNumberOfSquares\MaxNumberOfSquares\bin\Debug\MaxNumberOfSquares.exe.config
+C:\repos\dummy\MaxNumberOfSquares\MaxNumberOfSquares\bin\Debug\MaxNumberOfSquares.exe
+C:\repos\dummy\MaxNumberOfSquares\MaxNumberOfSquares\bin\Debug\MaxNumberOfSquares.pdb
+C:\repos\dummy\MaxNumberOfSquares\MaxNumberOfSquares\obj\Debug\MaxNumberOfSquares.csprojAssemblyReference.cache
+C:\repos\dummy\MaxNumberOfSquares\MaxNumberOfSquares\obj\Debug\MaxNumberOfSquares.csproj.CoreCompileInputs.cache
+C:\repos\dummy\MaxNumberOfSquares\MaxNumberOfSquares\obj\Debug\MaxNumberOfSquares.exe
+C:\repos\dummy\MaxNumberOfSquares\MaxNumberOfSquares\obj\Debug\MaxNumberOfSquares.pdb

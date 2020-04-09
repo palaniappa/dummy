@@ -4,3 +4,10 @@ C:\Users\pamaniv\source\repos\ConsoleApp4\ConsoleApp4\bin\Debug\ConsoleApp4.exe
 C:\Users\pamaniv\source\repos\ConsoleApp4\ConsoleApp4\bin\Debug\ConsoleApp4.pdb
 C:\Users\pamaniv\source\repos\ConsoleApp4\ConsoleApp4\obj\Debug\ConsoleApp4.exe
 C:\Users\pamaniv\source\repos\ConsoleApp4\ConsoleApp4\obj\Debug\ConsoleApp4.pdb
+C:\repos\dummy\ConsoleApp4\ConsoleApp4\bin\Debug\ConsoleApp4.exe.config
+C:\repos\dummy\ConsoleApp4\ConsoleApp4\bin\Debug\ConsoleApp4.exe
+C:\repos\dummy\ConsoleApp4\ConsoleApp4\bin\Debug\ConsoleApp4.pdb
+C:\repos\dummy\ConsoleApp4\ConsoleApp4\obj\Debug\ConsoleApp4.csprojAssemblyReference.cache
+C:\repos\dummy\ConsoleApp4\ConsoleApp4\obj\Debug\ConsoleApp4.csproj.CoreCompileInputs.cache
+C:\repos\dummy\ConsoleApp4\ConsoleApp4\obj\Debug\ConsoleApp4.exe
+C:\repos\dummy\ConsoleApp4\ConsoleApp4\obj\Debug\ConsoleApp4.pdb

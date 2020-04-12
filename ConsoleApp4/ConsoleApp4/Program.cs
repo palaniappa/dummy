@@ -116,75 +116,254 @@ class Solution
         //var r = FirstMissingPositive(new int[] { 3, 4, -1, 1 });
         //var r = getProduct("140", "721");
 
-        //var median = getMedian(new int[] {2,4,6,8 }, new int[] { 3,5,7 });
-        var median = getMedian(new int[] { 0, 2, 4, 16, 18, 20 ,22 }, new int[] { 1, 8, 17, 19, 21, 22, 23 });
+        //        var median = FindMedianSortedArrays(new int[] {2,4,6,8 }, new int[] { 3,5,7 });
+        var median = FindMedianSortedArrays(new int[] { 2, 4, 6, 8 }, new int[] { 3, 5, 7, 9 });
+        //var median = FindMedianSortedArrays(new int[] { 0, 2, 4, 16, 18, 20 ,22 }, new int[] { 1, 8, 17, 19, 21, 22, 23 });
+        //var median = FindMedianSortedArrays(new int[] { 1, 2 }, new int[] { 3, 4 });
+        //var median = FindMedianSortedArrays(new int[] { }, new int[] { 1 });
+        //var median = FindMedianSortedArrays(new int[] { 0, 0 }, new int[] { 0,0 });
+        //var median = FindMedianSortedArrays(new int[] { 2 }, new int[] {  });
+        //var median = FindMedianSortedArrays(new int[] { 1, 2 }, new int[] { -1, 3 });
+        //var median = FindMedianSortedArrays(new int[] { 3 }, new int[] { -2, -1 });
+        //var median = FindMedianSortedArrays(new int[] { 1,2 }, new int[] { 1, 2, 3 });
     }
 
-    public static double getMedian(int[] s1, int[] s2)
+    public static double getMedian(IEnumerable<int> items)
     {
-        int totalLength = s1.Length + s2.Length;
+        if(items.Count() > 0)
+        {
+            if (items.Count() % 2 == 1)
+            {
+                return items.ElementAt((items.Count()/ 2));
+            }
+            else
+            {
+                int mid = items.Count() / 2;
+                return (double)(items.ElementAt(mid) + items.ElementAt(mid - 1)) / 2;
+            }
+        }
+        return 0;
+    }
+
+    public static double FindMedianSortedArrays(int[] nums1, int[] nums2)
+    {
+        int totalLength = nums1.Length + nums2.Length;
         int st1 = 0;
-        int end1 = s1.Length - 1;
+        int end1 = nums1.Length - 1;
         int st2 = 0;
-        int end2 = s2.Length - 1;
+        int end2 = nums2.Length - 1;
 
         double result = 0;
-        
 
-        while (st1 <= end1 && st2 <= end2 )
+
+        if (nums1.Length == 0 || nums2.Length == 0) // || nums1[nums1.Length - 1] <= nums2[0] || nums2[nums2.Length - 1] <= nums1[0])
         {
-            int mid1 = (end1 + st1) / 2;
-            int mid2 = (end2 + st2) / 2;
+            if (nums1.Length == 0)
+            {
+                result = getMedian(nums2);
+            }
+            else if (nums2.Length == 0)
+            {
+                result = getMedian(nums1);
+            }
+        }
+        else if (st1 <= end1 && st2 <= end2)
+        {
+            while (st1 <= end1 && st2 <= end2)
+            {
+                int mid1 = (end1 + st1) / 2;
+                int mid2 = (end2 + st2) / 2;
 
-            if ( mid1 > 0 && s1[mid1-1] > s2[mid2])
-            {
-                end1 = mid1;
-            }
-            else if ( mid1+1 < s1.Length &&  s1[mid1+1] < s2[mid2])
-            {
-                st1 = mid1;
-            }
-            
-            if (mid2 > 0 && s2[mid2 - 1] > s1[mid1])
-            {
-                end2 = mid2;
-            }
-            else if (mid2 + 1 < s2.Length && s2[mid2 + 1] < s1[mid1])
-            {
-                st2 = mid2;
-            }
-
-            if(
-                (mid1 == 0 || s1[mid1 - 1] < s2[mid2])
-                && (mid1 + 1 == s1.Length || s1[mid1 + 1] > s2[mid2])
-                && (mid2 == 0 || s2[mid2 - 1] < s1[mid1])
-                && (mid2 + 1 == s2.Length || s2[mid2 + 1] > s1[mid1])
-                )
-            {
-                if(totalLength % 2 == 1)
+                int[] primaryArray = null;
+                int[] secondaryArray = null;
+                int primaryMid = -1;
+                int secondaryMid = -1;
+                if(nums1[mid1] > nums2[mid2])
                 {
-                    int leftcount = (mid1 + mid2);
-                    int rightcount = (s1.Length - mid1 - 1) + (s2.Length - mid2 - 1);
-                    if(leftcount< rightcount)
-                    {
-                        result =  Math.Max(s1[mid1], s2[mid2]);
-                        break;
-                    }
-                    else
-                    {
-                        result = Math.Min(s1[mid1], s2[mid2]);
-                        break;
-                    }
+                    primaryArray = nums1;
+                    secondaryArray = nums2;
+                    primaryMid = mid1;
+                    secondaryMid = mid2;
                 }
                 else
                 {
-                    result = (double)(s1[mid1] + s2[mid2]) / 2;
+                    primaryArray = nums2;
+                    secondaryArray = nums1;
+                    primaryMid = mid2;
+                    secondaryMid = mid1;
+                }
+                //Max
+                int leftMaxMedianCount = getMinCount(nums1, mid1, primaryArray[primaryMid]) + getMinCount(nums2, mid2, primaryArray[primaryMid]);
+                int rightMaxMedianCount = getMaxCount(nums1, mid1, primaryArray[primaryMid]) + getMaxCount(nums2, mid2, primaryArray[primaryMid]);
+                var diff = totalLength - leftMaxMedianCount - rightMaxMedianCount ;
+                if ( diff == 0){
+                    //got the median as max
+                    result = primaryArray[primaryMid];
                     break;
+                }
+                else if(diff == 1)
+                {
+                    int nextElement = 0;
+                    // a + b we should do based on which side is high
+                    if(rightMaxMedianCount > leftMaxMedianCount)
+                    {
+                        if(primaryMid > 0)
+                        {
+                            nextElement = Math.Max(primaryArray[primaryMid - 1], secondaryArray[secondaryMid]);
+                        }
+                        else
+                        {
+                            nextElement = secondaryArray[secondaryMid];
+                        }
+                        
+                    }
+                    else
+                    {
+                        if (primaryMid < primaryArray.Length - 1)
+                        {
+                            nextElement = Math.Min(primaryArray[primaryMid + 1], secondaryArray[secondaryMid]);
+                        }
+                        else
+                        {
+                            nextElement = secondaryArray[secondaryMid];
+                        }
+                    }
+                    result =  (double)(primaryArray[primaryMid] + nextElement) / 2;
+                    break;
+                }
+                else
+                {
+                    if(nums1[mid1] < nums2[mid2])
+                    {
+                        st1 = mid1;
+                        end2 = mid2; 
+                    }
+                    else
+                    {
+                        end1 = mid1;
+                        st2 = mid2;
+                    }
                 }
             }
         }
+
         return result;
     }
+
+    public static int getMinCount(int[] items, int mid, int maxVal)
+    {
+        if(items[mid] < maxVal)
+        {
+            return mid + 1;
+        }
+        else if(mid > 0 && items[mid-1] < maxVal)
+        {
+            return mid;
+        }
+        return 0;
+    }
+
+    public static int getMaxCount(int[] items, int mid, int maxVal)
+    {
+        if (items[mid] > maxVal)
+        {
+            return items.Length - mid;
+        }
+        else if (mid+1 < items.Length && items[mid + 1] > maxVal)
+        {
+            return items.Length - mid - 1;
+        }
+        return 0;
+    }
+
+    //public static double FindMedianSortedArrays(int[] nums1, int[] nums2)
+    //{
+    //    int totalLength = nums1.Length + nums2.Length;
+    //    int st1 = 0;
+    //    int end1 = nums1.Length - 1;
+    //    int st2 = 0;
+    //    int end2 = nums2.Length - 1;
+
+    //    double result = 0;
+
+
+    //    if (nums1.Length == 0 || nums2.Length == 0 ) // || nums1[nums1.Length - 1] <= nums2[0] || nums2[nums2.Length - 1] <= nums1[0])
+    //    {
+    //        if (nums1.Length == 0)
+    //        {
+    //            result = getMedian(nums2);
+    //        }
+    //        else if (nums2.Length == 0)
+    //        {
+    //            result = getMedian(nums1);
+    //        }
+    //        else
+    //        {
+    //            int[] items = null;
+    //            if (nums1[nums1.Length - 1] <= nums2[0])
+    //            {
+    //                items = nums1.Concat(nums2).ToArray();
+    //            }
+    //            else
+    //            {
+    //                items = nums2.Concat(nums1).ToArray();
+    //            }
+    //            result = getMedian(items);
+    //        }
+    //    }
+    //    else if (st1 <= end1 && st2 <= end2)
+    //    {
+    //        while (st1 <= end1 && st2 <= end2)
+    //        {
+    //            int mid1 = (end1 + st1) / 2;
+    //            int mid2 = (end2 + st2) / 2;
+    //            if (nums1[mid1] == nums2[mid2])
+    //            {
+    //                result = nums1[mid1];
+    //                break;
+    //            }
+    //            else if ((end1 - st1) == 1 && (end2 - st2) == 1)
+    //            {
+    //                result = (double)(Math.Max(nums1[st1], nums2[st2]) + Math.Min(nums1[st1 + 1], nums2[st2 + 1])) / 2;
+    //                break;
+
+    //            }
+    //            else if ((end1 - st1) <= 1 && (end2 - st2) <= 1)
+    //            {
+    //                List<int> items = new List<int>();
+    //                items.Add(nums1[st1]);
+    //                items.Add(nums2[st2]);
+    //                if (end1 > st1)
+    //                {
+    //                    items.Add(nums1[st1 + 1]);
+    //                }
+    //                if (end2 > st2)
+    //                {
+    //                    items.Add(nums2[st2 + 1]);
+    //                }
+    //                items.Sort();
+    //                result = getMedian(items);
+    //                break;
+    //            }
+    //            else
+    //            {
+
+    //                if(nums1[mid1] > nums2[mid2])
+    //                {
+    //                    end1 = mid1;
+    //                    st2 = mid2;
+    //                }
+    //                else if(nums1[mid1] < nums2[mid2])
+    //                {
+    //                    st1 = mid1;
+    //                    end2 = mid2;
+    //                }
+    //            }
+    //        }
+    //    }
+
+    //            return result;
+    //}
 
     public  static string getProduct(string no1, string no2)
     {

@@ -1,0 +1,16 @@
+---
+server:
+  port: 8888
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+spring:
+  cloud:
+    config:      server:        git:          #basedir: /Spring/ConfigServerGitFiles/
+          uri: https://github.com/rseroter/pluralsight-spring-cloudconfig-wa-tolls
+          #username: palaniappa@gmail.com
+          #password: idon'tknow
+                      
+    

@@ -2754,3 +2754,42 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-04-23 11:10:31.773
 !MESSAGE executing callback sts4.classpath.OCINGHqJ SUCCESS [done]
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-04-23 16:39:58.096
+!MESSAGE Preparing classpath changed notification bike
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-04-23 16:39:58.442
+!MESSAGE exists = true open = true => deleted = false
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-04-23 16:39:58.561
+!MESSAGE classpath=130 entries
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-04-23 16:39:58.597
+!MESSAGE buffering callback sts4.classpath.OCINGHqJ bike false 130
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-04-23 16:39:58.800
+!MESSAGE executing callback sts4.classpath.OCINGHqJ 1 batched events
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-04-23 16:39:59.037
+!MESSAGE executing callback sts4.classpath.OCINGHqJ SUCCESS [done]
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-04-23 16:40:29.388
+!MESSAGE Preparing classpath changed notification bike
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-04-23 16:40:29.443
+!MESSAGE exists = true open = true => deleted = false
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-04-23 16:40:29.505
+!MESSAGE classpath=130 entries
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-04-23 16:40:29.550
+!MESSAGE buffering callback sts4.classpath.OCINGHqJ bike false 130
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-04-23 16:40:29.568
+!MESSAGE executing callback sts4.classpath.OCINGHqJ 1 batched events
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-04-23 16:40:29.608
+!MESSAGE executing callback sts4.classpath.OCINGHqJ SUCCESS [done]
+
+!ENTRY org.eclipse.ui 2 2 2020-04-23 16:44:39.670
+!MESSAGE Invalid property category path: org.springframework.ide.eclipse.beans.ui.properties.ProjectPropertyPage (bundle: org.springframework.ide.eclipse.xml.namespaces, propertyPage: org.springframework.ide.eclipse.beans.ui.namespaces.projectPropertyPage)

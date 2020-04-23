@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {Observable} from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs/internal/Observable';
 
 const httpOptions = {
-  headers: new HttpHeaders( {'Content-Type': 'application/json'})
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 }
 
 @Injectable({
@@ -11,18 +11,22 @@ const httpOptions = {
 })
 export class BikeService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  getBikes(){
-    return this.http.get('/server/api/v1/bikes');
+  getBikes() {
+    let token = localStorage.getItem('access_token');
+    return this.http.get('/server/api/v1/bikes',
+      { headers: new HttpHeaders().set('Authorization', 'Bearer ' + token) });
   }
 
-  getBike(id: number){
-    return this.http.get('/server/api/v1/bikes/' + id);
+  getBike(id: number) {
+    let token = localStorage.getItem('access_token');
+    return this.http.get('/server/api/v1/bikes/' + id
+      , { headers: new HttpHeaders().set('Authorization', 'Bearer ' + token) });
   }
 
-  createBikeRegistration(bike){
+  createBikeRegistration(bike) {
     let body = JSON.stringify(bike);
-    return this.http.post('server/api/v1/bikes',body, httpOptions);
+    return this.http.post('server/api/v1/bikes', body, httpOptions);
   }
 }

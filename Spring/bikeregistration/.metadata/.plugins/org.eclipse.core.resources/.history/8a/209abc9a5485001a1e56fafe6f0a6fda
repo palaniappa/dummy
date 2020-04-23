@@ -1,0 +1,5 @@
+package com.palsoft.bike.config;
+
+public class SecurityConfiguration {
+
+}

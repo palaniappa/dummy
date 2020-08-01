@@ -3,6 +3,7 @@
     "version": "1.0",
     "description": "Helps in opening a new tab with configured runtime parameter!",
     "permissions": ["declarativeContent","storage","activeTab", "tabs"],
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
     "background": {
         "scripts": ["background.js"],
         "persistent": false

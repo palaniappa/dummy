@@ -164,15 +164,21 @@ function populateBookmarkLists(currentActiveTab, initialData) {
 }
 
 function getRuntimeParamValue(paramValue, currentActiveTab) {
-  let items = paramValue.split(PARAM_TYPE_SEPARATOR);
-  let paramValueType = items[0];
-  if (paramValueType == PARAM_TYPE_ACTIVE_TAB) {
-    let variableNameOrValue = items[1];
-    let paramSubstitutedValue = getActiveTabValue(variableNameOrValue, currentActiveTab);
-    return paramSubstitutedValue;
+  if(paramValue.indexOf(PARAM_TYPE_SEPARATOR) > 0){
+    let items = paramValue.split(PARAM_TYPE_SEPARATOR);
+    let paramValueType = items[0];
+    let computedValue = items[1];
+    if (paramValueType == PARAM_TYPE_ACTIVE_TAB) {
+      let propertyName = items[1];
+      computedValue = getActiveTabValue(propertyName, currentActiveTab);
+    }
+    else if(paramValueType == PARAM_TYPE_JS_VALUE) {
+      let expression = items[1];
+      computedValue = eval(expression);
+    }
+    return computedValue;
   }
-
-  return paramValueType;
+  return paramValue;
 }
 
 function getActiveTabValue(variable, currentActiveTab) {

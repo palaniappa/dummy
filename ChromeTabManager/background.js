@@ -6,8 +6,11 @@
 
 let globalParamList = [
   {
-    name: "$ActiveTab.origin",
-    value: "$ActiveTab.origin"
+    name:"CurrentTabOrigin",
+    value:"$ActiveTab:origin"
+  },{
+    name:"CurrentTabHost",
+    value:"$ActiveTab:host"
   },
   {
     name: "issuerId",
@@ -27,19 +30,23 @@ let globalParamList = [
 let bookmarkListItems = [
   {
     name: "TenantInfo",
-    url: "{{$ActiveTab.origin}}/qa/cdp/cdp.jsp",
+    url: "{{CurrentTabOrigin}}/qa/cdp/cdp.jsp",
   },
   {
     name: "Generate JWT",
-    url: "{{$ActiveTab.origin}}/qa/cdp/generatejwt.jsp",
+    url: "{{CurrentTabOrigin}}/qa/cdp/generatejwt.jsp",
   },
   {
     name: "Mint JWT",
-    url: "{{$ActiveTab.origin}}/qa/cdp/mintedjwt.jsp?issuerId={{issuerId}}&audienceId={{audienceId}}&type=JWT"
+    url: "{{CurrentTabOrigin}}/qa/cdp/mintedjwt.jsp?issuerId={{issuerId}}&audienceId={{audienceId}}&type=JWT"
   },
   {
     name: "News",
     url: "https://www.google.com/search?q={{SearchText}}"
+  },
+  {
+    name: "Search Current Host",
+    url: "https://www.google.com/search?q={{CurrentTabHost}}"
   }
 ];
 

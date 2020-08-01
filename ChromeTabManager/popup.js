@@ -6,7 +6,7 @@
 
 const PARAM_TYPE_ACTIVE_TAB = "$ActiveTab";
 const PARAM_TYPE_JS_VALUE = "$Js";
-const PARAM_TYPE_SEPARATOR = ".";
+const PARAM_TYPE_SEPARATOR = ":";
 
 function main() {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -53,7 +53,6 @@ function populateBookmarkLists(currentActiveTab, initialData) {
       if (bookmark) {
         var x = document.createElement("A");
         var t = document.createTextNode(bookmark.name);
-
         var url = bookmark.url;
         initialData.globalParamList.forEach(p => {
           if (url.indexOf(getFormattedParamName(p.name))!=-1) {

@@ -1,0 +1,23 @@
+version: '3.7'
+services: 
+    redis:
+        image: redis
+        ports:
+            - 26379:6379
+
+    rabbitmq:
+        image: rabbitmq:3-management
+        ports:
+            - 5672:5672
+            - 15672:15672
+    
+    postgres:
+        image: postgres
+        volumes:
+            - ./data:/var/lib/postgres/data             
+        ports: 
+            - 25432:5432
+        environment:
+            POSTGRES_DB: "localdb"
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "TEST_PASSWORD_NOT_SECRET"

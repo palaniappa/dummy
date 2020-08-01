@@ -9,60 +9,54 @@ const PARAM_TYPE_LITERAL = "$Literal";
 const PARAM_TYPE_JS_VALUE = "$Js";
 const PARAM_TYPE_SEPARATOR = ":";
 
-let globalParamList = [
-  {
-    name: "host",
-    value: "$ActiveTab:origin"
-  },
-  {
-    name:"issuerId",
-    value:"$Literal:mylocalissuer"
-  },
-  {
-    name:"audienceId",
-    value:"$Literal:mylocalaudience"
-  }
-
-];
-
-
-let bookmarkListItems = [
-  {
-    name: "TenantInfo",
-    url: "{{host}}/qa/cdp/cdp.jsp",
-  },
-  {
-    name: "Generate JWT",
-    url: "{{host}}/qa/cdp/generatejwt.jsp",
-  },
-  {
-    name:"Mint JWT",
-    url:"{{host}}/qa/cdp/mintedjwt.jsp?issuerId={{issuerId}}&audienceId={{audienceId}}&type=JWT"
-  }
-];
-
-
 function main() {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    populateBookmarkLists(tabs[0]);
+    chrome.storage.sync.get('initialData', function(result) {
+      let initialData = result.initialData;
+      if(initialData){
+        populateBookmarkLists(tabs[0],initialData);
+      } 
+    }
+    );
+    
   });
 
+  $("#bmName").val("");
+  $("#bmUrl").val("");
+  let button = document.getElementById('bmAdd');
+    button.addEventListener('click', addBookMarkItem.bind(this));
 }
 
-function populateBookmarkLists(currentActiveTab) {
+function addBookMarkItem() {
+  let bmName = $("#bmName").val();
+  let bmUrl = $("#bmUrl").val();
+  if(bmName && bmUrl){
+    let newItem = {};
+    newItem.name = bmName;
+    newItem.url = bmUrl;
+    chrome.storage.sync.get('initialData', function(result) {
+      result.initialData.bookmarkList.push(newItem);
+      chrome.storage.sync.set({initialData:result.initialData}, function () {
+        main();
+      });
+    });
+  }
+}
+
+function populateBookmarkLists(currentActiveTab, initialData) {
   let bookmarkListContainer = document.getElementById("bookmarkList");
 
   if (bookmarkListContainer) {
     bookmarkListContainer.innerHTML = '';
     var first = true;
 
-    bookmarkListItems.forEach(bookmark => {
+    initialData.bookmarkList.forEach(bookmark => {
       if (bookmark) {
         var x = document.createElement("A");
         var t = document.createTextNode(bookmark.name);
 
         var url = bookmark.url;
-        globalParamList.forEach(p => {
+        initialData.globalParamList.forEach(p => {
           if (url.indexOf(getFormattedParamName(p.name))!=-1) {
             var paramValue = getRuntimeParamValue(p.value, currentActiveTab);
             url = substituteValue(url, p.name, paramValue)

@@ -6,20 +6,20 @@
 
 let globalParamList = [
   {
-    name: "host",
-    value: "$ActiveTab:origin"
+    name: "$ActiveTab.origin",
+    value: "$ActiveTab.origin"
   },
   {
     name: "issuerId",
-    value: "$Literal:mylocalissuer"
+    value: "my issuer id"
   },
   {
     name: "audienceId",
-    value: "$Literal:mylocalaudience"
+    value: "my audience id"
   },
   {
     name: "SearchText",
-    value: "$Literal:Am I lucky today"
+    value: "my search text"
   }
 
 ];
@@ -27,15 +27,15 @@ let globalParamList = [
 let bookmarkListItems = [
   {
     name: "TenantInfo",
-    url: "{{host}}/qa/cdp/cdp.jsp",
+    url: "{{$ActiveTab.origin}}/qa/cdp/cdp.jsp",
   },
   {
     name: "Generate JWT",
-    url: "{{host}}/qa/cdp/generatejwt.jsp",
+    url: "{{$ActiveTab.origin}}/qa/cdp/generatejwt.jsp",
   },
   {
     name: "Mint JWT",
-    url: "{{host}}/qa/cdp/mintedjwt.jsp?issuerId={{issuerId}}&audienceId={{audienceId}}&type=JWT"
+    url: "{{$ActiveTab.origin}}/qa/cdp/mintedjwt.jsp?issuerId={{issuerId}}&audienceId={{audienceId}}&type=JWT"
   },
   {
     name: "News",
@@ -54,14 +54,4 @@ chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.sync.set({ color: '#3aa757' }, function () {
     console.log("The color is green.");
   });
-
-  // chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
-  //   chrome.declarativeContent.onPageChanged.addRules([{
-  //     conditions: [new chrome.declarativeContent.PageStateMatcher({
-  //       pageUrl: {hostEquals: 'developer.chrome.com'},
-  //     })
-  //     ],
-  //         actions: [new chrome.declarativeContent.ShowPageAction()]
-  //   }]);
-  // });
 });

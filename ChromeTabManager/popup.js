@@ -5,9 +5,8 @@
 'use strict';
 
 const PARAM_TYPE_ACTIVE_TAB = "$ActiveTab";
-const PARAM_TYPE_LITERAL = "$Literal";
 const PARAM_TYPE_JS_VALUE = "$Js";
-const PARAM_TYPE_SEPARATOR = ":";
+const PARAM_TYPE_SEPARATOR = ".";
 
 function main() {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -81,25 +80,21 @@ function populateBookmarkLists(currentActiveTab, initialData) {
 }
 
 function getRuntimeParamValue(paramValue, currentActiveTab) {
-  let paramSubstitutedValue = "";
   let items = paramValue.split(PARAM_TYPE_SEPARATOR);
   let paramValueType = items[0];
-  let variableNameOrValue = items[1];
   if (paramValueType == PARAM_TYPE_ACTIVE_TAB) {
-    paramSubstitutedValue = getActiveTabValue(variableNameOrValue, currentActiveTab);
+    let variableNameOrValue = items[1];
+    let paramSubstitutedValue = getActiveTabValue(variableNameOrValue, currentActiveTab);
+    return paramSubstitutedValue;
   }
-  else if(paramValueType == PARAM_TYPE_LITERAL) {
-    paramSubstitutedValue= variableNameOrValue;
-  }
-  return paramSubstitutedValue;
+  
+  return paramValueType;
 }
 
 function getActiveTabValue(variable, currentActiveTab) {
   var varValue = "";
   var uri = new URL(currentActiveTab.url);
-  if (variable == "origin") {
-    varValue = uri.origin;
-  }
+    varValue = uri[variable];
   return varValue;
 }
 

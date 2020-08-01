@@ -13,7 +13,9 @@
 
 <body>
   <div id="mainContainer" class="mainCont">
+    <b><span>Bookmarks</span></b>
     <div id="bookmarkList"></div>
+    <b><span>Add New Bookmark</span></b>
     <div>
       <table>
         <tr>
@@ -23,7 +25,22 @@
           <td><input id="bmUrl" placeholder="Url" tooltip="www.google.com/search?q={{$Literal:News Today}}" /></td>
         </tr>
         <tr>
-          <td><button id="bmAdd">Add</button></td>
+          <td><button id="bmAdd">Upsert</button></td>
+        </tr>       
+      </table>
+    </div>
+    <div id="globalParameterList"></div>
+    <b><span>Add New Parameter</span></b>
+    <div>
+      <table>
+        <tr>
+          <td><input id="pmKey" placeholder="Key" /></td>
+        </tr>
+        <tr>
+          <td><input id="pmValue" placeholder="Literal / $ActiveTab:prop / $Js:exp" tooltip="www.google.com/search?q={{$Literal:News Today}}" /></td>
+        </tr>
+        <tr>
+          <td><button id="pmAdd">Add Parameter</button></td>
         </tr>       
       </table>
     </div>

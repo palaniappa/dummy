@@ -6,22 +6,23 @@
 
 let globalParamList = [
   {
-    name:"CurrentTabOrigin",
-    value:"$ActiveTab:origin"
-  },{
-    name:"CurrentTabHost",
-    value:"$ActiveTab:host"
+    key: "CurrentTabOrigin",
+    value: "$ActiveTab:origin"
+  }, 
+  {
+    key: "CurrentTabHost",
+    value: "$ActiveTab:host"
   },
   {
-    name: "issuerId",
+    key: "issuerId",
     value: "my issuer id"
   },
   {
-    name: "audienceId",
+    key: "audienceId",
     value: "my audience id"
   },
   {
-    name: "SearchText",
+    key: "SearchText",
     value: "my search text"
   }
 
@@ -54,7 +55,7 @@ chrome.runtime.onInstalled.addListener(function () {
   let initialData = {};
   initialData.bookmarkList = bookmarkListItems;
   initialData.globalParamList = globalParamList;
-  chrome.storage.sync.set({initialData:initialData}, function () {
+  chrome.storage.sync.set({ initialData: initialData }, function () {
     console.log("Inserted initial data");
   });
 

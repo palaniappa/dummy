@@ -20,6 +20,8 @@
 /Logs/**/*
 *.nlp
 
+*node_modules/*
+
 /**/.vs/config/**/*
 /**/*.StyleCop
 *.coverage

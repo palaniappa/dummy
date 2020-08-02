@@ -1,5 +1,5 @@
 import { Parameter, Parameters } from "../model/parameter";
-import { Bookmarks } from "../model/bookmark";
+import { Bookmark, Bookmarks } from "../model/bookmark";
 
 export class Store {
 
@@ -51,9 +51,9 @@ export class Store {
         return p;
     }
 
-    private saveParameters(items: Parameters): Promise<void> {
+    public saveParameters(parametersObject: Parameters): Promise<void> {
         let p = new Promise<void>((resolve, reject) => {
-            chrome.storage.sync.set({ ParamList: items }, () => {
+            chrome.storage.sync.set({ ParamList: parametersObject }, () => {
                 console.log("Saved parameters");
                 resolve();
             });
@@ -61,14 +61,29 @@ export class Store {
         return p;
     }
 
-    private saveBookmarks(items: Bookmarks) {
+    public saveBookmarks(bookmarksObject: Bookmarks): Promise<void> {
         let p = new Promise<void>((resolve, reject) => {
-            chrome.storage.sync.set({ BookmarkList: items }, () => {
+            chrome.storage.sync.set({ BookmarkList: bookmarksObject }, () => {
                 console.log("Saved bookmarks");
                 resolve();
             });
         });
         return p;
+    }
+
+    public addBookmark( newBookmark: Bookmark): Promise<void> {
+        return this.getBookmarks().then( bookmarks => {
+            bookmarks.items.push(newBookmark);
+            return this.saveBookmarks(bookmarks);
+        });
+    }
+
+    public addParameter( newParameter: Parameter): Promise<void> {
+        return this.getParameters().then( parameters => {
+            parameters.items.push(newParameter);
+            return this.saveParameters(parameters);
+        })
+
     }
 }
 

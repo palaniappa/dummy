@@ -6,7 +6,10 @@ let count = 0;
 
 $(function() {
   
-  PopupController.instance.render();
+  $(document).ready( () => {
+    PopupController.instance.render();
+  });
+  
   
   // const queryInfo = {
   //   active: true,

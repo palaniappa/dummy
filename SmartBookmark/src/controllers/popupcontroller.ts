@@ -1,6 +1,7 @@
 import { Store } from "./store";
-import { Bookmarks } from "../model/bookmark";
-import { Parameters } from "../model/parameter";
+import { Bookmarks, Bookmark } from "../model/bookmark";
+import { Parameters, Parameter } from "../model/parameter";
+import * as $ from 'jquery';
 
 const PARAM_TYPE_ACTIVE_TAB = "$ActiveTab";
 const PARAM_TYPE_JS_VALUE = "$Js";
@@ -11,11 +12,11 @@ export class PopupController {
     public static instance: PopupController = new PopupController();
 
     public render(): Promise<void> {
-        this.renderBookmarks();
+        let p = this.renderBookmarks();
         this.renderBookmarkAddControls();
         this.renderParameters();
         this.renderParameterAddControls();
-        return null;
+        return p;
     }
 
     private getCurrentActiveTab(): Promise<chrome.tabs.Tab> {
@@ -42,7 +43,7 @@ export class PopupController {
             let bookmarkListContainer = document.getElementById("bookmarkList");
             if (bookmarkListContainer) {
                 bookmarkListContainer.innerHTML = '';
-                var first = true;
+                let first = true;
                 bookmarks.items.forEach(bookmark => {
 
                     let x = document.createElement("A");
@@ -100,9 +101,12 @@ export class PopupController {
     }
 
     private getActiveTabValue(variable: string, currentActiveTab: chrome.tabs.Tab) {
-        var varValue = "";
-        var uri = new URL(currentActiveTab.url);
-        varValue = uri[variable];
+        let varValue = "";
+        if (currentActiveTab && currentActiveTab.url) {
+            let uri = new URL(currentActiveTab.url);
+            varValue = uri[variable];
+        }
+
         return varValue;
     }
 
@@ -112,14 +116,104 @@ export class PopupController {
     }
 
     private renderBookmarkAddControls(): void {
+        $("#bmName").val('');
+        $("#bmUrl").val("");
+        $('#bmAdd').click(() => {
+            let bmName = $("#bmName").val() as string;
+            let bmUrl = $("#bmUrl").val() as string;
+            this.addBookmarkItem(bmName, bmUrl).then(() => {
+                this.render();
+            });
+        });
+    }
 
+    private addBookmarkItem(name: string, url: string): Promise<void> {
+        if (name && url) {
+            let newBookmark: Bookmark = { name: name, url: url };
+            return Store.instance.addBookmark(newBookmark);
+        }
+        return
     }
 
     private renderParameters(): void {
+        let promiseParameters = Store.instance.getParameters();
 
+        let globalParameterListContainer = document.getElementById("globalParameterList");
+
+        if (globalParameterListContainer) {
+            globalParameterListContainer.innerHTML = '';
+            promiseParameters.then((parametersObject: Parameters) => {
+                document.createElement("table");
+                let items: Array<Array<string>> = [];
+                parametersObject.items.forEach(p => {
+                    if (p) {
+                        let paramItem = [p.key, p.value];
+                        items.push(paramItem);
+                    }
+                });
+                let hearders: Array<string> = [];
+                hearders.push("Key");
+                hearders.push("Value");
+                let table = this.createTable(items, hearders);
+                globalParameterListContainer.appendChild(table);
+            });
+
+        }
+    }
+
+    private createTable(tableData: Array<Array<string>>, headers: Array<string>): HTMLElement {
+        let table = document.createElement('table');
+
+        if (headers) {
+            let tableHead = document.createElement('thead');
+
+            let headerRow = document.createElement('tr');
+
+            headers.forEach(function (headerData) {
+                let cell = document.createElement('th');
+                cell.appendChild(document.createTextNode(headerData));
+                headerRow.appendChild(cell);
+            });
+            tableHead.appendChild(headerRow);
+            table.appendChild(tableHead);
+        }
+
+        let tableBody = document.createElement('tbody');
+
+        tableData.forEach(function (rowData) {
+            let row = document.createElement('tr');
+
+            rowData.forEach(function (cellData) {
+                let cell = document.createElement('td');
+                cell.appendChild(document.createTextNode(cellData));
+                row.appendChild(cell);
+            });
+
+            tableBody.appendChild(row);
+        });
+
+        table.appendChild(tableBody);
+        return table;
     }
 
     private renderParameterAddControls(): void {
+        $("#pmKey").val("");
+        $("#pmValue").val("");
+        $('#pmAdd').click(() => {
+            let pmKey = $("#pmKey").val() as string;
+            let pmValue = $("#pmValue").val() as string;
+            this.addParameter (pmKey, pmValue).then(() => {
+                this.render();
+            });
+        });
 
+    }
+
+    private addParameter(key: string, value: string): Promise<void> {
+        if (key && value) {
+            let newParameter: Parameter = { key: key, value: value };
+            return Store.instance.addParameter(newParameter);
+        }
+        return
     }
 }

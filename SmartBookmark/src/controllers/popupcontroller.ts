@@ -1,11 +1,10 @@
 import { Store } from "./store";
 import { Bookmarks, Bookmark } from "../model/bookmark";
 import { Parameters, Parameter } from "../model/parameter";
-import * as $ from 'jquery';
+import { HtmlUtil } from "../utils/htmlutils";
+import { ParameterUtil } from "../utils/parameterutils";
 
-const PARAM_TYPE_ACTIVE_TAB = "$ActiveTab";
-const PARAM_TYPE_JS_VALUE = "$Js";
-const PARAM_TYPE_SEPARATOR = ":";
+import * as $ from 'jquery';
 
 export class PopupController {
 
@@ -49,7 +48,7 @@ export class PopupController {
                     let x = document.createElement("A");
                     let t = document.createTextNode(bookmark.name);
                     let url = bookmark.url;
-                    let resolvedUrl = this.getResolvedUrl(url, parameters, currentTab);
+                    let resolvedUrl = ParameterUtil.getResolvedUrl(url, parameters, currentTab);
 
                     x.setAttribute("target", "_base");
                     x.setAttribute("href", resolvedUrl);
@@ -67,53 +66,7 @@ export class PopupController {
         });
     }
 
-    private getResolvedUrl(url: string, parameters: Parameters, currentTab: chrome.tabs.Tab): string {
-        let resolvedUrl: string = url;
-        if (parameters) {
-            parameters.items.forEach(p => {
-                let paramValue = this.getRuntimeParamValue(p.value, currentTab);
-                resolvedUrl = this.substituteValue(resolvedUrl, p.key, paramValue)
-            });
-        }
-        return resolvedUrl;
-    }
-
-    private getFormattedParamName(paramName: string): string {
-        return "{{" + paramName + "}}";
-    }
-
-    private getRuntimeParamValue(paramValue: string, currentActiveTab: chrome.tabs.Tab): string {
-        if (paramValue.indexOf(PARAM_TYPE_SEPARATOR) > 0) {
-            let items = paramValue.split(PARAM_TYPE_SEPARATOR);
-            let paramValueType = items[0];
-            let computedValue = items[1];
-            if (paramValueType == PARAM_TYPE_ACTIVE_TAB) {
-                let propertyName = items[1];
-                computedValue = this.getActiveTabValue(propertyName, currentActiveTab);
-            }
-            else if (paramValueType == PARAM_TYPE_JS_VALUE) {
-                let expression = items[1];
-                computedValue = eval(expression);
-            }
-            return computedValue;
-        }
-        return paramValue;
-    }
-
-    private getActiveTabValue(variable: string, currentActiveTab: chrome.tabs.Tab) {
-        let varValue = "";
-        if (currentActiveTab && currentActiveTab.url) {
-            let uri = new URL(currentActiveTab.url);
-            varValue = uri[variable];
-        }
-
-        return varValue;
-    }
-
-    private substituteValue(url: string, paramName: string, paramValue: string) {
-        url = url.replace(this.getFormattedParamName(paramName), paramValue);
-        return url;
-    }
+    
 
     private renderBookmarkAddControls(): void {
         $("#bmName").val('');
@@ -154,47 +107,14 @@ export class PopupController {
                 let hearders: Array<string> = [];
                 hearders.push("Key");
                 hearders.push("Value");
-                let table = this.createTable(items, hearders);
+                let table = HtmlUtil.createTable(items, hearders);
                 globalParameterListContainer.appendChild(table);
             });
 
         }
     }
 
-    private createTable(tableData: Array<Array<string>>, headers: Array<string>): HTMLElement {
-        let table = document.createElement('table');
-
-        if (headers) {
-            let tableHead = document.createElement('thead');
-
-            let headerRow = document.createElement('tr');
-
-            headers.forEach(function (headerData) {
-                let cell = document.createElement('th');
-                cell.appendChild(document.createTextNode(headerData));
-                headerRow.appendChild(cell);
-            });
-            tableHead.appendChild(headerRow);
-            table.appendChild(tableHead);
-        }
-
-        let tableBody = document.createElement('tbody');
-
-        tableData.forEach(function (rowData) {
-            let row = document.createElement('tr');
-
-            rowData.forEach(function (cellData) {
-                let cell = document.createElement('td');
-                cell.appendChild(document.createTextNode(cellData));
-                row.appendChild(cell);
-            });
-
-            tableBody.appendChild(row);
-        });
-
-        table.appendChild(tableBody);
-        return table;
-    }
+    
 
     private renderParameterAddControls(): void {
         $("#pmKey").val("");

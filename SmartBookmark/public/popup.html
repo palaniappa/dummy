@@ -1,53 +1,54 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Smart Bookmark</title>
-    <style>
-    </style>
-    <script src="js/vendor.js"></script>
-  </head>
-  <body>
-    <!-- <ul style="min-width: 700px;">
-    <li>Current URL: <span id="url"></span></li>
-    <li>Current Time: <span id="time"></span></li>
-    </ul>
-    <button id="countUp">count up</button>
-    <button id="changeBackground">change background</button> -->
-    <div id="mainContainer" class="mainCont">
-      <b><span>Bookmarks</span></b>
-      <div id="bookmarkList"></div>
-      <b><span>Add New Bookmark</span></b>
-      <div>
-        <table>
-          <tr>
-            <td><input id="bmName" placeholder="Name" /></td>
-          </tr>
-          <tr>
-            <td><input id="bmUrl" placeholder="Url" /></td>
-          </tr>
-          <tr>
-            <td><button id="bmAdd">Upsert</button></td>
-          </tr>       
-        </table>
-      </div>
-      <div id="globalParameterList"></div>
-      <b><span>Add New Parameter</span></b>
-      <div>
-        <table>
-          <tr>
-            <td><input id="pmKey" placeholder="Key" /></td>
-          </tr>
-          <tr>
-            <td><input id="pmValue" placeholder="Literal / $ActiveTab:prop / $Js:exp" tooltip="www.google.com/search?q={{$Literal:News Today}}" /></td>
-          </tr>
-          <tr>
-            <td><button id="pmAdd">Add Parameter</button></td>
-          </tr>       
-        </table>
-      </div>
-    </div>
-    <script src="js/popup.js"></script>
-  </body>
-</html>
 
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <title>Smart Bookmark</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="js/vendor.js"></script>
+</head>
+
+<body>
+  <div id="mainContainer">
+    <h2>Bookmarks</h2>
+    <div id="bookmarkList"></div>
+
+    <br />
+    <button class="collapsible">Upsert Bookmark</button>
+    <div class="content">
+      <table>
+        <tr>
+          <td><input id="bmName" placeholder="Name" /></td>
+        </tr>
+        <tr>
+          <td><input id="bmUrl" placeholder="Url" /></td>
+        </tr>
+        <tr>
+          <td><button id="bmAdd">Upsert</button></td>
+        </tr>
+      </table>
+    </div>
+    <button class="collapsible">Parameters</button>
+    <div class="content">
+      <div id="globalParameterList" ></div>
+      <div id="newItem">
+          <table>
+            <tr>
+              <td><input id="pmKey" placeholder="Key" /></td>
+            </tr>
+            <tr>
+              <td><input id="pmValue" placeholder="Literal / $ActiveTab:prop / $Js:exp"
+                  tooltip="www.google.com/search?q={{$Literal:News Today}}" /></td>
+            </tr>
+            <tr>
+              <td><button id="pmAdd">Upsert</button></td>
+            </tr>
+          </table>
+        </div>
+    </div>
+  </div>
+  <script src="js/popup.js"></script>
+</body>
+
+</html>

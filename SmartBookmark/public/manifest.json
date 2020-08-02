@@ -11,6 +11,11 @@
     "default_icon": "bookmarkicon.png",
     "default_popup": "popup.html"
   },
+  "web_accessible_resources": [
+    "*.png",
+    "*.css",
+    "js/*.js"
+  ],
   "content_scripts": [
     {
       "matches": [
@@ -19,7 +24,8 @@
       "js": [
         "js/vendor.js",
         "js/content_script.js"
-      ]
+      ],
+      "css":["style.css"]
     }
   ],
   "background": {

@@ -1,3 +1,4 @@
+import { doc } from "prettier";
 
 
 export class HtmlUtil {
@@ -34,5 +35,30 @@ export class HtmlUtil {
 
         table.appendChild(tableBody);
         return table;
+    }
+
+    public static getListItemWithClose(childElemet: HTMLElement): HTMLElement {
+        let newLi = document.createElement("li");
+        newLi.appendChild(childElemet);
+        let closeButton = document.createElement("span");
+        closeButton.className = "close";
+        closeButton.innerHTML = '&times;';
+        newLi.appendChild(closeButton);
+        return newLi;
+
+    }
+
+    public static getBookmarkDisplay(name: string, resolvedUrl: string): HTMLElement {
+        let anchorElement = HtmlUtil.getAnchorElement(name, resolvedUrl);
+        return HtmlUtil.getListItemWithClose(anchorElement);
+    }
+
+    public static getAnchorElement(name: string, resolvedUrl: string): HTMLElement {
+        let x = document.createElement("A");
+        let t = document.createTextNode(name);
+        x.setAttribute("target", "_base");
+        x.setAttribute("href", resolvedUrl);
+        x.appendChild(t);
+        return x;
     }
 }

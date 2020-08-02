@@ -42,27 +42,16 @@ export class PopupController {
             let bookmarkListContainer = document.getElementById("bookmarkList");
             if (bookmarkListContainer) {
                 bookmarkListContainer.innerHTML = '';
-                let first = true;
-                bookmarks.items.forEach(bookmark => {
+                let bmList = document.createElement("ul");
 
-                    let x = document.createElement("A");
-                    let t = document.createTextNode(bookmark.name);
+                bookmarks.items.forEach(bookmark => {
                     let url = bookmark.url;
                     let resolvedUrl = ParameterUtil.getResolvedUrl(url, parameters, currentTab);
-
-                    x.setAttribute("target", "_base");
-                    x.setAttribute("href", resolvedUrl);
-                    x.appendChild(t);
-
-                    if (first == false) {
-                        let breakItem = document.createElement("br");
-                        bookmarkListContainer.appendChild(breakItem);
-                    }
-                    first = false;
-                    bookmarkListContainer.appendChild(x);
+                    let bmUi = HtmlUtil.getBookmarkDisplay(bookmark.name, resolvedUrl);
+                    bmList.appendChild(bmUi);
                 });
+                bookmarkListContainer.appendChild(bmList);
             }
-
         });
     }
 

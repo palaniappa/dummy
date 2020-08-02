@@ -12,15 +12,17 @@ export class Store {
     private initializeDefaults(): void {
         this.parameters.items.push({ key: "CurrentTabOrigin", value: "$ActiveTab:origin" });
         this.parameters.items.push({ key: "CurrentTabHost", value: "$ActiveTab:host" });
-        this.parameters.items.push({ key: "issuerId", value: "My test Issuer Id" });
-        this.parameters.items.push({ key: "audienceId", value: "My test audience Id" });
+        this.parameters.items.push({ key: "issuerId", value: "12334534AAFGDFG234" });
+        this.parameters.items.push({ key: "audienceId", value: "AUD12334534AAFGDFG234" });
         this.parameters.items.push({ key: "SearchText", value: "$Js:'news on ' + new Date().toString()" });
+        this.parameters.items.push({ key: "DayOfWeek", value: "$Js:new Date().toString().split(' ')[0] + 'day'" });
 
         this.bookmarks.items.push({ name: "TenantInfo", url: "{{CurrentTabOrigin}}/qa/cdp/cdp.jsp" });
         this.bookmarks.items.push({ name: "Generate JWT", url: "{{CurrentTabOrigin}}/qa/cdp/generatejwt.jsp" });
         this.bookmarks.items.push({ name: "Mint JWT", url: "{{CurrentTabOrigin}}/qa/cdp/mintedjwt.jsp?issuerId={{issuerId}}&audienceId={{audienceId}}&type=JWT" });
         this.bookmarks.items.push({ name: "News Today", url: "https://www.google.com/search?q={{SearchText}}" });
-        this.bookmarks.items.push({ name: "Google Current Host", url: "{{CurrentTabOrigin}}/qa/cdp/cdp.jsp" });
+        this.bookmarks.items.push({ name: "Google Current Host", url: "https://www.google.com/search?q={{CurrentTabHost}}" });
+        this.bookmarks.items.push({ name: "Joke on Day", url: "https://www.google.com/search?q=Tell me a joke about {{DayOfWeek}}" });
 
     }
 

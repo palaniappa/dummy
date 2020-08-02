@@ -40,17 +40,21 @@ export class HtmlUtil {
     public static getListItemWithClose(childElemet: HTMLElement, itemName: string, deleteHandler: (bookmarkName:string) => void): HTMLElement {
         let newLi = document.createElement("li");
         newLi.appendChild(childElemet);
+        let closeButton = HtmlUtil.getCloseButton(itemName, deleteHandler);
+        newLi.appendChild(closeButton);
+        return newLi;
+
+    }
+
+    public static getCloseButton( itemName: string, deleteHandler: (bookmarkName:string) => void): HTMLElement {
         let closeButton = document.createElement("span");
         closeButton.className = "close";
         closeButton.innerHTML = '&times;';
-        newLi.appendChild(closeButton);
 
         closeButton.addEventListener("click", () => {
             deleteHandler(itemName);
           });
-
-        return newLi;
-
+          return closeButton;
     }
 
     public static getBookmarkDisplay(name: string, resolvedUrl: string, deleteHandler: (bookmarkName:string) => void): HTMLElement {

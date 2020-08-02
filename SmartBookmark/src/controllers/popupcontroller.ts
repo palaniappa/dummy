@@ -94,7 +94,7 @@ export class PopupController {
         let globalParameterListContainer = document.getElementById("globalParameterList");
 
         if (globalParameterListContainer) {
-            globalParameterListContainer.innerHTML = '';
+            
             promiseParameters.then((parametersObject: Parameters) => {
                 document.createElement("table");
                 let items: Array<Array<string>> = [];
@@ -108,6 +108,7 @@ export class PopupController {
                 hearders.push("Key");
                 hearders.push("Value");
                 let table = HtmlUtil.createTable(items, hearders);
+                globalParameterListContainer.innerHTML = '';
                 globalParameterListContainer.appendChild(table);
             });
 

@@ -37,20 +37,25 @@ export class HtmlUtil {
         return table;
     }
 
-    public static getListItemWithClose(childElemet: HTMLElement): HTMLElement {
+    public static getListItemWithClose(childElemet: HTMLElement, itemName: string, deleteHandler: (bookmarkName:string) => void): HTMLElement {
         let newLi = document.createElement("li");
         newLi.appendChild(childElemet);
         let closeButton = document.createElement("span");
         closeButton.className = "close";
         closeButton.innerHTML = '&times;';
         newLi.appendChild(closeButton);
+
+        closeButton.addEventListener("click", () => {
+            deleteHandler(itemName);
+          });
+
         return newLi;
 
     }
 
-    public static getBookmarkDisplay(name: string, resolvedUrl: string): HTMLElement {
+    public static getBookmarkDisplay(name: string, resolvedUrl: string, deleteHandler: (bookmarkName:string) => void): HTMLElement {
         let anchorElement = HtmlUtil.getAnchorElement(name, resolvedUrl);
-        return HtmlUtil.getListItemWithClose(anchorElement);
+        return HtmlUtil.getListItemWithClose(anchorElement,name, deleteHandler);
     }
 
     public static getAnchorElement(name: string, resolvedUrl: string): HTMLElement {

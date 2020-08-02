@@ -80,6 +80,13 @@ export class Store {
         });
     }
 
+    public deleteBookmark( bookmarkToDelete: string): Promise<void> {
+        return this.getBookmarks().then( bookmarks => {
+            bookmarks.items = bookmarks.items.filter( bm => bm.name != bookmarkToDelete);
+            return this.saveBookmarks(bookmarks);
+        });
+    }
+
     public addParameter( newParameter: Parameter): Promise<void> {
         return this.getParameters().then( parameters => {
             parameters.items.push(newParameter);

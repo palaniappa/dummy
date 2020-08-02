@@ -47,7 +47,7 @@ export class PopupController {
                 bookmarks.items.forEach(bookmark => {
                     let url = bookmark.url;
                     let resolvedUrl = ParameterUtil.getResolvedUrl(url, parameters, currentTab);
-                    let bmUi = HtmlUtil.getBookmarkDisplay(bookmark.name, resolvedUrl);
+                    let bmUi = HtmlUtil.getBookmarkDisplay(bookmark.name, resolvedUrl, this.deleteBookmark.bind(this));
                     bmList.appendChild(bmUi);
                 });
                 bookmarkListContainer.appendChild(bmList);
@@ -55,6 +55,11 @@ export class PopupController {
         });
     }
 
+    public deleteBookmark(bookmarkName: string): void {
+        Store.instance.deleteBookmark(bookmarkName).then( ()=>{
+            this.render();
+        });
+    }
     
 
     private renderBookmarkAddControls(): void {

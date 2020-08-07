@@ -32,7 +32,12 @@ export class ParameterUtil {
             }
             else if (paramValueType == ParameterUtil.PARAM_TYPE_JS_VALUE) {
                 let expression = items[1];
-                computedValue = eval(expression);
+                try{
+                    computedValue = eval(expression);
+                }catch(err){
+                    console.log(err);
+                }
+                
             }
             return computedValue;
         }

@@ -43,6 +43,7 @@ export class PopupController {
             if (bookmarkListContainer) {
                 bookmarkListContainer.innerHTML = '';
                 let bmList = document.createElement("ul");
+                bmList.className = "bmUList";
 
                 bookmarks.items.forEach(bookmark => {
                     let url = bookmark.url;

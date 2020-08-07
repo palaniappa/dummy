@@ -39,6 +39,7 @@ export class HtmlUtil {
 
     public static getListItemWithClose(childElemet: HTMLElement, itemName: string, deleteHandler: (bookmarkName:string) => void): HTMLElement {
         let newLi = document.createElement("li");
+        newLi.className = "bmUListItem";
         newLi.appendChild(childElemet);
         let closeButton = HtmlUtil.getCloseButton(itemName, deleteHandler);
         newLi.appendChild(closeButton);

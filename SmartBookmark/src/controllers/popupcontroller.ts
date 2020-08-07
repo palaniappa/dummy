@@ -11,11 +11,14 @@ export class PopupController {
     public static instance: PopupController = new PopupController();
 
     public render(): Promise<void> {
+        console.log("rendering!")
         let p = this.renderBookmarks();
         this.renderBookmarkAddControls();
         this.renderParameters();
         this.renderParameterAddControls();
-        return p;
+        return p.then(() => {
+            console.log("rendering complete!");
+        });
     }
 
     private getCurrentActiveTab(): Promise<chrome.tabs.Tab> {

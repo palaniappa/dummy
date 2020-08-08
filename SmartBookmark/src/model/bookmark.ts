@@ -1,9 +1,11 @@
 interface Bookmark {
+    id: string;
     name: string;
     url: string;
 }
 interface Bookmarks {
-    items: Array<Bookmark>;
+    items: Map<string,Bookmark>;
 }
 
-export { Bookmark, Bookmarks};
+const BOOKMARK_ID_PREFIX = "BM";
+export { Bookmark, Bookmarks, BOOKMARK_ID_PREFIX};

@@ -1,32 +1,32 @@
 import { Parameter, Parameters } from "../model/parameter";
 import { Bookmark, Bookmarks } from "../model/bookmark";
 import { ParameterUtil } from "../utils/parameterutils";
+import { Util } from "../utils/util";
 
 export class Store {
 
     public static instance: Store = new Store();
 
-    parameters: Parameters = { items: [] };
-    bookmarks: Bookmarks = { items: [] };
+    parameters: Parameters = { items: new Map<string,Parameter>() };
+    bookmarks: Bookmarks = { items: new Map<string,Bookmark>() };
 
 
     private initializeDefaults(): void {
-        this.parameters.items.push({ key: "CurrentTabOrigin", value: ParameterUtil.PARAM_TYPE_ACTIVE_TAB + ParameterUtil.PARAM_TYPE_SEPARATOR + "origin" });
-        this.parameters.items.push({ key: "CurrentTabHost", value: ParameterUtil.PARAM_TYPE_ACTIVE_TAB + ParameterUtil.PARAM_TYPE_SEPARATOR + "host" });
-        this.parameters.items.push({ key: "SearchText", value: ParameterUtil.PARAM_TYPE_JS_VALUE + ParameterUtil.PARAM_TYPE_SEPARATOR + "'news on ' + new Date().toString()" });
-        this.parameters.items.push({ key: "DayOfWeek", value: ParameterUtil.PARAM_TYPE_JS_VALUE + ParameterUtil.PARAM_TYPE_SEPARATOR + "new Date().toString().split(' ')[0] + 'day'" });
-        this.parameters.items.push({ key: "PageTitle", value: ParameterUtil.PARAM_TYPE_ACTIVE_TABE_JS_VALUE + ParameterUtil.PARAM_TYPE_SEPARATOR + "document.querySelector('title') ? document.querySelector('title').innerText : 'no title';" });
-        this.parameters.items.push({ key: "TenantId", value: ParameterUtil.PARAM_TYPE_ACTIVE_TABE_JS_VALUE + ParameterUtil.PARAM_TYPE_SEPARATOR + 'document.querySelector("body > table > tbody > tr:nth-child(3) > td:nth-child(2)").textContent.trim()' });
-        this.parameters.items.push({ key: "OrgId", value: ParameterUtil.PARAM_TYPE_ACTIVE_TABE_JS_VALUE + ParameterUtil.PARAM_TYPE_SEPARATOR + 'document.querySelector("body > table > tbody > tr:nth-child(2) > td:nth-child(2)").textContent.trim()' });
+        this.parameters.items.set("PM_1",{ id: "PM_1", key: "CurrentTabOrigin", value: ParameterUtil.PARAM_TYPE_ACTIVE_TAB + ParameterUtil.PARAM_TYPE_SEPARATOR + "origin" });
+        this.parameters.items.set("PM_2",{ id: "PM_2", key: "CurrentTabHost", value: ParameterUtil.PARAM_TYPE_ACTIVE_TAB + ParameterUtil.PARAM_TYPE_SEPARATOR + "host" });
+        this.parameters.items.set("PM_3",{ id: "PM_3", key: "SearchText", value: ParameterUtil.PARAM_TYPE_JS_VALUE + ParameterUtil.PARAM_TYPE_SEPARATOR + "'news on ' + new Date().toString()" });
+        this.parameters.items.set("PM_4",{ id: "PM_4", key: "DayOfWeek", value: ParameterUtil.PARAM_TYPE_JS_VALUE + ParameterUtil.PARAM_TYPE_SEPARATOR + "new Date().toString().split(' ')[0] + 'day'" });
+        this.parameters.items.set("PM_5",{ id: "PM_5", key: "PageTitle", value: ParameterUtil.PARAM_TYPE_ACTIVE_TABE_JS_VALUE + ParameterUtil.PARAM_TYPE_SEPARATOR + "document.querySelector('title') ? document.querySelector('title').innerText : 'no title';" });
+        this.parameters.items.set("PM_6",{ id: "PM_6", key: "TenantId", value: ParameterUtil.PARAM_TYPE_ACTIVE_TABE_JS_VALUE + ParameterUtil.PARAM_TYPE_SEPARATOR + 'document.querySelector("body > table > tbody > tr:nth-child(3) > td:nth-child(2)").textContent.trim()' });
+        this.parameters.items.set("PM_7",{ id: "PM_7", key: "OrgId", value: ParameterUtil.PARAM_TYPE_ACTIVE_TABE_JS_VALUE + ParameterUtil.PARAM_TYPE_SEPARATOR + 'document.querySelector("body > table > tbody > tr:nth-child(2) > td:nth-child(2)").textContent.trim()' });
 
-        this.bookmarks.items.push({ name: "TenantInfo", url: "{{CurrentTabOrigin}}/qa/cdp/cdp.jsp" });
-        this.bookmarks.items.push({ name: "Generate JWT", url: "{{CurrentTabOrigin}}/qa/cdp/generatejwt.jsp" });
-        this.bookmarks.items.push({ name: "Mint JWT", url: "{{CurrentTabOrigin}}/qa/cdp/mintedjwt.jsp?issuerId={{OrgId}}&audienceId={{TenantId}}&type=JWT" });
-        this.bookmarks.items.push({ name: "News Today", url: "https://www.google.com/search?q={{SearchText}}" });
-        this.bookmarks.items.push({ name: "Google Current Host", url: "https://www.google.com/search?q={{CurrentTabHost}}" });
-        this.bookmarks.items.push({ name: "Joke on Day", url: "https://www.google.com/search?q=Tell me a joke about {{DayOfWeek}}" });
-        this.bookmarks.items.push({ name: "Google Current Page Title", url: "https://www.google.com/search?q={{PageTitle}}" });
-
+        this.bookmarks.items.set("BM_1",{ id: "BM_1", name: "TenantInfo", url: "{{CurrentTabOrigin}}/qa/cdp/cdp.jsp" });
+        this.bookmarks.items.set("BM_2",{ id: "BM_2", name: "Generate JWT", url: "{{CurrentTabOrigin}}/qa/cdp/generatejwt.jsp" });
+        this.bookmarks.items.set("BM_3",{ id: "BM_3", name: "Mint JWT", url: "{{CurrentTabOrigin}}/qa/cdp/mintedjwt.jsp?issuerId={{OrgId}}&audienceId={{TenantId}}&type=JWT" });
+        this.bookmarks.items.set("BM_4",{ id: "BM_4", name: "News Today", url: "https://www.google.com/search?q={{SearchText}}" });
+        this.bookmarks.items.set("BM_5",{ id: "BM_5", name: "Google Current Host", url: "https://www.google.com/search?q={{CurrentTabHost}}" });
+        this.bookmarks.items.set("BM_6",{ id: "BM_6", name: "Joke on Day", url: "https://www.google.com/search?q=Tell me a joke about {{DayOfWeek}}" });
+        this.bookmarks.items.set("BM_7",{ id: "BM_7", name: "Google Current Page Title", url: "https://www.google.com/search?q={{PageTitle}}" });
     }
 
     public initialize(): Promise<void> {
@@ -39,17 +39,25 @@ export class Store {
     public getBookmarks(): Promise<Bookmarks> {
         let p = new Promise<Bookmarks>( (resolve,reject) =>{
             chrome.storage.sync.get("BookmarkList", (result: any) => {
-                let bookmarks: Bookmarks = result.BookmarkList as Bookmarks;
+                let bookmarks: Bookmarks = Store.deserializeBookmarks(result.BookmarkList);
                 resolve(bookmarks);
             });
         });
         return p;
     }
 
+    public getBookmark(bookmarkId: string): Promise<Bookmark> {
+        return this.getBookmarks().then( (bookmarks) => {
+            if(bookmarks.items.has(bookmarkId))
+                return bookmarks.items.get(bookmarkId);
+            return null;
+        });
+    }
+
     public getParameters(): Promise<Parameters> {
         let p = new Promise<Parameters>( (resolve,reject) =>{
             chrome.storage.sync.get("ParamList", (result: any) => {
-                let parameters: Parameters = result.ParamList as Parameters;
+                let parameters: Parameters = Store.deserializeParameters(result.ParamList);
                 resolve(parameters);
             });
         });
@@ -58,7 +66,8 @@ export class Store {
 
     public saveParameters(parametersObject: Parameters): Promise<void> {
         let p = new Promise<void>((resolve, reject) => {
-            chrome.storage.sync.set({ ParamList: parametersObject }, () => {
+            let serializedItems = Store.serializeParameters(parametersObject);
+            chrome.storage.sync.set({ ParamList: serializedItems }, () => {
                 console.log("Saved parameters");
                 resolve();
             });
@@ -68,7 +77,8 @@ export class Store {
 
     public saveBookmarks(bookmarksObject: Bookmarks): Promise<void> {
         let p = new Promise<void>((resolve, reject) => {
-            chrome.storage.sync.set({ BookmarkList: bookmarksObject }, () => {
+            let serializedItems = Store.serializeBookmarks(bookmarksObject);
+            chrome.storage.sync.set({ BookmarkList: serializedItems }, () => {
                 console.log("Saved bookmarks");
                 resolve();
             });
@@ -78,24 +88,52 @@ export class Store {
 
     public addBookmark( newBookmark: Bookmark): Promise<void> {
         return this.getBookmarks().then( bookmarks => {
-            bookmarks.items.push(newBookmark);
+            bookmarks.items.set(newBookmark.id,newBookmark);
             return this.saveBookmarks(bookmarks);
         });
     }
 
     public deleteBookmark( bookmarkToDelete: string): Promise<void> {
         return this.getBookmarks().then( bookmarks => {
-            bookmarks.items = bookmarks.items.filter( bm => bm.name != bookmarkToDelete);
+            bookmarks.items.delete(bookmarkToDelete);
             return this.saveBookmarks(bookmarks);
         });
     }
 
     public addParameter( newParameter: Parameter): Promise<void> {
         return this.getParameters().then( parameters => {
-            parameters.items.push(newParameter);
+            parameters.items.set(newParameter.id,newParameter);
             return this.saveParameters(parameters);
         })
 
+    }
+
+    private static serializeBookmarks( item: Bookmarks): string {
+        let serializedItems = "";
+        if(item){
+            serializedItems = JSON.stringify([...item.items]);
+        }
+        return serializedItems;
+    }
+
+    private static serializeParameters( item: Parameters): string {
+        let serializedItems = "";
+        if(item){
+            serializedItems = JSON.stringify([...item.items]);
+        }
+        return serializedItems;
+    }
+
+    private static deserializeBookmarks(items: string): Bookmarks {
+        let bmlist = JSON.parse(items).reduce((m, [key, val])=> m.set(key, val) , new Map());
+        let bms = { items: bmlist};
+        return bms;
+    }
+
+    private static deserializeParameters(items: string): Parameters {
+        let pmlist = JSON.parse(items).reduce((m, [key, val])=> m.set(key, val) , new Map());
+        let pms = { items: pmlist};
+        return pms;
     }
 }
 

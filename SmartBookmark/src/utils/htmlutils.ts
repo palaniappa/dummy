@@ -1,4 +1,5 @@
 import { doc } from "prettier";
+import { Bookmark } from "../model/bookmark";
 
 
 export class HtmlUtil {
@@ -37,30 +38,33 @@ export class HtmlUtil {
         return table;
     }
 
-    public static getListItemWithClose(childElemet: HTMLElement, itemName: string, deleteHandler: (bookmarkName:string) => void): HTMLElement {
+    public static getListItemWithClose(childElemet: HTMLElement, itemId: string, deleteHandler: (bookmarkId:string) => void, editHandler: (bookmarkId:string) => void): HTMLElement {
         let newLi = document.createElement("li");
         newLi.className = "bmUListItem";
         newLi.appendChild(childElemet);
-        let closeButton = HtmlUtil.getCloseButton(itemName, deleteHandler);
+        let closeButton = HtmlUtil.getCloseButton(itemId, deleteHandler);
         newLi.appendChild(closeButton);
+        newLi.ondblclick = ()=> {
+            editHandler(itemId);
+        }
         return newLi;
 
     }
 
-    public static getCloseButton( itemName: string, deleteHandler: (bookmarkName:string) => void): HTMLElement {
+    public static getCloseButton( itemId: string, deleteHandler: (bookmarkName:string) => void): HTMLElement {
         let closeButton = document.createElement("span");
         closeButton.className = "close";
         closeButton.innerHTML = '&times;';
 
         closeButton.addEventListener("click", () => {
-            deleteHandler(itemName);
+            deleteHandler(itemId);
           });
           return closeButton;
     }
 
-    public static getBookmarkDisplay(name: string, resolvedUrl: string, deleteHandler: (bookmarkName:string) => void): HTMLElement {
-        let anchorElement = HtmlUtil.getAnchorElement(name, resolvedUrl);
-        return HtmlUtil.getListItemWithClose(anchorElement,name, deleteHandler);
+    public static getBookmarkDisplay(bm: Bookmark, resolvedUrl: string, deleteHandler: (bookmarkId:string) => void, editHandler: (bookmarkId:string) => void): HTMLElement {
+        let anchorElement = HtmlUtil.getAnchorElement(bm.name, resolvedUrl);
+        return HtmlUtil.getListItemWithClose(anchorElement,bm.id, deleteHandler, editHandler);
     }
 
     public static getAnchorElement(name: string, resolvedUrl: string): HTMLElement {

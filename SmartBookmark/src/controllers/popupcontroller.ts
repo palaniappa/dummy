@@ -1,14 +1,16 @@
 import { Store } from "./store";
-import { Bookmarks, Bookmark } from "../model/bookmark";
-import { Parameters, Parameter } from "../model/parameter";
+import { Bookmarks, Bookmark, BOOKMARK_ID_PREFIX } from "../model/bookmark";
+import { Parameters, Parameter, PARAMETER_ID_PREFIX } from "../model/parameter";
 import { HtmlUtil } from "../utils/htmlutils";
 import { ParameterUtil } from "../utils/parameterutils";
+import { Util } from "../utils/util";
 
 import * as $ from 'jquery';
 
 export class PopupController {
 
     public static instance: PopupController = new PopupController();
+    public bookmarkEditId: string = null;
 
     public render(): Promise<void> {
         console.log("rendering!")
@@ -47,42 +49,56 @@ export class PopupController {
                 bookmarkListContainer.innerHTML = '';
                 let bmList = document.createElement("ul");
                 bmList.className = "bmUList";
-                return ParameterUtil.getAllParameterValues(parameters,currentTab).then( (parameterValues) => {
+                return ParameterUtil.getAllParameterValues(parameters, currentTab).then((parameterValues) => {
                     bookmarks.items.forEach(bookmark => {
                         let url = bookmark.url;
                         let resolvedUrl = ParameterUtil.getResolvedUrl(url, parameters, parameterValues);
-                        let bmUi = HtmlUtil.getBookmarkDisplay(bookmark.name, resolvedUrl, this.deleteBookmark.bind(this));
+                        let bmUi = HtmlUtil.getBookmarkDisplay(bookmark, resolvedUrl, this.deleteBookmark.bind(this), this.editBookmark.bind(this));
                         bmList.appendChild(bmUi);
                     });
                     bookmarkListContainer.appendChild(bmList);
                 });
-                
+
             }
         });
     }
 
-    public deleteBookmark(bookmarkName: string): void {
-        Store.instance.deleteBookmark(bookmarkName).then( ()=>{
+    public editBookmark(bookmarkId: string): void {
+        Store.instance.getBookmark(bookmarkId).then((bookmark) => {
+            if (bookmark) {
+                this.bookmarkEditId = bookmarkId;
+                $("#bmName").val(bookmark.name);
+                $("#bmUrl").val(bookmark.url);
+            }
+        });
+    }
+
+    public deleteBookmark(bookmarkId: string): void {
+        Store.instance.deleteBookmark(bookmarkId).then(() => {
             this.render();
         });
     }
-    
+
 
     private renderBookmarkAddControls(): void {
         $("#bmName").val('');
-        $("#bmUrl").val("");
-        $('#bmAdd').click(() => {
+        $("#bmUrl").val('');
+        this.bookmarkEditId = '';
+        $('#bmAdd').off('click').on('click',() => {
             let bmName = $("#bmName").val() as string;
             let bmUrl = $("#bmUrl").val() as string;
-            this.addBookmarkItem(bmName, bmUrl).then(() => {
+            this.addBookmarkItem(this.bookmarkEditId,bmName, bmUrl).then(() => {
                 this.render();
             });
         });
     }
 
-    private addBookmarkItem(name: string, url: string): Promise<void> {
+    private addBookmarkItem(id: string, name: string, url: string): Promise<void> {
         if (name && url) {
-            let newBookmark: Bookmark = { name: name, url: url };
+            if (id == '') {
+                id = Util.getUniqueId(BOOKMARK_ID_PREFIX);
+            }
+            let newBookmark: Bookmark = { id: id, name: name, url: url };
             return Store.instance.addBookmark(newBookmark);
         }
         return
@@ -90,11 +106,8 @@ export class PopupController {
 
     private renderParameters(): void {
         let promiseParameters = Store.instance.getParameters();
-
         let globalParameterListContainer = document.getElementById("globalParameterList");
-
         if (globalParameterListContainer) {
-            
             promiseParameters.then((parametersObject: Parameters) => {
                 document.createElement("table");
                 let items: Array<Array<string>> = [];
@@ -118,10 +131,10 @@ export class PopupController {
     private renderParameterAddControls(): void {
         $("#pmKey").val("");
         $("#pmValue").val("");
-        $('#pmAdd').click(() => {
+        $('#pmAdd').off('click').on('click',() => {
             let pmKey = $("#pmKey").val() as string;
             let pmValue = $("#pmValue").val() as string;
-            this.addParameter (pmKey, pmValue).then(() => {
+            this.addParameter(pmKey, pmValue).then(() => {
                 this.render();
             });
         });
@@ -129,7 +142,7 @@ export class PopupController {
 
     private addParameter(key: string, value: string): Promise<void> {
         if (key && value) {
-            let newParameter: Parameter = { key: key, value: value };
+            let newParameter: Parameter = { id: Util.getUniqueId(PARAMETER_ID_PREFIX), key: key, value: value };
             return Store.instance.addParameter(newParameter);
         }
         return

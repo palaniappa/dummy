@@ -10,6 +10,7 @@ export class Store {
     parameters: Parameters = { items: new Map<string,Parameter>() };
     bookmarks: Bookmarks = { items: new Map<string,Bookmark>() };
 
+    public DataModelVersion: string = "1.0";
 
     private initializeDefaults(): void {
         this.parameters.items.set("PM_1",{ id: "PM_1", key: "CurrentTabOrigin", value: ParameterUtil.PARAM_TYPE_ACTIVE_TAB + ParameterUtil.PARAM_TYPE_SEPARATOR + "origin" });

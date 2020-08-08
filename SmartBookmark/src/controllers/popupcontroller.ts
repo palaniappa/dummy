@@ -4,6 +4,7 @@ import { Parameters, Parameter, PARAMETER_ID_PREFIX } from "../model/parameter";
 import { HtmlUtil } from "../utils/htmlutils";
 import { ParameterUtil } from "../utils/parameterutils";
 import { Util } from "../utils/util";
+import { DataModel } from "../model/datamodel";
 
 import * as $ from 'jquery';
 
@@ -44,10 +45,9 @@ export class PopupController {
             let bookmarks: Bookmarks = result[0];
             let parameters: Parameters = result[1];
             let currentTab: chrome.tabs.Tab = result[2];
-
+            this.renderExportLink(bookmarks,parameters);
             let bookmarkListContainer = document.getElementById("bookmarkList");
             if (bookmarkListContainer) {
-                bookmarkListContainer.innerHTML = '';
                 let bmList = document.createElement("ul");
                 bmList.className = "bmUList";
                 return ParameterUtil.getAllParameterValues(parameters, currentTab).then((parameterValues) => {
@@ -57,9 +57,11 @@ export class PopupController {
                         let bmUi = HtmlUtil.getBookmarkDisplay(bookmark, resolvedUrl, this.deleteBookmark.bind(this), this.editBookmark.bind(this));
                         bmList.appendChild(bmUi);
                     });
+                    bookmarkListContainer.innerHTML = '';
                     bookmarkListContainer.appendChild(bmList);
                 });
 
+                
             }
         });
     }
@@ -172,4 +174,22 @@ export class PopupController {
         });
     }
 
+    public renderExportLink(bookmarks: Bookmarks, parameters: Parameters){
+        
+        let link = document.getElementById("downloadlink");
+        if(link){
+            let datamodel: DataModel = { version: Store.instance.DataModelVersion, bookmarks:[], parameters:[]};
+            bookmarks.items.forEach( b => {
+                datamodel.bookmarks.push(b);
+            });
+            parameters.items.forEach( p=>{
+                datamodel.parameters.push(p);
+            });
+
+            let dataToExport = JSON.stringify(datamodel);
+            let encodedExportData = "text/json;charset=utf-8," + encodeURIComponent(dataToExport);
+            link.setAttribute("href","data:"+encodedExportData);
+            link.setAttribute("download","SmartBookmarks.json");
+        }
+    }
 }

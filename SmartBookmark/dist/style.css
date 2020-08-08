@@ -106,3 +106,17 @@
   .allInputs {
     width: 140%;
   }
+
+  .btnExportImport {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  /* Darker background on mouse-over */
+  .btnExportImport:hover {
+    background-color: #286b2a;
+  }

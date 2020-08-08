@@ -6,6 +6,7 @@
   <meta charset="UTF-8">
   <title>Smart Bookmark</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="js/vendor.js"></script>
 </head>
 
@@ -31,23 +32,29 @@
     </div>
     <button class="collapsible">Parameters</button>
     <div class="content">
-      <div id="globalParameterList" ></div>
+      <div id="globalParameterList"></div>
       <div id="newItem">
-          <table>
-            <tr>
-              <td><input class="allInputs" id="pmKey" placeholder="Key" /></td>
-            </tr>
-            <tr>
-              <td><input class="allInputs" id="pmValue" placeholder="Literal / $ActiveTab:prop / $Js:exp"
-                  tooltip="www.google.com/search?q={{$Literal:News Today}}" /></td>
-            </tr>
-            <tr>
-              <td><button id="pmAdd">Upsert</button></td>
-            </tr>
-          </table>
-        </div>
+        <table>
+          <tr>
+            <td><input class="allInputs" id="pmKey" placeholder="Key" /></td>
+          </tr>
+          <tr>
+            <td><input class="allInputs" id="pmValue" placeholder="Literal / $ActiveTab:prop / $Js:exp"
+                tooltip="www.google.com/search?q={{$Literal:News Today}}" /></td>
+          </tr>
+          <tr>
+            <td><button id="pmAdd">Upsert</button></td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
+    <table>
+      <tr>
+        <td><a id="downloadlink"><button id="export" class="btnExportImport"><i class="fa fa-download"></i> Export</button></a></td>
+        <td><button id="import" class="btnExportImport"><i class="fa fa-upload"></i> Import</button></td>
+      </tr>
+    </table>
   <script src="js/popup.js"></script>
 </body>
 

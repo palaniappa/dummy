@@ -11,6 +11,7 @@ export class PopupController {
 
     public static instance: PopupController = new PopupController();
     public bookmarkEditId: string = null;
+    public parameterEditId: string = null;
 
     public render(): Promise<void> {
         console.log("rendering!")
@@ -66,7 +67,7 @@ export class PopupController {
     private renderBookmarkAddControls(): void {
         $("#bmName").val('');
         $("#bmUrl").val('');
-        this.bookmarkEditId = '';
+        this.bookmarkEditId = null;
         $('#bmAdd').off('click').on('click',() => {
             let bmName = $("#bmName").val() as string;
             let bmUrl = $("#bmUrl").val() as string;
@@ -78,7 +79,7 @@ export class PopupController {
 
     private addBookmarkItem(id: string, name: string, url: string): Promise<void> {
         if (name && url) {
-            if (id == '') {
+            if (id == null || id == '') {
                 id = Util.getUniqueId(BOOKMARK_ID_PREFIX);
             }
             let newBookmark: Bookmark = { id: id, name: name, url: url };
@@ -110,10 +111,12 @@ export class PopupController {
             promiseParameters.then((parametersObject: Parameters) => {
                 document.createElement("table");
                 let items: Array<Array<Object>> = [];
+                let ids: Array<string> = [];
                 parametersObject.items.forEach(p => {
                     if (p) {
                         let closeButton = HtmlUtil.getCloseButton(p.id,this.deleteParameter.bind(this));
                         let paramItem = [p.key, p.value,closeButton];
+                        ids.push(p.id);
                         items.push(paramItem);
                     }
                 });
@@ -121,7 +124,7 @@ export class PopupController {
                 hearders.push("Key");
                 hearders.push("Value");
                 hearders.push("x");
-                let table = HtmlUtil.createTable(items, hearders);
+                let table = HtmlUtil.createTable(items, hearders,ids,this.editParameter.bind(this));
                 globalParameterListContainer.innerHTML = '';
                 globalParameterListContainer.appendChild(table);
             });
@@ -132,18 +135,22 @@ export class PopupController {
     private renderParameterAddControls(): void {
         $("#pmKey").val("");
         $("#pmValue").val("");
+        this.parameterEditId = null;
         $('#pmAdd').off('click').on('click',() => {
             let pmKey = $("#pmKey").val() as string;
             let pmValue = $("#pmValue").val() as string;
-            this.addParameter(pmKey, pmValue).then(() => {
+            this.addParameter(this.parameterEditId,pmKey, pmValue).then(() => {
                 this.render();
             });
         });
     }
 
-    private addParameter(key: string, value: string): Promise<void> {
+    private addParameter(id: string,key: string, value: string): Promise<void> {
         if (key && value) {
-            let newParameter: Parameter = { id: Util.getUniqueId(PARAMETER_ID_PREFIX), key: key, value: value };
+            if (id == null || id == '') {
+                id = Util.getUniqueId(PARAMETER_ID_PREFIX);
+            }
+            let newParameter: Parameter = { id: id, key: key, value: value };
             return Store.instance.addParameter(newParameter);
         }
         return
@@ -154,4 +161,15 @@ export class PopupController {
             this.render();
         });
     }
+
+    public editParameter(parameterId: string): void {
+        Store.instance.getParameter (parameterId).then((parameter) => {
+            if (parameter) {
+                this.parameterEditId = parameter.id;
+                $("#pmKey").val(parameter.key);
+                $("#pmValue").val(parameter.value);
+            }
+        });
+    }
+
 }

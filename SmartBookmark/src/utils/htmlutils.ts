@@ -4,7 +4,7 @@ import { Util } from "./util";
 
 
 export class HtmlUtil {
-    public static createTable(tableData: Array<Array<Object>>, headers: Array<string>): HTMLElement {
+    public static createTable(tableData: Array<Array<Object>>, headers: Array<string>, ids: Array<string>, editHandler: (bookmarkId:string) => void): HTMLElement {
         let table = document.createElement('table');
 
         if (headers) {
@@ -23,19 +23,24 @@ export class HtmlUtil {
 
         let tableBody = document.createElement('tbody');
 
+        let rowcount = 0;
         tableData.forEach(function (rowData) {
             let row = document.createElement('tr');
-
+            let itemId = ids[rowcount++];
             rowData.forEach(function (cellData) {
                 let cell = document.createElement('td');
                 let element = cellData as HTMLElement;
                 if(Util.isString(cellData))
+                {
                     cell.appendChild(document.createTextNode(cellData as string));
+                }
                 else
                     cell.appendChild(element);
                 row.appendChild(cell);
             });
-
+            row.ondblclick = ()=> {
+                editHandler(itemId);
+            }
             tableBody.appendChild(row);
         });
 

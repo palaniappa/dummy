@@ -64,6 +64,14 @@ export class Store {
         return p;
     }
 
+    public getParameter(parameterId: string): Promise<Parameter> {
+        return this.getParameters().then( (parameters) => {
+            if(parameters.items.has(parameterId))
+                return parameters.items.get(parameterId);
+            return null;
+        });
+    }
+
     public saveParameters(parametersObject: Parameters): Promise<void> {
         let p = new Promise<void>((resolve, reject) => {
             let serializedItems = Store.serializeParameters(parametersObject);

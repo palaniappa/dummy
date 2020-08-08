@@ -63,23 +63,6 @@ export class PopupController {
         });
     }
 
-    public editBookmark(bookmarkId: string): void {
-        Store.instance.getBookmark(bookmarkId).then((bookmark) => {
-            if (bookmark) {
-                this.bookmarkEditId = bookmarkId;
-                $("#bmName").val(bookmark.name);
-                $("#bmUrl").val(bookmark.url);
-            }
-        });
-    }
-
-    public deleteBookmark(bookmarkId: string): void {
-        Store.instance.deleteBookmark(bookmarkId).then(() => {
-            this.render();
-        });
-    }
-
-
     private renderBookmarkAddControls(): void {
         $("#bmName").val('');
         $("#bmUrl").val('');
@@ -104,22 +87,40 @@ export class PopupController {
         return
     }
 
+    public deleteBookmark(bookmarkId: string): void {
+        Store.instance.deleteBookmark(bookmarkId).then(() => {
+            this.render();
+        });
+    }
+
+    public editBookmark(bookmarkId: string): void {
+        Store.instance.getBookmark(bookmarkId).then((bookmark) => {
+            if (bookmark) {
+                this.bookmarkEditId = bookmarkId;
+                $("#bmName").val(bookmark.name);
+                $("#bmUrl").val(bookmark.url);
+            }
+        });
+    }
+
     private renderParameters(): void {
         let promiseParameters = Store.instance.getParameters();
         let globalParameterListContainer = document.getElementById("globalParameterList");
         if (globalParameterListContainer) {
             promiseParameters.then((parametersObject: Parameters) => {
                 document.createElement("table");
-                let items: Array<Array<string>> = [];
+                let items: Array<Array<Object>> = [];
                 parametersObject.items.forEach(p => {
                     if (p) {
-                        let paramItem = [p.key, p.value];
+                        let closeButton = HtmlUtil.getCloseButton(p.id,this.deleteParameter.bind(this));
+                        let paramItem = [p.key, p.value,closeButton];
                         items.push(paramItem);
                     }
                 });
                 let hearders: Array<string> = [];
                 hearders.push("Key");
                 hearders.push("Value");
+                hearders.push("x");
                 let table = HtmlUtil.createTable(items, hearders);
                 globalParameterListContainer.innerHTML = '';
                 globalParameterListContainer.appendChild(table);
@@ -146,5 +147,11 @@ export class PopupController {
             return Store.instance.addParameter(newParameter);
         }
         return
+    }
+
+    public deleteParameter(parameterId: string): void {
+        Store.instance.deleteParameter(parameterId).then(() => {
+            this.render();
+        });
     }
 }

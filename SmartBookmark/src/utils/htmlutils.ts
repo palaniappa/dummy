@@ -1,9 +1,10 @@
 import { doc } from "prettier";
 import { Bookmark } from "../model/bookmark";
+import { Util } from "./util";
 
 
 export class HtmlUtil {
-    public static createTable(tableData: Array<Array<string>>, headers: Array<string>): HTMLElement {
+    public static createTable(tableData: Array<Array<Object>>, headers: Array<string>): HTMLElement {
         let table = document.createElement('table');
 
         if (headers) {
@@ -27,7 +28,11 @@ export class HtmlUtil {
 
             rowData.forEach(function (cellData) {
                 let cell = document.createElement('td');
-                cell.appendChild(document.createTextNode(cellData));
+                let element = cellData as HTMLElement;
+                if(Util.isString(cellData))
+                    cell.appendChild(document.createTextNode(cellData as string));
+                else
+                    cell.appendChild(element);
                 row.appendChild(cell);
             });
 
@@ -53,7 +58,11 @@ export class HtmlUtil {
 
     public static getCloseButton( itemId: string, deleteHandler: (bookmarkName:string) => void): HTMLElement {
         let closeButton = document.createElement("span");
-        closeButton.className = "close";
+        if(itemId.startsWith("BM")){
+            closeButton.className = "closeBookmark";
+        }else{
+            closeButton.className = "closeParam";
+        }
         closeButton.innerHTML = '&times;';
 
         closeButton.addEventListener("click", () => {

@@ -108,6 +108,13 @@ export class Store {
 
     }
 
+    public deleteParameter( paremterIdToDelete: string): Promise<void> {
+        return this.getParameters().then( parameters => {
+            parameters.items.delete(paremterIdToDelete);
+            return this.saveParameters(parameters);
+        });
+    }
+
     private static serializeBookmarks( item: Bookmarks): string {
         let serializedItems = "";
         if(item){

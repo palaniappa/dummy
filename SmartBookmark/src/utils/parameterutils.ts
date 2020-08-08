@@ -80,7 +80,10 @@ export class ParameterUtil {
         let p = new Promise<string>((resolve, reject) => {
             let codeString = `(function evaluateExpression(){ return ` + expression + ` ;})()`;
             chrome.tabs.executeScript(currentActiveTab.id, { code: codeString }, (result) => {
-                resolve(result[0]);
+                if(result && result[0])
+                    resolve(result[0]);
+                else    
+                    resolve("");
             })
         });
         return p;

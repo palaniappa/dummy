@@ -47,14 +47,16 @@ export class PopupController {
                 bookmarkListContainer.innerHTML = '';
                 let bmList = document.createElement("ul");
                 bmList.className = "bmUList";
-
-                bookmarks.items.forEach(bookmark => {
-                    let url = bookmark.url;
-                    let resolvedUrl = ParameterUtil.getResolvedUrl(url, parameters, currentTab);
-                    let bmUi = HtmlUtil.getBookmarkDisplay(bookmark.name, resolvedUrl, this.deleteBookmark.bind(this));
-                    bmList.appendChild(bmUi);
+                return ParameterUtil.getAllParameterValues(parameters,currentTab).then( (parameterValues) => {
+                    bookmarks.items.forEach(bookmark => {
+                        let url = bookmark.url;
+                        let resolvedUrl = ParameterUtil.getResolvedUrl(url, parameters, parameterValues);
+                        let bmUi = HtmlUtil.getBookmarkDisplay(bookmark.name, resolvedUrl, this.deleteBookmark.bind(this));
+                        bmList.appendChild(bmUi);
+                    });
+                    bookmarkListContainer.appendChild(bmList);
                 });
-                bookmarkListContainer.appendChild(bmList);
+                
             }
         });
     }
@@ -113,8 +115,6 @@ export class PopupController {
         }
     }
 
-    
-
     private renderParameterAddControls(): void {
         $("#pmKey").val("");
         $("#pmValue").val("");
@@ -125,7 +125,6 @@ export class PopupController {
                 this.render();
             });
         });
-
     }
 
     private addParameter(key: string, value: string): Promise<void> {

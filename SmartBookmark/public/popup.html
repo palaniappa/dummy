@@ -52,7 +52,9 @@
     <table>
       <tr>
         <td><a id="downloadlink"><button id="export" class="btnExportImport"><i class="fa fa-download"></i> Export</button></a></td>
-        <td><button id="import" class="btnExportImport"><i class="fa fa-upload"></i> Import</button></td>
+        <td>
+          <label for="importFile" class="btnExportImport"><i class="fa fa-upload"></i> Import</label>
+          <input id="importFile" type="file" accept="application/json" style="display:none"/></td>
       </tr>
     </table>
   <script src="js/popup.js"></script>

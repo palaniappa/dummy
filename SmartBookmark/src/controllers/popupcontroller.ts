@@ -20,6 +20,7 @@ export class PopupController {
         this.renderBookmarkAddControls();
         this.renderParameters();
         this.renderParameterAddControls();
+        this.renderImportControls();
         return p.then(() => {
             console.log("rendering complete!");
         });
@@ -190,6 +191,47 @@ export class PopupController {
             let encodedExportData = "text/json;charset=utf-8," + encodeURIComponent(dataToExport);
             link.setAttribute("href","data:"+encodedExportData);
             link.setAttribute("download","SmartBookmarks.json");
+        }
+    }
+
+    public renderImportControls() {
+        let importControl = document.getElementById('importFile').onchange = this.onImport.bind(this);
+    }
+
+    public onImport(event: any) {
+        try {
+            let files = event.target.files;
+            if (!files.length) {
+                alert('No file selected!');
+                return;
+            }
+            let file = files[0];
+            let reader = new FileReader();
+            const self = this;
+            reader.onload = (event) => {
+                console.log('FILE CONTENT', event.target.result);
+                let content = event.target.result as string;
+                let dataModel = JSON.parse(content) as DataModel;
+                this.importData(dataModel);
+            };
+            reader.readAsText(file);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    public importData(dataModel: DataModel): void{
+        if(dataModel){
+            let promises = [];
+            if(dataModel.bookmarks){
+                promises.push(Store.instance.addBookmarks(dataModel.bookmarks));
+            }
+            if(dataModel.parameters){
+                promises.push(Store.instance.addParameters(dataModel.parameters));
+            }
+            Promise.all(promises).then( () => {
+                this.render();
+            });
         }
     }
 }

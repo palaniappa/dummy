@@ -95,6 +95,18 @@ export class Store {
         return p;
     }
 
+    public addBookmarks( newBookmarks: Array<Bookmark>): Promise<void> {
+        if(newBookmarks && newBookmarks.length > 0){
+            return this.getBookmarks().then( bookmarks => {
+                newBookmarks.forEach( nb => {
+                    bookmarks.items.set(nb.id,nb);
+                });
+                return this.saveBookmarks(bookmarks);
+            });
+        }
+        return null;
+    }
+
     public addBookmark( newBookmark: Bookmark): Promise<void> {
         return this.getBookmarks().then( bookmarks => {
             bookmarks.items.set(newBookmark.id,newBookmark);
@@ -107,6 +119,18 @@ export class Store {
             bookmarks.items.delete(bookmarkToDelete);
             return this.saveBookmarks(bookmarks);
         });
+    }
+
+    public addParameters( newParameters: Array<Parameter>): Promise<void> {
+        if(newParameters && newParameters.length > 0){
+            return this.getParameters().then( parameters => {
+                newParameters.forEach( np => {
+                    parameters.items.set(np.id,np);
+                });
+                return this.saveParameters(parameters);
+            });
+        }
+        return null;
     }
 
     public addParameter( newParameter: Parameter): Promise<void> {

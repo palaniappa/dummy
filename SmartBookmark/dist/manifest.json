@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "SmartBookmark",
+  "name": "Smart Bookmark",
   "description": "Parameterized bookmarks",
-  "version": "1.0",
+  "version": "1.0.0.0",
   "options_ui": {
     "page": "options.html",
     "chrome_style": true
@@ -16,6 +16,9 @@
     "*.css",
     "js/*.js"
   ],
+  "icons": { "16": "bookmarkicon.png",
+    "48": "bookmarkicon.png",
+   "128": "bookmarkicon.png" },
   "content_scripts": [
     {
       "matches": [

@@ -1,6 +1,6 @@
 # Chrome Extension For Parameterized Bookmarks => Smarks
 
-Smarks (Smart Bookmarks) is built using the TypeScript and Visual Studio Code. The starter code is taken from https://github.com/chibat/chrome-extension-typescript-starter
+Smarks (Smart Bookmarks) is chrome extension built using the TypeScript and Visual Studio Code. The starter code is taken from https://github.com/chibat/chrome-extension-typescript-starter
 
 ## Why & How?
 Every developer opens a bunch of tabs with slight changes to the URL as part of the development or test processes. In these scenarios the regular bookmark will not work. There are cases where I wanted to

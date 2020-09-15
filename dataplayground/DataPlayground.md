@@ -26,17 +26,16 @@ hive --service metastore
 
 # S3
 s3://palaniappas3/Individual/Individual.csv
-AKIAXV7P3L7T6YY7S54J
-4LDxlxN56c6zBVPlHwGHXBXDTV3P6OqOHXFoFQ/w
+
 
 <property>
   <name>fs.s3a.access.key</name>
-  <value>AKIAXV7P3L7T6YY7S54J</value>
+  <value>****************</value>
   <description>AWS access key ID. Omit for Role-based authentication.</description>
 </property>
 <property>
   <name>fs.s3a.secret.key</name>
-  <value>4LDxlxN56c6zBVPlHwGHXBXDTV3P6OqOHXFoFQ/w</value>
+  <value>****************</value>
   <description>AWS secret key. Omit for Role-based authentication.</description>
 </property>
 

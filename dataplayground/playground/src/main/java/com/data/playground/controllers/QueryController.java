@@ -20,20 +20,13 @@ import com.data.playground.model.QueryRequest;
 public class QueryController {
 
 	@RequestMapping(value="/sql", method = RequestMethod.POST)
-<<<<<<< HEAD
 	public ResponseEntity<Object> runSql(@RequestBody QueryRequest queryRequest) throws SQLException{
-=======
-	public ResponseEntity<QueryResult> runSql(@RequestBody QueryRequest queryRequest) throws SQLException{
->>>>>>> bbdee76d6536d131900de883255b65f486e43c10
 		String url = "jdbc:presto://localhost:8080/";
 		Connection connection = (Connection) DriverManager.getConnection(url, "pramanathan", null);
 		
 		Statement stmt = null;
 		QueryResult result = new QueryResult();
-<<<<<<< HEAD
 		result.setDone(true);
-=======
->>>>>>> bbdee76d6536d131900de883255b65f486e43c10
 		String query = queryRequest.getSql();
 		//String query = "select * from mydb.public.testtable";
 		try {
@@ -58,17 +51,11 @@ public class QueryController {
 					record.getProperties().put(columnName, data);
 				}
 				result.getRecords().add(record);
-<<<<<<< HEAD
 				result.setRecordCount(result.getRecordCount()+1);
 		    }
 		} catch (SQLException e ) {
 		    e.printStackTrace();
 		    return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-=======
-		    }
-		} catch (SQLException e ) {
-		    e.printStackTrace();
->>>>>>> bbdee76d6536d131900de883255b65f486e43c10
 		} finally {
 		    if (stmt != null) { stmt.close(); }
 		}

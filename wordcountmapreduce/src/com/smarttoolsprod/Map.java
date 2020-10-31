@@ -1,5 +1,6 @@
 package com.smarttoolsprod;
 
+<<<<<<< HEAD
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -17,4 +18,7 @@ public class Map extends Mapper<LongWritable, Text, Text, IntWritable> {
             context.write(new Text(word),new IntWritable(1));
         }
     }
+=======
+public class Map {
+>>>>>>> bbdee76d6536d131900de883255b65f486e43c10
 }

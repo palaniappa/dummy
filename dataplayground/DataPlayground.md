@@ -24,6 +24,7 @@ beeline -u jdbc:hive2://
 
 hive --service metastore
 
+<<<<<<< HEAD
 -- run hive server and hive
 hiveserver2
 
@@ -32,6 +33,11 @@ hiveserver2
 s3://palaniappas3/Individual/Individual.csv
 
 /usr/local/Cellar/hive/3.1.2_1/libexec/conf/hive-site.xml
+=======
+# S3
+s3://palaniappas3/Individual/Individual.csv
+
+>>>>>>> bbdee76d6536d131900de883255b65f486e43c10
 
 <property>
   <name>fs.s3a.access.key</name>
@@ -44,6 +50,7 @@ s3://palaniappas3/Individual/Individual.csv
   <description>AWS secret key. Omit for Role-based authentication.</description>
 </property>
 
+<<<<<<< HEAD
 
 create external table if not exists StoreIndividuals (
 id varchar(255),partyid varchar(255),personname varchar(255), email varchar(255),
@@ -85,6 +92,18 @@ psql testdb --username=testuser --password
 # Start Hadoop
 
 /usr/local/Cellar/hadoop/3.3.0/sbin/start-all.sh
+=======
+create external table if not exists S3Individuals (
+id varchar(255),partyid varchar(255),personname varchar(255),maritalstatus varchar(255),maritalstatusname varchar(255),yearlyincome decimal(38,15),birthdate date,gender varchar(255),childrencount int,occupation varchar(255)
+)
+comment "My first external table from S3 after ingoring the header"
+row format delimited fields terminated by ','
+stored as textfile
+location 's3a://palaniappas3/Individual/'
+tblproperties ("skip.header.line.count"="1");
+
+
+>>>>>>> bbdee76d6536d131900de883255b65f486e43c10
 
 
 # Presto
@@ -95,6 +114,7 @@ select * from mydb.public.testtable;
 
 hive --service metastore
 
+<<<<<<< HEAD
 
 
 
@@ -126,3 +146,6 @@ WITH (format = 'TEXTFILE',
     csv_separator = ',',
     external_location = 's3a://palaniappas3/SalesOrders/')
 ;
+=======
+show schemas from hive;
+>>>>>>> bbdee76d6536d131900de883255b65f486e43c10

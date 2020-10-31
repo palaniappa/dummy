@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QueryResult {
+<<<<<<< HEAD
 
     private int recordCount;
     private boolean done;
@@ -25,6 +26,10 @@ public class QueryResult {
         this.done = done;
     }
 
+=======
+    private List<ResultRecord> records = new ArrayList<>();
+
+>>>>>>> bbdee76d6536d131900de883255b65f486e43c10
     public List<ResultRecord> getRecords() {
         return records;
     }

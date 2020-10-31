@@ -19,8 +19,11 @@
 	</properties>
 
 	<dependencies>
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> bbdee76d6536d131900de883255b65f486e43c10
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -28,7 +31,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+<<<<<<< HEAD
 
+=======
+>>>>>>> bbdee76d6536d131900de883255b65f486e43c10
 		</dependency>
 
 		<dependency>
@@ -48,6 +54,7 @@
 			<artifactId>presto-jdbc</artifactId>
 			<version>0.240</version>
 		</dependency>
+<<<<<<< HEAD
 
 		<dependency>
 			<groupId>org.apache.hive</groupId>
@@ -64,6 +71,8 @@
 
 
 
+=======
+>>>>>>> bbdee76d6536d131900de883255b65f486e43c10
 	</dependencies>
 
 	<build>

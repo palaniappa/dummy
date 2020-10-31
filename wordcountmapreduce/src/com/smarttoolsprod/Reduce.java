@@ -1,5 +1,6 @@
 package com.smarttoolsprod;
 
+<<<<<<< HEAD
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -19,4 +20,7 @@ public class Reduce extends Reducer<Text, IntWritable, Text, LongWritable> {
         System.out.println("Writing key " + key + " value " + count);
 
     }
+=======
+public class Reduce {
+>>>>>>> bbdee76d6536d131900de883255b65f486e43c10
 }

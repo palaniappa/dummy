@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="mapreduce">
+    <CLASSES>
+      <root url="file:///usr/local/Cellar/hadoop/3.3.0/libexec/share/hadoop/mapreduce" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file:///usr/local/Cellar/hadoop/3.3.0/libexec/share/hadoop/mapreduce/jdiff" />
+    </SOURCES>
+    <jarDirectory url="file:///usr/local/Cellar/hadoop/3.3.0/libexec/share/hadoop/mapreduce" recursive="false" />
+  </library>
+</component>

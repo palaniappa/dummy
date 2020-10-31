@@ -1,0 +1,14 @@
+{
+  "aud": [
+    "api.a360"
+  ],
+  "sub": "005xx000001X8ZpAAK/user@org.com",
+  "tid": "a360/falcondev/973b81faefc24dca89eee0f39f1005df",
+  "scp" : ["cdp_profile_api", "cdp_query_api"],
+  "nbf": 1599802922,
+  "iss": "http://org2283.localhost.internal.salesforce.com:6109",
+  "exp": 1599889321,
+  "custom_attributes": {
+    "custom_data1": "custom_value1"
+  }
+}

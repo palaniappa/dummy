@@ -117,7 +117,7 @@ public class TableController {
 
     }
 
-    @RequestMapping(value = "/{userid}/{tableId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{userId}/{tableId}", method = RequestMethod.GET)
     public ResponseEntity<Table> getTable(@PathVariable(value="userId") String userId, @PathVariable(value="tableId") String tableId) throws Exception {
         Database db = this.getUserDb(userId);
 

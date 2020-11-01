@@ -7,3 +7,6 @@
 - Proper UI
 - Fix catalogid (GUID or hive acceptable id)
 - Fix reference in the user id of User Catalog
+- Use a different read only user from presto
+- Put data playground db details in config of presto
+- Table name resolution with the user database & catalog

@@ -1,8 +1,8 @@
-package com.data.playground.model;
+package com.data.playground.model.data.dto;
 
 import org.apache.hadoop.hive.metastore.api.Table;
 
-public class CreateTableResponse {
+public class TableResponseDTO {
     private Table createdTable;
 
     public Table getCreatedTable() {

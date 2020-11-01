@@ -1,4 +1,4 @@
-package com.data.playground.model.entity;
+package com.data.playground.repositories.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -6,8 +6,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="DP_Catalog")
-public class Catalog {
+@Table(name="DP_Database")
+public class Database {
+
     @Id
     @Column(name="id")
     private String id;
@@ -15,14 +16,8 @@ public class Catalog {
     @Column(name="user_id")
     private String userId;
 
-    @Column(name = "name")
+    @Column(name="name")
     private String name;
-
-    @Column(name="access_key")
-    private String accessKey;
-
-    @Column(name="secret_key")
-    private String secretKey;
 
     public String getId() {
         return id;
@@ -46,21 +41,5 @@ public class Catalog {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAccessKey() {
-        return accessKey;
-    }
-
-    public void setAccessKey(String accessKey) {
-        this.accessKey = accessKey;
-    }
-
-    public String getSecretKey() {
-        return secretKey;
-    }
-
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
     }
 }

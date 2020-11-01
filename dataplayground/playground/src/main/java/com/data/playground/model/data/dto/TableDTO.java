@@ -1,13 +1,15 @@
-package com.data.playground.model;
-
-import com.data.playground.model.datamodel.TableField;
+package com.data.playground.model.data.dto;
 
 import java.util.List;
 
-public class CreateTableRequest {
+public class TableDTO {
     private String tableName;
-    private List<TableField> fields;
+    private String catalogId;
+    private String userId;
     private String locationPath;
+
+    private List<TableField> fields;
+
 
     public String getLocationPath() {
         return locationPath;
@@ -23,6 +25,22 @@ public class CreateTableRequest {
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
+    }
+
+    public String getCatalogId() {
+        return catalogId;
+    }
+
+    public void setCatalogId(String catalogId) {
+        this.catalogId = catalogId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public List<TableField> getFields() {

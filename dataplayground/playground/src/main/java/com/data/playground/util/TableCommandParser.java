@@ -1,12 +1,12 @@
 package com.data.playground.util;
 
-import com.data.playground.model.CreateTableRequest;
-import com.data.playground.model.datamodel.FieldType;
-import com.data.playground.model.datamodel.TableField;
+import com.data.playground.model.data.dto.TableDTO;
+import com.data.playground.model.data.dto.FieldType;
+import com.data.playground.model.data.dto.TableField;
 
 public class TableCommandParser {
 
-    public static String getHiveCreateExternalTableCommand(CreateTableRequest request) throws Exception {
+    public static String getHiveCreateExternalTableCommand(TableDTO request) throws Exception {
         String createSqlFormat = "create external table if not exists %s (%s) "
                 + "row format delimited fields terminated by ',' "
                 + "ESCAPED BY '\\\\' "

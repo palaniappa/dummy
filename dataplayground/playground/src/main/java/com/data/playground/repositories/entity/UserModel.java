@@ -1,4 +1,4 @@
-package com.data.playground.model.entity;
+package com.data.playground.repositories.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

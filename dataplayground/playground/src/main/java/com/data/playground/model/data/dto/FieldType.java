@@ -1,4 +1,4 @@
-package com.data.playground.model.datamodel;
+package com.data.playground.model.data.dto;
 
 public enum FieldType {
     NUMBER,

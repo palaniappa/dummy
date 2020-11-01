@@ -1,6 +1,8 @@
 package com.data.playground.controllers;
 
-import com.data.playground.model.entity.UserModel;
+import com.data.playground.repositories.DatabaseRepository;
+import com.data.playground.repositories.entity.Database;
+import com.data.playground.repositories.entity.UserModel;
 import com.data.playground.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,9 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private DatabaseRepository databaseRepository;
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ResponseEntity<UserModel> login(@RequestParam String userEmail, @RequestParam String userName) {
 
@@ -30,6 +35,13 @@ public class UserController {
             user.setUsername(userName);
             user.setUserEmail(userEmail);
             this.userRepository.save(user);
+
+            Database db = new Database();
+            String name = "db_" + user.getUserEmail().replaceAll(".","_").replaceAll("@","_").toLowerCase();
+            db.setId("default");
+            db.setName("default");
+            db.setUserId(user.getId());
+            this.databaseRepository.save(db);
         }
         else {
             user = existingUser.get();

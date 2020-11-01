@@ -1,4 +1,4 @@
-package com.data.playground.model;
+package com.data.playground.model.query.dto;
 
 import java.util.ArrayList;
 import java.util.List;

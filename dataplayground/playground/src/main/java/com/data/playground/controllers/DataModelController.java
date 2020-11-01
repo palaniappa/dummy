@@ -1,10 +1,7 @@
 package com.data.playground.controllers;
 
 import com.data.playground.hivemetastore.ThriftHiveMetastoreClient;
-import com.data.playground.model.CreateTableRequest;
-import com.data.playground.model.QueryRequest;
-import com.data.playground.model.QueryResult;
-import com.data.playground.model.ResultRecord;
+import com.data.playground.model.*;
 import com.data.playground.model.datamodel.TableField;
 import com.data.playground.util.TableCommandParser;
 import com.google.common.net.HostAndPort;
@@ -30,14 +27,13 @@ public class DataModelController {
     private static String DEFAULT_DB_NAME = "default";
 
     @RequestMapping(value = "/createTable", method = RequestMethod.POST)
-    public ResponseEntity<Object> createTable(@RequestBody CreateTableRequest createTableRequest) throws Exception {
+    public ResponseEntity<CreateTableResponse> createTable(@RequestBody CreateTableRequest createTableRequest) throws Exception {
 
         String createSql = TableCommandParser.getHiveCreateExternalTableCommand(createTableRequest);
 
         Connection connection = DriverManager.getConnection("jdbc:hive2://localhost:10000/default", "anonymous", "anonymous");
         Statement statement = connection.createStatement();
 
-        String table = "CUSTOMER";
         try {
             statement.execute("DROP TABLE " + createTableRequest.getTableName());
         } catch (Exception exception) {
@@ -46,26 +42,21 @@ public class DataModelController {
 
         statement.execute(createSql);
 
-        String sql = "SHOW TABLES '" + createTableRequest.getTableName() + "'";
-        System.out.println("Executing Show table: " + sql);
-        ResultSet result = statement.executeQuery(sql);
-        String resultStatus = "Created Table ";
-        if (result.next()) {
-            resultStatus = resultStatus + result.getString(1);
-            System.out.println("Table created is :" + result.getString(1));
-        }
-
-        result.close();
-
         statement.close();
 
         connection.close();
-        return new ResponseEntity<>(resultStatus, HttpStatus.CREATED);
+
+        Table table = this.getTable(DEFAULT_DB_NAME, createTableRequest.getTableName());
+
+        CreateTableResponse res = new CreateTableResponse();
+        res.setCreatedTable(table);
+
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
 
     }
 
     @RequestMapping(value = "/createDirectHiveTable", method = RequestMethod.POST)
-    public ResponseEntity<Object> createDirectHiveTable(@RequestBody CreateTableRequest createTableRequest) throws Exception {
+    public ResponseEntity<CreateTableResponse> createDirectHiveTable(@RequestBody CreateTableRequest createTableRequest) throws Exception {
 
 
         ThriftHiveMetastoreClient client = new ThriftHiveMetastoreClient(HostAndPort.fromParts("localhost", 9083));
@@ -110,17 +101,34 @@ public class DataModelController {
 
         client.createTable(table);
 
-        return new ResponseEntity<>(table, HttpStatus.CREATED);
+        table = this.getTable(DEFAULT_DB_NAME, table.getTableName());
+        CreateTableResponse res = new CreateTableResponse();
+        res.setCreatedTable(table);
+
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
 
     }
 
     @RequestMapping(value = "/getTable", method = RequestMethod.GET)
-    public ResponseEntity<Object> getTable(@RequestParam String tableName) throws TException {
-
-        String databaseName = "default";
-        ThriftHiveMetastoreClient client = new ThriftHiveMetastoreClient(HostAndPort.fromParts("localhost", 9083));
-        Table table = client.getTable(databaseName, tableName);
+    public ResponseEntity<Table> getTable(@RequestParam String tableName) throws TException {
+        Table table = this.getTable(DEFAULT_DB_NAME, tableName);
         return new ResponseEntity<>(table, HttpStatus.OK);
 
     }
+
+    private Table getTable(String databaseName, String tableName) throws TException {
+        ThriftHiveMetastoreClient client = new ThriftHiveMetastoreClient(HostAndPort.fromParts("localhost", 9083));
+        Table table = client.getTable(databaseName, tableName);
+        return table;
+    }
+
+    @RequestMapping(value = "/createCatalog", method = RequestMethod.POST)
+    public ResponseEntity<CreateCatalogResponse> createCatalog(@RequestBody CreateCatalogRequest createCatalogRequest) throws Exception {
+
+        CreateCatalogResponse res = new CreateCatalogResponse();
+        res.setCreatedCatalogName(createCatalogRequest.getCatalogName());
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
+
+    }
+
 }

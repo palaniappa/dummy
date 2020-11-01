@@ -1,5 +1,15 @@
 package com.data.playground.model;
 
-public class CreateTableResponse {
+import org.apache.hadoop.hive.metastore.api.Table;
 
+public class CreateTableResponse {
+    private Table createdTable;
+
+    public Table getCreatedTable() {
+        return createdTable;
+    }
+
+    public void setCreatedTable(Table createdTable) {
+        this.createdTable = createdTable;
+    }
 }

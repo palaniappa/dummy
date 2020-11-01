@@ -23,120 +23,104 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value="/datamodel")
+@RequestMapping(value = "/datamodel")
 public class DataModelController {
 
     private static String driverClass = "org.apache.hive.jdbc.HiveDriver";
     private static String DEFAULT_DB_NAME = "default";
 
-    @RequestMapping(value="/createTable", method = RequestMethod.POST)
-    public ResponseEntity<Object> createTable(@RequestBody CreateTableRequest createTableRequest)  {
+    @RequestMapping(value = "/createTable", method = RequestMethod.POST)
+    public ResponseEntity<Object> createTable(@RequestBody CreateTableRequest createTableRequest) throws Exception {
 
+        String createSql = TableCommandParser.getHiveCreateExternalTableCommand(createTableRequest);
+
+        Connection connection = DriverManager.getConnection("jdbc:hive2://localhost:10000/default", "anonymous", "anonymous");
+        Statement statement = connection.createStatement();
+
+        String table = "CUSTOMER";
         try {
-            Class.forName(driverClass);
-
-            String createSql = TableCommandParser.getHiveCreateExternalTableCommand(createTableRequest);
-
-            Connection connection = DriverManager.getConnection("jdbc:hive2://localhost:10000/default", "anonymous", "anonymous");
-            Statement statement = connection.createStatement();
-
-            String table = "CUSTOMER";
-            try {
-                statement.execute("DROP TABLE " + createTableRequest.getTableName());
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-
-            statement.execute(createSql);
-
-            String sql = "SHOW TABLES '" + createTableRequest.getTableName() + "'";
-            System.out.println("Executing Show table: " + sql);
-            ResultSet result = statement.executeQuery(sql);
-            String resultStatus = "Created Table ";
-            if (result.next()) {
-                resultStatus =  resultStatus + result.getString(1);
-                System.out.println("Table created is :" + result.getString(1));
-            }
-
-            result.close();
-
-            statement.close();
-
-            connection.close();
-            return new ResponseEntity<>(resultStatus,HttpStatus.CREATED);
+            statement.execute("DROP TABLE " + createTableRequest.getTableName());
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
-        catch (Exception e){
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+
+        statement.execute(createSql);
+
+        String sql = "SHOW TABLES '" + createTableRequest.getTableName() + "'";
+        System.out.println("Executing Show table: " + sql);
+        ResultSet result = statement.executeQuery(sql);
+        String resultStatus = "Created Table ";
+        if (result.next()) {
+            resultStatus = resultStatus + result.getString(1);
+            System.out.println("Table created is :" + result.getString(1));
         }
+
+        result.close();
+
+        statement.close();
+
+        connection.close();
+        return new ResponseEntity<>(resultStatus, HttpStatus.CREATED);
+
     }
 
-    @RequestMapping(value="/createDirectHiveTable", method = RequestMethod.POST)
-    public ResponseEntity<Object> createDirectHiveTable(@RequestBody CreateTableRequest createTableRequest)  {
+    @RequestMapping(value = "/createDirectHiveTable", method = RequestMethod.POST)
+    public ResponseEntity<Object> createDirectHiveTable(@RequestBody CreateTableRequest createTableRequest) throws Exception {
+
+
+        ThriftHiveMetastoreClient client = new ThriftHiveMetastoreClient(HostAndPort.fromParts("localhost", 9083));
 
         try {
-
-            ThriftHiveMetastoreClient client = new ThriftHiveMetastoreClient(HostAndPort.fromParts("localhost",9083));
-
-            try {
-                client.dropTable(DEFAULT_DB_NAME, createTableRequest.getTableName(), false);
-            }catch (Exception e){
-                //ignore
-            }
-
-            Table table = new Table();
-            table.setDbName(DEFAULT_DB_NAME);
-            table.setTableName(createTableRequest.getTableName());
-            table.setTableType("EXTERNAL_TABLE");
-            table.setParameters(new HashMap<>());
-            table.getParameters().put("skip.header.line.count","1");
-            table.getParameters().put("EXTERNAL","true");
-            table.getParameters().put("numFiles","1");
-            table.getParameters().put("bucketing_version","2");
-
-            StorageDescriptor sd = new StorageDescriptor();
-            for (TableField f : createTableRequest.getFields()) {
-                FieldSchema fs = new FieldSchema();
-                fs.setName(f.getFieldName());
-                fs.setType(TableCommandParser.getHiveFieldTypeString(f.getFieldType()));
-                sd.addToCols(fs);
-            }
-            sd.setLocation(createTableRequest.getLocationPath());
-            sd.setInputFormat("org.apache.hadoop.mapred.TextInputFormat");
-            sd.setOutputFormat("org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat");
-
-            SerDeInfo serDeInfo = new SerDeInfo();
-            serDeInfo.setSerializationLib("org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe");
-            serDeInfo.setParameters(new HashMap<>());
-            serDeInfo.getParameters().put("serialization.format",",");
-            serDeInfo.getParameters().put("escape.delim","\\");
-            serDeInfo.getParameters().put("field.delim",",");
-
-            sd.setSerdeInfo(serDeInfo);
-            table.setSd(sd);
-
-
-            client.createTable(table);
-
-            return new ResponseEntity<>(table,HttpStatus.CREATED);
+            client.dropTable(DEFAULT_DB_NAME, createTableRequest.getTableName(), false);
+        } catch (Exception e) {
+            //ignore
         }
-        catch (Exception e){
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+
+        Table table = new Table();
+        table.setDbName(DEFAULT_DB_NAME);
+        table.setTableName(createTableRequest.getTableName());
+        table.setTableType("EXTERNAL_TABLE");
+        table.setParameters(new HashMap<>());
+        table.getParameters().put("skip.header.line.count", "1");
+        table.getParameters().put("EXTERNAL", "true");
+        table.getParameters().put("numFiles", "1");
+        table.getParameters().put("bucketing_version", "2");
+
+        StorageDescriptor sd = new StorageDescriptor();
+        for (TableField f : createTableRequest.getFields()) {
+            FieldSchema fs = new FieldSchema();
+            fs.setName(f.getFieldName());
+            fs.setType(TableCommandParser.getHiveFieldTypeString(f.getFieldType()));
+            sd.addToCols(fs);
         }
+        sd.setLocation(createTableRequest.getLocationPath());
+        sd.setInputFormat("org.apache.hadoop.mapred.TextInputFormat");
+        sd.setOutputFormat("org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat");
+
+        SerDeInfo serDeInfo = new SerDeInfo();
+        serDeInfo.setSerializationLib("org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe");
+        serDeInfo.setParameters(new HashMap<>());
+        serDeInfo.getParameters().put("serialization.format", ",");
+        serDeInfo.getParameters().put("escape.delim", "\\");
+        serDeInfo.getParameters().put("field.delim", ",");
+
+        sd.setSerdeInfo(serDeInfo);
+        table.setSd(sd);
+
+
+        client.createTable(table);
+
+        return new ResponseEntity<>(table, HttpStatus.CREATED);
+
     }
 
-    @RequestMapping(value="/getTable", method = RequestMethod.GET)
+    @RequestMapping(value = "/getTable", method = RequestMethod.GET)
     public ResponseEntity<Object> getTable(@RequestParam String tableName) throws TException {
-        try{
-            String databaseName = "default";
-            ThriftHiveMetastoreClient client = new ThriftHiveMetastoreClient(HostAndPort.fromParts("localhost",9083));
-            Table table = client.getTable(databaseName,tableName);
-            return new ResponseEntity<>(table,HttpStatus.OK);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
+        String databaseName = "default";
+        ThriftHiveMetastoreClient client = new ThriftHiveMetastoreClient(HostAndPort.fromParts("localhost", 9083));
+        Table table = client.getTable(databaseName, tableName);
+        return new ResponseEntity<>(table, HttpStatus.OK);
+
     }
 }

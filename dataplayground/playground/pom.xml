@@ -39,12 +39,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
 		<dependency>
-			<groupId>com.facebook.presto</groupId>
+			<groupId>io.prestosql</groupId>
 			<artifactId>presto-jdbc</artifactId>
-			<version>0.240</version>
+			<version>345</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>org.apache.hive</groupId>

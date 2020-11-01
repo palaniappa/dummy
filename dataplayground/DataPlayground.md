@@ -24,7 +24,6 @@ beeline -u jdbc:hive2://
 
 hive --service metastore
 
-<<<<<<< HEAD
 -- run hive server and hive
 hiveserver2
 
@@ -37,7 +36,6 @@ s3://palaniappas3/Individual/Individual.csv
 # S3
 s3://palaniappas3/Individual/Individual.csv
 
->>>>>>> bbdee76d6536d131900de883255b65f486e43c10
 
 <property>
   <name>fs.s3a.access.key</name>
@@ -50,7 +48,7 @@ s3://palaniappas3/Individual/Individual.csv
   <description>AWS secret key. Omit for Role-based authentication.</description>
 </property>
 
-<<<<<<< HEAD
+
 
 create external table if not exists StoreIndividuals (
 id varchar(255),partyid varchar(255),personname varchar(255), email varchar(255),
@@ -103,7 +101,6 @@ location 's3a://palaniappas3/Individual/'
 tblproperties ("skip.header.line.count"="1");
 
 
->>>>>>> bbdee76d6536d131900de883255b65f486e43c10
 
 
 # Presto
@@ -114,7 +111,7 @@ select * from mydb.public.testtable;
 
 hive --service metastore
 
-<<<<<<< HEAD
+
 
 
 
@@ -148,4 +145,9 @@ WITH (format = 'TEXTFILE',
 ;
 =======
 show schemas from hive;
->>>>>>> bbdee76d6536d131900de883255b65f486e43c10
+
+
+# mysql
+create user 'dpuser'@'localhost' identified with mysql_native_password by 'dpuser';
+grant ALL PRIVILEGES  ON DataplayGround  to 'dpuser'@'localhost';
+FLUSH PRIVILEGES;

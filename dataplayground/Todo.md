@@ -5,3 +5,5 @@
 - User to Hive DB association
 - Proper auth
 - Proper UI
+- Fix catalogid (GUID or hive acceptable id)
+- Fix reference in the user id of User Catalog

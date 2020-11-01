@@ -122,13 +122,4 @@ public class DataModelController {
         return table;
     }
 
-    @RequestMapping(value = "/createCatalog", method = RequestMethod.POST)
-    public ResponseEntity<CreateCatalogResponse> createCatalog(@RequestBody CreateCatalogRequest createCatalogRequest) throws Exception {
-
-        CreateCatalogResponse res = new CreateCatalogResponse();
-        res.setCreatedCatalogName(createCatalogRequest.getCatalogName());
-        return new ResponseEntity<>(res, HttpStatus.CREATED);
-
-    }
-
 }

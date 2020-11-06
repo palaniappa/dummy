@@ -7,6 +7,7 @@ public class QueryResult {
 
     private int recordCount;
     private boolean done;
+    private List<ResultColumnInfo> columns = new ArrayList<>();
     private List<ResultRecord> records = new ArrayList<>();
 
     public int getRecordCount() {
@@ -31,5 +32,13 @@ public class QueryResult {
 
     public void setRecords(List<ResultRecord> records) {
         this.records = records;
+    }
+
+    public List<ResultColumnInfo> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(List<ResultColumnInfo> columns) {
+        this.columns = columns;
     }
 }

@@ -5,17 +5,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.data.playground.model.query.dto.QueryResult;
+import com.data.playground.model.query.dto.ResultColumnInfo;
 import com.data.playground.model.query.dto.ResultRecord;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.data.playground.model.query.dto.QueryRequest;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(value="/query")
 public class QueryController {
 
@@ -36,11 +35,16 @@ public class QueryController {
 			int columnCount = rsmd.getColumnCount();
 
 			Map<Integer,String> columnNames = new HashMap<>();
-			// The column count starts from 1
 			for (int i = 1; i <= columnCount; i++ ) {
 				String name = rsmd.getColumnName(i);
 				columnNames.put(i,name);
-				// Do stuff with name
+
+				ResultColumnInfo resultColumnInfo = new ResultColumnInfo();
+				resultColumnInfo.setColumnName(rsmd.getColumnName(i));
+				resultColumnInfo.setColumnLabel(rsmd.getColumnLabel(i));
+				resultColumnInfo.setColumnType(rsmd.getColumnTypeName(i));
+
+				result.getColumns().add(resultColumnInfo);
 			}
 
 		    while (rs.next()) {
@@ -48,7 +52,7 @@ public class QueryController {
 				for (int i = 1; i <= columnCount; i++ ) {
 					Object data = rs.getObject(i);
 					String columnName = columnNames.get(i);
-					record.getProperties().put(columnName, data);
+					record.put(columnName, data);
 				}
 				result.getRecords().add(record);
 				result.setRecordCount(result.getRecordCount()+1);

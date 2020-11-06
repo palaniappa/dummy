@@ -1,6 +1,6 @@
 import React from "react"
 
-export interface IQueryProps {
+export interface IQueryComponentProps {
     execute: (query: string) => void,
     sqlQuery: string,
     executing: boolean
@@ -10,8 +10,8 @@ export interface IQueryComponentState {
     sqlQuery: string
 }
 
-export class QueryComponent extends React.Component<IQueryProps,IQueryComponentState> {
-    constructor(props: IQueryProps) {
+export class QueryComponent extends React.Component<IQueryComponentProps,IQueryComponentState> {
+    constructor(props: IQueryComponentProps) {
         super(props);
         this.state = { sqlQuery: props.sqlQuery };
     }

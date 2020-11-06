@@ -1,5 +1,9 @@
 
 
-export interface QueryResultRecord {
-    [name:string]: object;
+type StringToObject = { 
+    [name: string]: object 
+};
+
+export interface QueryResultRecord extends StringToObject {
+   
 }

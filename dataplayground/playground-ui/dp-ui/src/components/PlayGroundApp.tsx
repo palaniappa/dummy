@@ -1,5 +1,6 @@
 import React from 'react';
 import { QueryComponent } from './QueryComponent';
+import {QueryResultComponent } from './QueryResultComponent'
 import { PlayGroundService } from '../service/PlayGroundService';
 import { QueryResult } from "../models/QueryReuslt";
 
@@ -40,7 +41,7 @@ export class PlayGroundApp extends React.Component<IPlayGroundProps, IPlayGround
             errorMessage = <span>{this.state.error}</span>
         }
         else if (this.state.queryData) {
-            resultTable = <div>{this.state.queryData.recordCount} retrieved</div>
+            resultTable = <QueryResultComponent result={this.state.queryData}/>
         }
 
 

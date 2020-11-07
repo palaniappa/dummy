@@ -10,3 +10,6 @@
 - Use a different read only user from presto
 - Put data playground db details in config of presto
 - Table name resolution with the user database & catalog
+- Add default limits and support pagination.
+- CORS from application.properties
+- Table max widht & hieght and scroll bar

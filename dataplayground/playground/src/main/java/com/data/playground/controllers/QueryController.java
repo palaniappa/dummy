@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import com.data.playground.model.query.dto.QueryRequest;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3001")
 @RequestMapping(value="/query")
 public class QueryController {
 

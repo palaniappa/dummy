@@ -1,4 +1,5 @@
 import React from "react"
+import Button from 'react-bootstrap/Button'
 
 export interface IQueryComponentProps {
     execute: (query: string) => void,
@@ -18,11 +19,11 @@ export class QueryComponent extends React.Component<IQueryComponentProps,IQueryC
 
     render() {
         return (
-            <div>
+            <div className="form-group form-group-xl">
+                <label htmlFor="sqlTextArea">Interactive SQL</label>
+                <textarea id="sqlTextArea" className="form-control" rows={15} name="querybox" onChange={this.onQueryChange.bind(this)} value={this.state.sqlQuery} disabled={this.props.executing}/> 
                 <br></br>
-                <textarea name="querybox" onChange={this.onQueryChange.bind(this)} value={this.state.sqlQuery} disabled={this.props.executing}/> 
-                <br></br>
-                <button onClick={this.onExecuteClick.bind(this)} disabled={this.props.executing} >Execute</button>
+                <Button onClick={this.onExecuteClick.bind(this)} disabled={this.props.executing} >Execute</Button>
             </div>
         );
     }

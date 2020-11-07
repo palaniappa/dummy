@@ -1,8 +1,14 @@
 import React from 'react';
 import { QueryComponent } from './QueryComponent';
-import {QueryResultComponent } from './QueryResultComponent'
+import { QueryResultComponent } from './QueryResultComponent'
 import { PlayGroundService } from '../service/PlayGroundService';
 import { QueryResult } from "../models/QueryReuslt";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { Navigation } from 'react-minimal-side-navigation';
+import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
+import Navbar from 'react-bootstrap/Navbar';
 
 
 export interface IPlayGroundProps {
@@ -41,22 +47,100 @@ export class PlayGroundApp extends React.Component<IPlayGroundProps, IPlayGround
             errorMessage = <span>{this.state.error}</span>
         }
         else if (this.state.queryData) {
-            resultTable = <QueryResultComponent result={this.state.queryData}/>
+            resultTable = <QueryResultComponent result={this.state.queryData} />
         }
 
 
-        return (
 
-            <div>
-                <QueryComponent
-                    sqlQuery={this.state.currentSql}
-                    executing={this.state.executing}
-                    execute={this.executeSql.bind(this)}
-                />
-                {errorMessage}
-                {resultTable}
-            </div>
+        let main = (
+            <Container fluid={true}>
+                <Row>
+                    <Col lg="6">
+                        <QueryComponent
+                            sqlQuery={this.state.currentSql}
+                            executing={this.state.executing}
+                            execute={this.executeSql.bind(this)} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>{errorMessage}</Col>
+                </Row>
+                <Row>
+                    <Col>
+                        {resultTable}
+                    </Col>
+                </Row>
+            </Container>
         );
+
+        let menus = this.getNavigations();
+
+        return (
+            <div>
+                <Navbar className="navbar navbar-dark bg-primary">
+                    <Navbar.Brand href="#home">
+                       Data Playground
+                    </Navbar.Brand>
+                </Navbar>
+                <Container fluid={true}>
+
+                    <Row>
+                        <Col xs="2">{menus}</Col>
+                        <Col xs="10">{main}</Col>
+                    </Row>
+                </Container>
+            </div>
+
+        );
+    }
+
+    private getNavigations(): React.ReactNode {
+        let menus = (
+            <>
+                <Navigation
+                    // you can use your own router's api to get pathname
+                    activeItemId="/management/members"
+                    onSelect={this.onMenuItemSelect.bind(this)}
+                    items={[
+                        {
+                            title: 'Home',
+                            itemId: '/home',
+                            //   // you can use your own custom Icon component as well
+                            //   // icon is optional
+                            //   elemBefore: () => <Icon name="inbox" />,
+                        },
+                        {
+                            title: 'Query',
+                            itemId: '/query'
+                        },
+                        {
+                            title: 'Model',
+                            itemId: '/model',
+                            subNav: [
+                                {
+                                    title: 'Catalogs',
+                                    itemId: '/model/catalogs',
+                                },
+                                {
+                                    title: 'Tables',
+                                    itemId: '/model/tables',
+                                },
+                                {
+                                    title: 'Computed Tables',
+                                    itemId: '/model/computed-tables',
+                                },
+                            ],
+                        },
+                        {
+                            title: 'Dashboards',
+                            itemId: '/dashboards'
+                        }
+                    ]}
+                />
+            </>
+        );
+
+        return menus;
     }
 
     executeSql(sql: string) {
@@ -69,17 +153,28 @@ export class PlayGroundApp extends React.Component<IPlayGroundProps, IPlayGround
         this.setState(newState);
 
         this.service.executeSql(sql).then(data => {
-            newState.executing = false;
-            newState.queryData = data;
+            let newState: IPlayGroundState = {
+                currentSql: sql,
+                executing: false,
+                queryData: data
+            };
+
             this.setState(newState);
 
         }).catch(error => {
-            newState.executing = false;
-            newState.error = error.message;
+            let newState: IPlayGroundState = {
+                currentSql: sql,
+                executing: false,
+                error: error.message
+            };
+
             this.setState(newState);
         });
 
     }
 
+    public onMenuItemSelect(selectedItem: { itemId: string }) {
+        console.log('Selected item ' + selectedItem.itemId);
+    }
 
 }

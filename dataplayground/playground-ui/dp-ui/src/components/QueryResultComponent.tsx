@@ -1,6 +1,7 @@
 import React from 'react';
 import { QueryResult } from "../models/QueryReuslt";
 import { QueryResultRecord } from '../models/QueryResultRecord';
+import Table from 'react-bootstrap/Table';
 
 
 export interface IQueryResultComponentProps {
@@ -25,15 +26,15 @@ export class QueryResultComponent extends React.Component<IQueryResultComponentP
 
         return (
             <div>
-                Here is the result table showing {this.props.result.recordCount}
-                <table>
+                <span>Record Count {this.props.result.recordCount}</span>
+                <Table striped bordered hover size="sm" responsive="sm">
                     <thead>
                         {headers}
                     </thead>
                     <tbody>
                         {contents}
                     </tbody>
-                </table>
+                </Table>
             </div>
         )
     }
@@ -41,6 +42,8 @@ export class QueryResultComponent extends React.Component<IQueryResultComponentP
     private getColumnHeaders():JSX.Element  {
          
         let headers:Array<JSX.Element>  = [];
+        let rowCount = <th>#</th>;
+        headers.push(rowCount);
         this.props.result.columns.forEach( c => {
             let th = <th>{c.columnLabel}</th>
             headers.push(th);
@@ -55,15 +58,18 @@ export class QueryResultComponent extends React.Component<IQueryResultComponentP
 
     private getContents(): Array<JSX.Element> {
         let rows:Array<JSX.Element> = [];
+        let index:number = 1;
         this.props.result.records.forEach( r => {
         let row = <tr>{}</tr>
-            rows.push(this.getRow(r));
+            rows.push(this.getRow(index, r));
+            index++;
         })
         return rows;
     }
 
-    private getRow(row: QueryResultRecord): JSX.Element {
+    private getRow(index:number, row: QueryResultRecord): JSX.Element {
         let tds: Array<JSX.Element> = [];
+        tds.push(<td>{index}</td>);
         this.props.result.columns.forEach( c => {
             let data = "";
             if(row[c.columnLabel]) {

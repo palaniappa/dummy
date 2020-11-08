@@ -1,16 +1,15 @@
 import React from 'react';
-import { QueryResult } from "../models/QueryReuslt";
-import { QueryResultRecord } from '../models/QueryResultRecord';
+import { QueryResult } from "../../models/query/QueryReuslt";
+import { QueryResultRecord } from '../../models/query/QueryResultRecord';
 import Table from 'react-bootstrap/Table';
+import { IQueryResultComponentState } from '../state/PlayGroundState';
 
 
 export interface IQueryResultComponentProps {
     result: QueryResult
 }
 
-export interface IQueryResultComponentState {
 
-}
 
 export class QueryResultComponent extends React.Component<IQueryResultComponentProps,IQueryResultComponentState> {
 

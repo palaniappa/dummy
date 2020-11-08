@@ -1,8 +1,8 @@
 import React from 'react';
-import { QueryComponent } from './QueryComponent';
-import { QueryResultComponent } from './QueryResultComponent'
+import { QueryComponent } from './query/QueryComponent';
+import { QueryResultComponent } from './query/QueryResultComponent'
 import { PlayGroundService } from '../service/PlayGroundService';
-import { QueryResult } from "../models/QueryReuslt";
+import { QueryResult } from "../models/query/QueryReuslt";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,21 +10,17 @@ import { Navigation } from 'react-minimal-side-navigation';
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import Navbar from 'react-bootstrap/Navbar';
 import { LoginComponent } from './LoginComponent';
-
+import { CatalogComponent } from './catalog/CatalogComponent';
+import { ICatalogComponentState, IPlayGroundState } from './state/PlayGroundState';
+import { FetchState } from '../models/FetchState';
+import { timeStamp } from 'console';
+import { CatalogModel } from '../models/catalog/CatalogModel';
 
 export interface IPlayGroundProps {
 
 }
 
-export interface IPlayGroundState {
-    currentSql: string;
-    executing: boolean;
-    queryData?: QueryResult;
-    error?: string;
-    loggedInUserEmail?: string;
-    loggedInUserName?: string;
-    currentMenuItem: string;
-}
+
 
 export class PlayGroundApp extends React.Component<IPlayGroundProps, IPlayGroundState> {
 
@@ -41,6 +37,8 @@ export class PlayGroundApp extends React.Component<IPlayGroundProps, IPlayGround
             , loggedInUserEmail: undefined
             , loggedInUserName: undefined
             , currentMenuItem: '/home'
+            , catalog: { fetchState: FetchState.DIRTY }
+            , createCatalog: undefined
 
         };
         this.service = PlayGroundService.getInstance();
@@ -63,7 +61,7 @@ export class PlayGroundApp extends React.Component<IPlayGroundProps, IPlayGround
                             className="d-inline-block align-top"
                             alt="Data Panda"
                         />
-                       <span>        Data Panda</span>
+                        <span>        Data Panda</span>
                     </Navbar.Brand>
                 </Navbar>
                 <Container fluid={true}>
@@ -79,7 +77,7 @@ export class PlayGroundApp extends React.Component<IPlayGroundProps, IPlayGround
 
     private getCurrentMenuPage() {
         let menuItem = this.state.currentMenuItem;
-        if(!this.state.loggedInUserName) {
+        if (!this.state.loggedInUserName) {
             menuItem = "/home";
         }
 
@@ -87,16 +85,48 @@ export class PlayGroundApp extends React.Component<IPlayGroundProps, IPlayGround
             return this.getQueryExecutionComponent();
         } else if (menuItem == '/home') {
             return this.getHomeComponent();
+        } else if (menuItem == '/model/catalogs') {
+            return this.getCatalogComponent();
         }
 
     }
 
+    private getCatalogComponent(): React.ReactNode {
+        if (this.state.catalog.fetchState == FetchState.DIRTY) {
+            this.readCatalogItems();
+        }
+        return <CatalogComponent context={this.state.catalog} />;
+        //return <div>Catalog</div>;
+    }
+
+    private readCatalogItems() {
+        if (this.state.catalog.fetchState == FetchState.DIRTY
+            || this.state.catalog.fetchState == FetchState.ERROR) {
+
+            let newCatalogState = { ...this.state.catalog, fetchState: FetchState.INPROGRESS };
+            let newState = { ...this.state, catalog: newCatalogState };
+            this.setState(newState);
+
+
+            this.service.getCatalogItems().then((items) => {
+                let stateAfterFetch = { ...this.state.catalog, fetchState: FetchState.REFRESHED, items: items };
+                let newState = { ...this.state, catalog: stateAfterFetch };
+                this.setState(newState);
+            })
+            .catch(error => {
+                let stateAfterFetch = { ...this.state.catalog, fetchState: FetchState.ERROR, items: [] };
+                let newState = { ...this.state, catalog: stateAfterFetch };
+                this.setState(newState);
+            });
+        }
+    }
+
     private getHomeComponent(): React.ReactNode {
-        return <LoginComponent 
-        userName={this.state.loggedInUserName} 
-        onLoginError={this.onLoginFailure.bind(this)} 
-        onLoginSuccess={this.onLoginSuccess.bind(this)}
-        onLogout={this.onLogout.bind(this)}
+        return <LoginComponent
+            userName={this.state.loggedInUserName}
+            onLoginError={this.onLoginFailure.bind(this)}
+            onLoginSuccess={this.onLoginSuccess.bind(this)}
+            onLogout={this.onLogout.bind(this)}
         />;
     }
 
@@ -205,15 +235,15 @@ export class PlayGroundApp extends React.Component<IPlayGroundProps, IPlayGround
 
     public onLoginSuccess(userName: string, userEmail: string) {
         console.log('Login success ' + userEmail);
-        this.setState({...this.state, loggedInUserEmail:userEmail, loggedInUserName:userName});
+        this.setState({ ...this.state, loggedInUserEmail: userEmail, loggedInUserName: userName });
     }
 
     public onLoginFailure(error: string) {
         console.log('Login failed ' + error);
-        this.setState({...this.state, loggedInUserName:undefined, loggedInUserEmail: undefined});
+        this.setState({ ...this.state, loggedInUserName: undefined, loggedInUserEmail: undefined });
     }
 
     public onLogout() {
-        this.setState({...this.state, loggedInUserName:undefined, loggedInUserEmail: undefined});
+        this.setState({ ...this.state, loggedInUserName: undefined, loggedInUserEmail: undefined });
     }
 }

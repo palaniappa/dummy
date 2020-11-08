@@ -1,6 +1,7 @@
 import Axios, { AxiosResponse, AxiosRequestConfig } from "axios";
-import { QueryResult } from "../models/QueryReuslt";
-import { QueryRequest } from "../models/QueryRequest";
+import { QueryResult } from "../models/query/QueryReuslt";
+import { QueryRequest } from "../models/query/QueryRequest";
+import { CatalogModel } from '../models/catalog/CatalogModel';
 import { request } from "http";
 
 export class PlayGroundService {
@@ -15,6 +16,18 @@ export class PlayGroundService {
 
     private getResourceUrl(apiPath: string) {
         return this.baseUrl + "/" + apiPath;
+    }
+
+    public async getCatalogItems(): Promise<Array<CatalogModel>> {
+        const API_PATH = "catalog";
+        try {
+            let config = this.getCallConfig();
+            let result: AxiosResponse<Array<CatalogModel>>  = await Axios.get(this.getResourceUrl(API_PATH), config);
+            return result.data;
+        }
+        catch(error) {
+            throw new Error(error);
+        }
     }
 
     public async executeSql(query: string): Promise<QueryResult> {

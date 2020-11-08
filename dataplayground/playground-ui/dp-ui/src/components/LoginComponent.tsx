@@ -1,6 +1,7 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import { GoogleLogin, GoogleLogout, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
+import AuthResponse from 'react-google-login';
 import Jumboron  from 'react-bootstrap/Jumbotron';
 
 export interface ILoginComponentProps {
@@ -77,7 +78,7 @@ export class LoginComponent extends React.Component<ILoginComponentProps, ILogin
             let userEmail = detailedResponse.getBasicProfile().getEmail();
             this.props.onLoginSuccess(userName, userEmail);
             this.refreshTokenSetup(detailedResponse);
-            this.saveAccessTokenInLocalStore(detailedResponse);
+            this.saveAccessTokenInLocalStore(detailedResponse.getAuthResponse());
         }
         else {
             this.onLoginFailure("The response was not detailed one");
@@ -98,6 +99,7 @@ export class LoginComponent extends React.Component<ILoginComponentProps, ILogin
         let refreshTiming = (response.getAuthResponse().expires_in || 3600 - 5 * 60) * 1000;
         const refreshToken = async () => {
             const newAuthRes = await response.reloadAuthResponse();
+            this.saveAccessTokenInLocalStore(newAuthRes);
             console.log("token refreshed");
             let refreshTiming = (newAuthRes.expires_in || 3600 - 5 * 60) * 1000;
             setTimeout(refreshToken, refreshTiming);
@@ -105,8 +107,8 @@ export class LoginComponent extends React.Component<ILoginComponentProps, ILogin
         setTimeout(refreshToken, refreshTiming);
     }
 
-    private saveAccessTokenInLocalStore(response: GoogleLoginResponse) {
-        let id_token = response.getAuthResponse().id_token;
+    private saveAccessTokenInLocalStore(authResponse: any) {
+        let id_token = authResponse.id_token;
         localStorage.setItem('data_panda_id_token', id_token);
     }
 

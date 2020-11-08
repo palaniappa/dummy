@@ -7,8 +7,6 @@ public class CatalogDTO {
 
     private String id;
 
-    private String userId;
-
     private String name;
 
     private String connectorId;
@@ -23,14 +21,6 @@ public class CatalogDTO {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getName() {

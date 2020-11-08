@@ -14,3 +14,5 @@
 - CORS from application.properties
 - Table max widht & hieght and scroll bar
 - Error as a Toast with close button.
+- Move the google client id to application.properties
+- Add catalog pagination.

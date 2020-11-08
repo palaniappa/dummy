@@ -7,14 +7,17 @@ import java.util.Map;
 import com.data.playground.model.query.dto.QueryResult;
 import com.data.playground.model.query.dto.ResultColumnInfo;
 import com.data.playground.model.query.dto.ResultRecord;
+import com.data.playground.repositories.entity.UserModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.data.playground.model.query.dto.QueryRequest;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3001")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(value="/query")
 public class QueryController {
 
@@ -22,7 +25,10 @@ public class QueryController {
 	public ResponseEntity<Object> runSql(@RequestBody QueryRequest queryRequest) throws SQLException{
 		String url = "jdbc:presto://localhost:8080/";
 		Connection connection = (Connection) DriverManager.getConnection(url, "pramanathan", null);
-		
+
+		UserModel user = (UserModel)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		System.out.println(String.format("Query from user %s",user.getId()));
+
 		Statement stmt = null;
 		QueryResult result = new QueryResult();
 		result.setDone(true);

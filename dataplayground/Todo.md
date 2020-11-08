@@ -13,3 +13,4 @@
 - Add default limits and support pagination.
 - CORS from application.properties
 - Table max widht & hieght and scroll bar
+- Error as a Toast with close button.

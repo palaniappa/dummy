@@ -40,19 +40,19 @@ public class ThriftHiveMetastoreClient {
             throws TTransportException
     {
         Proxy proxy = socksProxy
-                .map(socksAddress -> new Proxy(SOCKS, InetSocketAddress.createUnresolved(socksAddress.getHostText(), socksAddress.getPort())))
+                .map(socksAddress -> new Proxy(SOCKS, InetSocketAddress.createUnresolved(socksAddress.getHost(), socksAddress.getPort())))
                 .orElse(Proxy.NO_PROXY);
 
         Socket socket = new Socket(proxy);
         try {
-            socket.connect(new InetSocketAddress(address.getHostText(), address.getPort()), timeoutMillis);
+            socket.connect(new InetSocketAddress(address.getHost(), address.getPort()), timeoutMillis);
             socket.setSoTimeout(timeoutMillis);
 
             if (sslContext.isPresent()) {
                 // SSL will connect to the SOCKS address when present
                 HostAndPort sslConnectAddress = socksProxy.orElse(address);
 
-                socket = sslContext.get().getSocketFactory().createSocket(socket, sslConnectAddress.getHostText(), sslConnectAddress.getPort(), true);
+                socket = sslContext.get().getSocketFactory().createSocket(socket, sslConnectAddress.getHost(), sslConnectAddress.getPort(), true);
             }
             return new TSocket(socket);
         }

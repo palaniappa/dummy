@@ -151,3 +151,6 @@ show schemas from hive;
 create user 'dpuser'@'localhost' identified with mysql_native_password by 'dpuser';
 grant ALL PRIVILEGES  ON DataplayGround  to 'dpuser'@'localhost';
 FLUSH PRIVILEGES;
+
+
+https://www.callicoder.com/spring-boot-security-oauth2-social-login-part-1/

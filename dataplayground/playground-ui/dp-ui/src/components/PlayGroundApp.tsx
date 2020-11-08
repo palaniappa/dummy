@@ -9,6 +9,7 @@ import Col from 'react-bootstrap/Col';
 import { Navigation } from 'react-minimal-side-navigation';
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import Navbar from 'react-bootstrap/Navbar';
+import { LoginComponent } from './LoginComponent';
 
 
 export interface IPlayGroundProps {
@@ -20,6 +21,9 @@ export interface IPlayGroundState {
     executing: boolean;
     queryData?: QueryResult;
     error?: string;
+    loggedInUserEmail?: string;
+    loggedInUserName?: string;
+    currentMenuItem: string;
 }
 
 export class PlayGroundApp extends React.Component<IPlayGroundProps, IPlayGroundState> {
@@ -34,6 +38,9 @@ export class PlayGroundApp extends React.Component<IPlayGroundProps, IPlayGround
             , executing: false
             , queryData: undefined
             , error: undefined
+            , loggedInUserEmail: undefined
+            , loggedInUserName: undefined
+            , currentMenuItem: '/home'
 
         };
         this.service = PlayGroundService.getInstance();
@@ -41,6 +48,59 @@ export class PlayGroundApp extends React.Component<IPlayGroundProps, IPlayGround
 
     render(): React.ReactNode {
 
+        let menuSpecificItem = this.getCurrentMenuPage();
+
+        let menus = this.getNavigations();
+
+        return (
+            <div>
+                <Navbar className="navbar navbar-dark bg-primary">
+                    <Navbar.Brand href="#home">
+                        <img
+                            src="/datapanda.png"
+                            width="50"
+                            height="50"
+                            className="d-inline-block align-top"
+                            alt="Data Panda"
+                        />
+                       <span>        Data Panda</span>
+                    </Navbar.Brand>
+                </Navbar>
+                <Container fluid={true}>
+                    <Row>
+                        <Col xs="2">{menus}</Col>
+                        <Col xs="10">{menuSpecificItem}</Col>
+                    </Row>
+                </Container>
+            </div>
+
+        );
+    }
+
+    private getCurrentMenuPage() {
+        let menuItem = this.state.currentMenuItem;
+        if(!this.state.loggedInUserName) {
+            menuItem = "/home";
+        }
+
+        if (menuItem == "/query") {
+            return this.getQueryExecutionComponent();
+        } else if (menuItem == '/home') {
+            return this.getHomeComponent();
+        }
+
+    }
+
+    private getHomeComponent(): React.ReactNode {
+        return <LoginComponent 
+        userName={this.state.loggedInUserName} 
+        onLoginError={this.onLoginFailure.bind(this)} 
+        onLoginSuccess={this.onLoginSuccess.bind(this)}
+        onLogout={this.onLogout.bind(this)}
+        />;
+    }
+
+    private getQueryExecutionComponent(): React.ReactNode {
         let errorMessage;
         let resultTable;
         if (this.state.error) {
@@ -50,9 +110,7 @@ export class PlayGroundApp extends React.Component<IPlayGroundProps, IPlayGround
             resultTable = <QueryResultComponent result={this.state.queryData} />
         }
 
-
-
-        let main = (
+        return (
             <Container fluid={true}>
                 <Row>
                     <Col lg="6">
@@ -71,26 +129,6 @@ export class PlayGroundApp extends React.Component<IPlayGroundProps, IPlayGround
                     </Col>
                 </Row>
             </Container>
-        );
-
-        let menus = this.getNavigations();
-
-        return (
-            <div>
-                <Navbar className="navbar navbar-dark bg-primary">
-                    <Navbar.Brand href="#home">
-                       Data Playground
-                    </Navbar.Brand>
-                </Navbar>
-                <Container fluid={true}>
-
-                    <Row>
-                        <Col xs="2">{menus}</Col>
-                        <Col xs="10">{main}</Col>
-                    </Row>
-                </Container>
-            </div>
-
         );
     }
 
@@ -146,35 +184,36 @@ export class PlayGroundApp extends React.Component<IPlayGroundProps, IPlayGround
     executeSql(sql: string) {
         console.log('Executing sql ' + sql);
 
-        let newState: IPlayGroundState = {
-            currentSql: sql,
-            executing: true
-        };
+        let newState = { ...this.state, executing: true, currentSql: sql };
         this.setState(newState);
 
         this.service.executeSql(sql).then(data => {
-            let newState: IPlayGroundState = {
-                currentSql: sql,
-                executing: false,
-                queryData: data
-            };
-
+            let newState = { ...this.state, queryData: data, executing: false, error: undefined };
             this.setState(newState);
 
         }).catch(error => {
-            let newState: IPlayGroundState = {
-                currentSql: sql,
-                executing: false,
-                error: error.message
-            };
-
+            let newState = { ...this.state, error: error.message, executing: false };
             this.setState(newState);
         });
 
     }
 
     public onMenuItemSelect(selectedItem: { itemId: string }) {
+        this.setState({ ...this.state, currentMenuItem: selectedItem.itemId });
         console.log('Selected item ' + selectedItem.itemId);
     }
 
+    public onLoginSuccess(userName: string, userEmail: string) {
+        console.log('Login success ' + userEmail);
+        this.setState({...this.state, loggedInUserEmail:userEmail, loggedInUserName:userName});
+    }
+
+    public onLoginFailure(error: string) {
+        console.log('Login failed ' + error);
+        this.setState({...this.state, loggedInUserName:undefined, loggedInUserEmail: undefined});
+    }
+
+    public onLogout() {
+        this.setState({...this.state, loggedInUserName:undefined, loggedInUserEmail: undefined});
+    }
 }

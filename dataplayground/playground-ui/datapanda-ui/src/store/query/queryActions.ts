@@ -1,5 +1,4 @@
 import { Action } from 'redux';
-import { BinaryOperatorToken } from 'typescript';
 import { QueryResult } from '../../models/query/QueryReuslt';
 
 export enum QueryConstants {

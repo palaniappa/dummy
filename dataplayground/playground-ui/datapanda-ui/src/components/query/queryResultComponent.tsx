@@ -115,7 +115,7 @@ class QueryResultComponent extends React.Component<IQueryResultComponentProps, O
         });
 
         return (
-            <tr>
+            <tr key={"Q_R" + index}>
                 {tds}
             </tr>
         );

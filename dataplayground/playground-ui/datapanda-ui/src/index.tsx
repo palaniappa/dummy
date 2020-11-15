@@ -1,15 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import PlayGroundApp from './PlayGroundApp';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './store/ApplicationState';
 
 
+
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <PlayGroundApp />
   </Provider>,
   document.getElementById('root')
 );

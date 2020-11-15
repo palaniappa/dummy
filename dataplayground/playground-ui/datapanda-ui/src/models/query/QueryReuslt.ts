@@ -1,3 +1,4 @@
+import { isInterfaceDeclaration } from "typescript";
 import { QueryResultColumn } from "./QueryResultColumn";
 import { QueryResultRecord } from './QueryResultRecord';
 

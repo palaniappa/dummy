@@ -6,9 +6,9 @@ import { PlayGroundService } from "../../service/PlayGroundService";
 import { CatalogModel } from "../../models/catalog/CatalogModel";
 
 
-function sleep(timeout: number) {
-    return new Promise((resolve) => setTimeout(() => resolve(), timeout));
-}
+// function sleep(timeout: number) {
+//     return new Promise((resolve) => setTimeout(() => resolve(), timeout));
+// }
 
 export async function loadCatalogs(dispatch: Dispatch<CatalogActions>) {
     dispatch(refreshActions.setLoading(true));

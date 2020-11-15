@@ -76,7 +76,7 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
                     <input type="submit" value="Submit" />
                 </fieldset>
             </form>
-        );;
+        );
         if (this.props.creating) {
             creating = <div>Creating...</div>
         }

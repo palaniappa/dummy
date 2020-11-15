@@ -31,7 +31,7 @@ class CatalogComponent extends React.Component<ICatalogComponentProps, Object> {
 
         return (
             <div style={{ margin: '20px' }}>
-
+                <h2>Catalogs</h2>
                 {this.props.catalogs.loading && <div>Loading...</div>}
                 {this.props.catalogs.error && <div>{this.props.catalogs.error}</div>}
                 <ul>

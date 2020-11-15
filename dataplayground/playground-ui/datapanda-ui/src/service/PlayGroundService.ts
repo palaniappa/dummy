@@ -44,7 +44,7 @@ export class PlayGroundService {
 
     }
 
-    public async executeSql(query: string): Promise<QueryResult> {
+    public async executeSql(query: String): Promise<QueryResult> {
         const API_PATH = "query/sql";
         console.log("Executing the query " + query);
         let req:QueryRequest = { sql: query};

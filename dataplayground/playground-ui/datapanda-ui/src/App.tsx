@@ -4,6 +4,7 @@ import { ApplicationRootState } from './store/ApplicationState';
 import { Dispatch } from 'redux';
 import Demo from './components/demo/demo';
 import CatalogComponent from './components/catalog/catalogs';
+import QueryComponent from './components/query/queryComponent';
 
 const mapStateToProps = (state: ApplicationRootState) => {
   return { demo: state.demo };
@@ -23,7 +24,8 @@ class App extends React.Component < ReduxType, {}> {
     return (
       <div>
         <Demo/>
-        <CatalogComponent/>  
+        <CatalogComponent/> 
+        <QueryComponent/> 
       </div>
     );
   }

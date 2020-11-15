@@ -1,4 +1,4 @@
 
 export interface QueryRequest {
-    sql: string;
+    sql: String;
 }

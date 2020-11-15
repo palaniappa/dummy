@@ -5,6 +5,7 @@ import { QueryActions } from '../../store/query/queryActions';
 import { connect } from 'react-redux';
 import { QueryResult,  } from '../../models/query/QueryReuslt';
 import { QueryResultRecord } from '../../models/query/QueryResultRecord';
+import { MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact';
 
 interface IQueryResultComponentStateProps {
     queryResult?: QueryResult
@@ -33,7 +34,6 @@ class QueryResultComponent extends React.Component<IQueryResultComponentProps, O
 
         return (
             <div style={{ margin: '20px' }}>
-                <h2>Query Result:</h2>
                 {table}
             </div>
         );
@@ -47,15 +47,15 @@ class QueryResultComponent extends React.Component<IQueryResultComponentProps, O
 
             return (
                 <div>
-                    <span>Record Count {this.props.queryResult.recordCount}</span>
-                    <table>
-                        <thead>
+                    <MDBTable striped bordered small scrollY scrollX maxHeight="500px">
+                        <caption>Records {this.props.queryResult.recordCount} </caption>
+                        <MDBTableHead color="primary-color" textWhite>
                             {headers}
-                        </thead>
-                        <tbody>
+                        </MDBTableHead>
+                        <MDBTableBody>
                             {contents}
-                        </tbody>
-                    </table>
+                        </MDBTableBody>
+                    </MDBTable>
                 </div>
             );
         }
@@ -73,7 +73,7 @@ class QueryResultComponent extends React.Component<IQueryResultComponentProps, O
         let rowCount = <th>#</th>;
         headers.push(rowCount);
         this.props.queryResult.columns.forEach( c => {
-            let th = <th>{c.columnLabel}</th>
+            let th = <th key={c.columnLabel}>{c.columnLabel}</th>
             headers.push(th);
         });
 

@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { executeQuery } from '../../store/query/queryAsyncActions';
 import { QueryActions } from '../../store/query/queryActions';
 import QueryResultComponent from './queryResultComponent';
+import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
+
 
 interface IQueryComponentStateProps {
     executing: boolean
@@ -40,7 +42,7 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onQueryChange = this.onQueryChange.bind(this);
-        this.state = { modifiedSql: props.sqlQuery.toString()};
+        this.state = { modifiedSql: props.sqlQuery.toString() };
     }
 
     render() {
@@ -50,38 +52,83 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
             lastError = <div>Error {this.props.errorMessage}</div>
         }
 
-        let executeForm = (
-            <form onSubmit={this.handleSubmit}>
-                <fieldset disabled={this.props.executing === true}>
-                    <label>
-                        Name:
-                        <textarea id="sqlTextArea" className="form-control" rows={15} 
-                        name="querybox" 
-                        onChange={this.onQueryChange} 
-                        value={this.state.modifiedSql}
-                        disabled={this.props.executing}/> 
-                    </label>
-                    
-                        <input type="submit" value="Execute" />
-                    
-                </fieldset>
-            </form>
-        );
+        // let executeForm = (
+        //     <form onSubmit={this.handleSubmit}>
+        //         <fieldset disabled={this.props.executing === true}>
+        //             <label>
+        //                 Name:
+        //                 <textarea id="sqlTextArea" className="form-control" rows={15}
+        //                     name="querybox"
+        //                     onChange={this.onQueryChange}
+        //                     value={this.state.modifiedSql}
+        //                     disabled={this.props.executing} />
+        //             </label>
+
+        //             <input type="submit" value="Execute" />
+
+        //         </fieldset>
+        //     </form>
+        // );
+
+        let executeForm = this.getForm();
 
         return (
-            <div style={{ margin: '20px' }}>
-                <h2>Interactive SQL</h2>
-                {lastError}
-                {executeForm}
-                <QueryResultComponent/>
-            </div>
+            <MDBContainer>
+                <MDBRow>
+                    <MDBCol>
+                        <br></br>
+                        {executeForm}
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol>{lastError}</MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol>
+                        <QueryResultComponent />
+                    </MDBCol>
+                </MDBRow>
+            </MDBContainer>
         );
 
     }
 
-    private onQueryChange(event: React.ChangeEvent ) {
+    private getForm() { 
+        return (
+        <MDBContainer>
+            <MDBRow>
+                <MDBCol>
+                    <form onSubmit={this.handleSubmit}>
+                        <p className="h4 text-center mb-4">Interactive SQL</p>
+                        <label htmlFor="sqlTextArea" className="grey-text">
+                            SQL
+                            <div>
+                                <textarea id="sqlTextArea" className="form-control" rows={9}
+                                name="querybox"
+                                style={{width: '1200px'}}
+                                onChange={this.onQueryChange}
+                                value={this.state.modifiedSql}
+                                disabled={this.props.executing} />
+                             </div>
+                        </label>
+
+                        <div className="text-center">
+                            {/* <MDBBtn color="warning" outline type="submit">
+                                Execute
+                            
+                            </MDBBtn> */}
+                            <input type="submit" value="Execute" />
+                        </div>
+                    </form>
+                </MDBCol>
+            </MDBRow>
+        </MDBContainer>
+        );
+    }
+
+    private onQueryChange(event: React.ChangeEvent) {
         let queryString = (event.target as HTMLTextAreaElement).value;
-        this.setState({modifiedSql: queryString});
+        this.setState({ modifiedSql: queryString });
     }
 
     private handleSubmit(event: React.FormEvent) {

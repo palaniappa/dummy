@@ -1,5 +1,9 @@
 
 export interface PlayGroundAppState {
-    currentMenuItem: String;
+    currentMenuItem: string;
+    userName?: string;
+    userEmail?: string;
+    loginErrorMessage?: string;
+
 }
 

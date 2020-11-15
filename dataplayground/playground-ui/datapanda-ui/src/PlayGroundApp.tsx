@@ -8,24 +8,27 @@ import QueryComponent from './components/query/queryComponent';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
-import { MDBNavbar, MDBNavbarBrand, MDBContainer,MDBRow, MDBCol } from 'mdbreact';
+import { MDBNavbar, MDBNavbarBrand, MDBContainer, MDBRow, MDBCol, MDBJumbotron } from 'mdbreact';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Navigation } from 'react-minimal-side-navigation';
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import { PlayGroundAppActions, selectMenuItem } from './store/playGroundApp/playGroundActions';
-import { stat } from 'fs';
+import LoginComponent from './components/login/loginComponent';
 
 interface IPlayGroundAppStateProps {
   currentMenuItem: String;
+  userName?: string;
 }
 
 const mapStateToProps = (state: ApplicationRootState): IPlayGroundAppStateProps => {
-  return { currentMenuItem: state.playGroundApp.currentMenuItem };
+  return { currentMenuItem: state.playGroundApp.currentMenuItem
+    , userName: state.playGroundApp.userName 
+  };
 }
 
 const mapDispatcherToProps = (dispatch: Dispatch<PlayGroundAppActions>) => {
   return {
-    selectMenuItem: (selectedItem: String) => dispatch(selectMenuItem(selectedItem))
+    selectMenuItem: (selectedItem: string) => dispatch(selectMenuItem(selectedItem))
   }
 }
 
@@ -43,13 +46,11 @@ class App extends React.Component<IPlayGroundAppProps, {}> {
       <div>
         {titleBar}
         <MDBContainer fluid={true}>
-        <MDBRow>
-            <MDBCol xs="2">{menus}</MDBCol>
-            <MDBCol xs="12">{menuSpecificItem}</MDBCol>
+          <MDBRow>
+            <MDBCol md="1">{menus}</MDBCol>
+            <MDBCol middle={false}>{menuSpecificItem}</MDBCol>
           </MDBRow>
         </MDBContainer>
-        
-        
       </div>
     );
   }
@@ -57,19 +58,19 @@ class App extends React.Component<IPlayGroundAppProps, {}> {
   private getTitleBar() {
     return (
       <Router>
-          <MDBNavbar className="navbar navbar-dark bg-primary">
-            <MDBNavbarBrand href="#home">
-              <img
-                src="/DataPandaSmall.png"
-                width="10%"
-                height="10%"
-                className="d-inline-block align-top"
-                alt="Data Panda"
-              />
-              <strong className="white-text"> Data Panda</strong>
-            </MDBNavbarBrand>
-          </MDBNavbar>
-        </Router>
+        <MDBNavbar className="navbar navbar-dark bg-primary">
+          <MDBNavbarBrand href="#home">
+            <img
+              src="/DataPandaSmall.png"
+              width="10%"
+              height="10%"
+              className="d-inline-block align-top"
+              alt="Data Panda"
+            />
+            <strong className="white-text"> Data Panda</strong>
+          </MDBNavbarBrand>
+        </MDBNavbar>
+      </Router>
     );
   }
 
@@ -129,19 +130,42 @@ class App extends React.Component<IPlayGroundAppProps, {}> {
 
   private getCurrentMenuPage() {
     let menuItem = this.props.currentMenuItem;
-    // if (!this.state.loggedInUserName) {
-    //     menuItem = "/home";
-    // }
-
-    if (menuItem == "/query") {
-        return <QueryComponent />;
-    } /*else if (menuItem == '/home') {
-        return this.getHomeComponent();
-    }*/ else if (menuItem == '/model/catalogs') {
-        return <CatalogComponent />;
+    if (!this.props.userName) {
+        menuItem = "/home";
     }
 
-}
+    if (menuItem == "/query") {
+      return <QueryComponent />;
+    } else if (menuItem == '/home') {
+      return this.getHomeComponent();
+    } else if (menuItem == '/model/catalogs') {
+      return <CatalogComponent />;
+    }
+  }
+
+  private getHomeComponent(): React.ReactNode {
+    let userName = this.props.userName ? this.props.userName : "Guest";
+
+    let login = <LoginComponent />;
+    let welcomeComponent =
+      (<MDBJumbotron>
+        <MDBContainer className="text-center">
+          <h1>Welcome <b>{userName}</b> to the <b>Data Panda!</b></h1>
+          <br></br>
+          <p>Bigdata analytics for everyone. Happy exploring.</p>
+          <br></br>
+          <br></br>
+          {login}
+        </MDBContainer>
+      </MDBJumbotron>);
+
+    return (
+
+      <MDBContainer fluid={true}>
+        {welcomeComponent}
+      </MDBContainer>
+    );
+  }
 
 }
 

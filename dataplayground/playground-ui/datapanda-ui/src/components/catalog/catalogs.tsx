@@ -114,7 +114,7 @@ class CatalogComponent extends React.Component<ICatalogComponentProps, Object> {
 
         Object.keys(props).forEach(k => {
             let item = (
-                <div><span>{k}</span> <span><i>{props[k]}</i></span></div>
+                <div><span><b>{k + ':'}</b></span> <span><i>{props[k]}</i></span></div>
             );
             displayItems.push(item);
         });

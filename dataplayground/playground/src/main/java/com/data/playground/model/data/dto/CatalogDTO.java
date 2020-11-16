@@ -9,9 +9,7 @@ public class CatalogDTO {
 
     private String name;
 
-    private String connectorId;
-
-    private String catalogType;
+    private UserCatalogType catalogType;
 
     private Map<String,String> properties = new HashMap<>();
 
@@ -31,23 +29,15 @@ public class CatalogDTO {
         this.name = name;
     }
 
-    public String getConnectorId() {
-        return connectorId;
-    }
-
-    public void setConnectorId(String connectorId) {
-        this.connectorId = connectorId;
-    }
-
-    public String getCatalogType() {
+    public UserCatalogType getCatalogType() {
         return catalogType;
     }
 
-    public void setCatalogType(String catalogType) {
+    public void setCatalogType(UserCatalogType catalogType) {
         this.catalogType = catalogType;
     }
 
-    public Map<String, String> getProperties() {
+    public Map<String, String>  getProperties() {
         return properties;
     }
 

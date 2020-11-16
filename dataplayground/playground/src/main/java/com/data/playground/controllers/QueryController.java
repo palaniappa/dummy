@@ -26,8 +26,8 @@ public class QueryController {
 		String url = "jdbc:presto://localhost:8080/";
 		Connection connection = (Connection) DriverManager.getConnection(url, "pramanathan", null);
 
-		UserModel user = (UserModel)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		System.out.println(String.format("Query from user %s",user.getId()));
+//		UserModel user = (UserModel)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		System.out.println(String.format("Query from user %s",user.getId()));
 
 		Statement stmt = null;
 		QueryResult result = new QueryResult();

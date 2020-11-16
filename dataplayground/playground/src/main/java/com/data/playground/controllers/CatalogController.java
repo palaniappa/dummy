@@ -1,9 +1,11 @@
 package com.data.playground.controllers;
 
+import com.data.playground.exception.PlaygroundException;
 import com.data.playground.model.data.dto.CatalogDTO;
 import com.data.playground.repositories.entity.Catalog;
 import com.data.playground.repositories.CatalogRepository;
 import com.data.playground.repositories.entity.UserModel;
+import com.data.playground.services.CatalogService;
 import com.data.playground.util.CommonUtil;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -26,6 +28,9 @@ public class CatalogController {
     @Autowired
     private CatalogRepository catalogRepository;
 
+    @Autowired
+    private CatalogService catalogService;
+
     @RequestMapping(value = "/{catalogId}", method = RequestMethod.GET)
     public ResponseEntity<CatalogDTO> get(@PathVariable(value="catalogId") String catalogId) throws Exception {
 
@@ -40,7 +45,7 @@ public class CatalogController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<CatalogDTO>> getAll(){
+    public ResponseEntity<List<CatalogDTO>> getAll() throws PlaygroundException {
         String userId = CommonUtil.getCurrentUserId();
         List<Catalog> catalogs = this.catalogRepository.findAllByUserId(userId);
         List<CatalogDTO> dtos = this.transform(catalogs);
@@ -48,7 +53,7 @@ public class CatalogController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<CatalogDTO> createOrUpdate(@RequestBody CatalogDTO catalogDto) {
+    public ResponseEntity<CatalogDTO> createOrUpdate(@RequestBody CatalogDTO catalogDto) throws PlaygroundException {
 
         String userId = CommonUtil.getCurrentUserId();
 
@@ -59,11 +64,11 @@ public class CatalogController {
             newCatalog.setId(catalogDto.getId());
             newCatalog.setUserId(userId);
             newCatalog.setName(catalogDto.getName());
-            newCatalog.setConnectorId(catalogDto.getConnectorId());
-            newCatalog.setCatalogType(catalogDto.getCatalogType());
+            String storeCatalogType = catalogService.getCatalogType(catalogDto.getCatalogType());
+            newCatalog.setCatalogType(storeCatalogType);
 
             Gson gson = new Gson();
-            String props = gson.toJson(catalogDto.getProperties());
+            String props = gson.toJson(this.catalogService.getStoreCatalogProperties(storeCatalogType,catalogDto.getProperties()));
             newCatalog.setProperties(props);
             this.catalogRepository.save(newCatalog);
 
@@ -74,7 +79,7 @@ public class CatalogController {
 
     }
 
-    private CatalogDTO getByCatalogIdAndUserId(String catalogId, String userId) {
+    private CatalogDTO getByCatalogIdAndUserId(String catalogId, String userId) throws PlaygroundException {
 
         Optional<Catalog> savedCatalog = this.catalogRepository.findCatalogByIdEqualsAndUserIdEquals(catalogId,userId);
         if(savedCatalog.isPresent()) {
@@ -84,7 +89,7 @@ public class CatalogController {
         return null;
     }
 
-    private CatalogDTO transform(Catalog catalog) {
+    private CatalogDTO transform(Catalog catalog) throws PlaygroundException {
         if(catalog == null) {
             return  null;
         }
@@ -92,18 +97,17 @@ public class CatalogController {
         CatalogDTO catalogDTO = new CatalogDTO();
         catalogDTO.setId(catalog.getId());
         catalogDTO.setName(catalog.getName());
-        catalogDTO.setConnectorId(catalog.getConnectorId());
-        catalogDTO.setCatalogType(catalog.getCatalogType());
+        catalogDTO.setCatalogType(catalogService.getUserCatalogType(catalog.getCatalogType()));
         if(catalog.getProperties() != null && catalog.getProperties() != "") {
             Gson gson = new Gson();
             Type type = new TypeToken<Map<String,String>>(){}.getType();
             Map<String,String> props = gson.fromJson(catalog.getProperties(), type);
-            catalogDTO.setProperties(props);
+            catalogDTO.setProperties(this.catalogService.getUserCatalogProperties(catalog.getCatalogType(), props));
         }
         return catalogDTO;
     }
 
-    private List<CatalogDTO> transform(List<Catalog> catalogs) {
+    private List<CatalogDTO> transform(List<Catalog> catalogs) throws PlaygroundException {
         if(catalogs == null)
             return null;
 

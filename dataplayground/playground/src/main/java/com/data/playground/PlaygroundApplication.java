@@ -19,6 +19,7 @@ public class PlaygroundApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
+						.allowedMethods("PUT", "DELETE", "GET", "POST")
 						.allowedOrigins("http://localhost:3000");
 			}
 		};

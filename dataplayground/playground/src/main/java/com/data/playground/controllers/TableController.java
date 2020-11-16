@@ -80,7 +80,6 @@ public class TableController {
         DPTable dpTable = new DPTable();
         dpTable.setId(tableDTO.getTableName());
         dpTable.setCatalogId(tableDTO.getCatalogId());
-        dpTable.setDatabaseName(tableDTO.getDatabaseName());
         dpTable.setName(tableDTO.getTableName());
         dpTable.setUserId(userId);
         this.tableService.upsertTable(dpTable);
@@ -143,7 +142,11 @@ public class TableController {
             throw new PlaygroundException(String.format("Failed to find the table with id %s", tableId));
         }
 
-        Table table = this.getHiveTable(dpTable.get().getDatabaseName(), tableId);
+        Optional<Catalog> catalog = this.catalogService.getCatalogByCatalogIdAndUserId(dpTable.get().getCatalogId(), userId);
+        if(catalog.isPresent() == false)
+            throw  new PlaygroundException(String.format("Failed to get the catalog with id %s", dpTable.get().getCatalogId()));
+
+        Table table = this.getHiveTable(catalog.get().getDatabaseName(), tableId);
         return new ResponseEntity<>(table, HttpStatus.OK);
 
     }

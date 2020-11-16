@@ -27,6 +27,9 @@ public class Catalog {
     @Column(name = "properties")
     private String properties;
 
+    @Column(name="database_name")
+    private String databaseName;
+
     public String getId() {
         return id;
     }
@@ -75,27 +78,11 @@ public class Catalog {
         this.properties = properties;
     }
 
-    //    public String getAccessKey() {
-//        return accessKey;
-//    }
-//
-//    public void setAccessKey(String accessKey) {
-//        this.accessKey = accessKey;
-//    }
-//
-//    public String getSecretKey() {
-//        return secretKey;
-//    }
-//
-//    public void setSecretKey(String secretKey) {
-//        this.secretKey = secretKey;
-//    }
-//
-//    public String getEndpoint() {
-//        return endpoint;
-//    }
-//
-//    public void setEndpoint(String endpoint) {
-//        this.endpoint = endpoint;
-//    }
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
+    public void setDatabaseName(String databaseName) {
+        this.databaseName = databaseName;
+    }
 }

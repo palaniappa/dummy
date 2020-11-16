@@ -63,6 +63,7 @@ public class CatalogController {
             newCatalog.setId(catalogDto.getId());
             newCatalog.setUserId(userId);
             newCatalog.setName(catalogDto.getName());
+            newCatalog.setDatabaseName(catalogDto.getDatabaseName());
             String storeCatalogType = catalogService.getCatalogType(catalogDto.getCatalogType());
             newCatalog.setCatalogType(storeCatalogType);
             newCatalog.setConnectorId(catalogService.getConnectorIdForCatalogType(storeCatalogType));
@@ -97,6 +98,7 @@ public class CatalogController {
         Catalog catalogDTO = new Catalog();
         catalogDTO.setId(catalog.getId());
         catalogDTO.setName(catalog.getName());
+        catalogDTO.setDatabaseName(catalog.getDatabaseName());
         catalogDTO.setCatalogType(catalogService.getUserCatalogType(catalog.getCatalogType()));
         if(catalog.getProperties() != null && catalog.getProperties() != "") {
             Gson gson = new Gson();

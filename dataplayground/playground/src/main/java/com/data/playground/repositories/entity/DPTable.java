@@ -19,9 +19,6 @@ public class DPTable {
     @Column(name="name")
     private String name;
 
-    @Column(name="database_name")
-    private String databaseName;
-
     @Column(name="catalog_id")
     private String catalogId;
 
@@ -47,14 +44,6 @@ public class DPTable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDatabaseName() {
-        return databaseName;
-    }
-
-    public void setDatabaseName(String databaseName) {
-        this.databaseName = databaseName;
     }
 
     public String getCatalogId() {

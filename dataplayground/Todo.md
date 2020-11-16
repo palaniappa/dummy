@@ -16,3 +16,5 @@
 - Error as a Toast with close button.
 - Move the google client id to application.properties
 - Add catalog pagination.
+- Add key to the list items.
+- Add the google client id in config in UI.

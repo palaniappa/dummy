@@ -1,25 +1,15 @@
 package com.data.playground.model.data.dto;
 
 public class CatalogTablesDTO {
-    public String databaseId;
     public String tableId;
     public String tableName;
 
     public CatalogTablesDTO() {
     }
 
-    public CatalogTablesDTO(String databaseId, String tableId, String tableName) {
-        this.databaseId = databaseId;
+    public CatalogTablesDTO(String tableId, String tableName) {
         this.tableId = tableId;
         this.tableName = tableName;
-    }
-
-    public String getDatabaseId() {
-        return databaseId;
-    }
-
-    public void setDatabaseId(String databaseId) {
-        this.databaseId = databaseId;
     }
 
     public String getTableId() {

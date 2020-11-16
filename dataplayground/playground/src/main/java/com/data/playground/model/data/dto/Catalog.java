@@ -13,6 +13,8 @@ public class Catalog {
 
     private Map<String,String> properties = new HashMap<>();
 
+    private String databaseName;
+
     public String getId() {
         return id;
     }
@@ -43,5 +45,13 @@ public class Catalog {
 
     public void setProperties(Map<String, String> properties) {
         this.properties = properties;
+    }
+
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
+    public void setDatabaseName(String databaseName) {
+        this.databaseName = databaseName;
     }
 }

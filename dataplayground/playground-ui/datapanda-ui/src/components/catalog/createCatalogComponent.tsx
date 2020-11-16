@@ -42,7 +42,7 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
 
     constructor(props: ICreateCatalogComponentProps) {
         super(props);
-        this.state = { catalogBeingCreated: { id: "", catalogType: CatalogType.S3, name: "", properties: {} } }
+        this.state = { catalogBeingCreated: { id: "", catalogType: CatalogType.S3, name: "", properties: {}, databaseName: "default" } }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -190,6 +190,13 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
                                             disabled={true}
                                             value={this.state.catalogBeingCreated.catalogType}
                                         />
+                                        <br />
+                                        <label htmlFor="databaseName" className="grey-text">Type</label>
+                                        <input type="text" id="databaseName" className="form-control"
+                                            disabled={true}
+                                            value={this.state.catalogBeingCreated.databaseName}
+                                        />
+                                        
                                     </MDBCol>
                                     <MDBCol>
                                         {catalogProps}

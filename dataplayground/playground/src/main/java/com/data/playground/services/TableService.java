@@ -22,7 +22,7 @@ public class TableService {
         String userId = CommonUtil.getCurrentUserId();
         List<DPTable> tables = this.tableRepository.findDPTablesByCatalogIdAndUserId(catalogId, userId);
         tables.forEach( t -> {
-            CatalogTablesDTO tableDto = new CatalogTablesDTO(t.getDatabaseName(), t.getName(), t.getId() );
+            CatalogTablesDTO tableDto = new CatalogTablesDTO(t.getName(), t.getId() );
             items.add(tableDto);
         });
         return items;

@@ -59,7 +59,7 @@ class CatalogComponent extends React.Component<ICatalogComponentProps, Object> {
         });
 
         return (
-            <tr>
+            <tr key={'catalog_headers'}>
                 {headers}
             </tr>
         );
@@ -97,7 +97,7 @@ class CatalogComponent extends React.Component<ICatalogComponentProps, Object> {
         let headers = this.getColumnHeaders();
         let contents = this.getContents();
         return (
-            <MDBTable striped bordered small scrollY scrollX maxHeight="500px">
+            <MDBTable striped bordered small scrollY maxHeight="500px">
                 <caption>Catalogs</caption>
                 <MDBTableHead color="primary-color" textWhite>
                     {headers}

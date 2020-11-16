@@ -6,6 +6,7 @@ import { executeQuery } from '../../store/query/queryAsyncActions';
 import { QueryActions } from '../../store/query/queryActions';
 import QueryResultComponent from './queryResultComponent';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
+import styled from "styled-components";
 
 
 interface IQueryComponentStateProps {
@@ -94,10 +95,41 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
     }
 
     private getForm() { 
+        const theme = {
+            blue: {
+              default: "#3f51b5",
+              hover: "#283593"
+            },
+            pink: {
+              default: "#e91e63",
+              hover: "#ad1457"
+            }
+          };
+
+        const Button = styled.button`
+                        background-color: ${theme['blue'].default};
+                        color: white;
+                        padding: 5px 15px;
+                        border-radius: 5px;
+                        outline: 0;
+                        text-transform: uppercase;
+                        margin: 10px 0px;
+                        cursor: pointer;
+                        box-shadow: 0px 2px 2px lightgray;
+                        transition: ease background-color 250ms;
+                        &:hover {
+                        background-color: ${theme['blue'].hover};
+                        }
+                        &:disabled {
+                        cursor: default;
+                        opacity: 0.7;
+                        }
+                        `;
+
         return (
         <MDBContainer>
             <MDBRow>
-                <MDBCol>
+                <MDBCol md="12">
                     <form onSubmit={this.handleSubmit}>
                         <p className="h4 text-center mb-4">Interactive SQL</p>
                         <label htmlFor="sqlTextArea" className="grey-text">
@@ -105,7 +137,7 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
                             <div>
                                 <textarea id="sqlTextArea" className="form-control" rows={9}
                                 name="querybox"
-                                style={{width: '1200px'}}
+                                style={{width: '1070px'}}
                                 onChange={this.onQueryChange}
                                 value={this.state.modifiedSql}
                                 disabled={this.props.executing} />
@@ -113,11 +145,7 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
                         </label>
 
                         <div className="text-center">
-                            {/* <MDBBtn color="warning" outline type="submit">
-                                Execute
-                            
-                            </MDBBtn> */}
-                            <input type="submit" value="Execute" />
+                            <Button type='submit'>Execute</Button>
                         </div>
                     </form>
                 </MDBCol>

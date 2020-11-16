@@ -2,7 +2,7 @@ import Axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import { QueryResult } from "../models/query/QueryReuslt";
 import { QueryRequest } from "../models/query/QueryRequest";
 import { CatalogModel } from '../models/catalog/CatalogModel';
-import { request } from "http";
+import { CatalogTable } from '../models/catalog/CatalogTables';
 
 export class PlayGroundService {
 
@@ -13,10 +13,6 @@ export class PlayGroundService {
 
     public static getInstance(): PlayGroundService {
         return this.instance;
-    }
-
-    private getResourceUrl(apiPath: string) {
-        return this.baseUrl + "/" + apiPath;
     }
 
     public async getCatalogItems(): Promise<Array<CatalogModel>> {
@@ -55,6 +51,12 @@ export class PlayGroundService {
         }
     }
 
+    public async getCatalogTables(catalogId: string): Promise<Array<CatalogTable>> {
+        let config = this.getCallConfig();
+        let result: AxiosResponse<Array<CatalogTable>>  = await Axios.get(this.getResourceUrl(this.API_PATH_CATALOG + '/' + catalogId + '/table'), config);
+        return result.data;
+    }
+
     public async executeSql(query: String): Promise<QueryResult> {
         const API_PATH = "query/sql";
         console.log("Executing the query " + query);
@@ -70,6 +72,8 @@ export class PlayGroundService {
         }
     }
 
+    
+
     private getAccessToken(): string  {
         let idtoken = localStorage.getItem("data_panda_id_token") ? 
             localStorage.getItem("data_panda_id_token") as string 
@@ -84,4 +88,10 @@ export class PlayGroundService {
         };
         return config;
     }
+
+    private getResourceUrl(apiPath: string) {
+        return this.baseUrl + "/" + apiPath;
+    }
+
+
 } 

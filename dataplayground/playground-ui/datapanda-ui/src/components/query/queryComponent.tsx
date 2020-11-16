@@ -74,11 +74,11 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
         let executeForm = this.getForm();
 
         return (
-            <div style={{ margin: '20px' }}>
                 <MDBContainer>
                     <MDBRow>
                         <MDBCol>
                             <br></br>
+                            <p className="h4 text-center mb-4">Interactive SQL</p>
                             {executeForm}
                         </MDBCol>
                     </MDBRow>
@@ -91,7 +91,6 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
                         </MDBCol>
                     </MDBRow>
                 </MDBContainer>
-            </div>
         );
 
     }
@@ -133,7 +132,7 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
             <MDBRow>
                 <MDBCol md="12">
                     <form onSubmit={this.handleSubmit}>
-                        <p className="h4 text-center mb-4">Interactive SQL</p>
+                        
                         <label htmlFor="sqlTextArea" className="grey-text">
                             SQL
                             <div>

@@ -165,9 +165,9 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
         return (
             <MDBContainer>
                 <MDBRow>
-                    <MDBCol md="10">
+                    <MDBCol md="12">
                         <form onSubmit={this.handleSubmit}>
-                            <p className="h4 text-center mb-4">Create Data Source</p>
+                            <p className="h4 text-center mb-4">Data Sources</p>
                             <fieldset disabled={this.props.creating === true}>
                                 <MDBRow>
                                     <MDBCol>
@@ -204,7 +204,7 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
                                 </MDBRow>
                                 
                                 <br />
-                                <div className="text-center mt-4">
+                                <div className="text-center">
                                     <Button type='submit'>Create</Button>
                                 </div>
                                 <br />

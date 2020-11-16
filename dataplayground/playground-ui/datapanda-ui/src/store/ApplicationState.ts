@@ -7,6 +7,8 @@ import { QueryState } from './query/queryState';
 import { queryReducer } from './query/queryReducer';
 import { PlayGroundAppState } from './playGroundApp/playGroundAppState';
 import { playGroundAppReducer } from './playGroundApp/playGroundAppReducers';
+import { TableState } from './table/tableState';
+import { tableReducer } from './table/tableReducer';
 
 
 
@@ -15,6 +17,7 @@ export interface ApplicationRootState {
     catalog: CatalogState;
     query: QueryState; 
     playGroundApp: PlayGroundAppState;
+    table: TableState;
 }
 
 
@@ -25,6 +28,7 @@ const store = createStore<ApplicationRootState, any, any, any>(
         ,catalog: catalogReducer
         ,query: queryReducer
         ,playGroundApp: playGroundAppReducer
+        ,table: tableReducer
     }));
 
 export default store;

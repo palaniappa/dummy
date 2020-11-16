@@ -67,7 +67,7 @@ class App extends React.Component<IPlayGroundAppProps, {}> {
               className="d-inline-block align-top"
               alt="Data Panda"
             />
-            <strong className="white-text"> Data Panda</strong>
+            <strong className="white-text"> Data Panda Playground</strong>
           </MDBNavbarBrand>
         </MDBNavbar>
       </Router>

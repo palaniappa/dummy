@@ -50,7 +50,7 @@ class CatalogComponent extends React.Component<ICatalogComponentProps, Object> {
 
     private getColumnHeaders():JSX.Element  {
         
-        let columns = ["Id", "Name", "Connector Id", "Catalog Type", "Properties"]
+        let columns = ["Id", "Name", "Catalog Type", "Properties"]
 
         let headers:Array<JSX.Element>  = [];
         columns.forEach( c => {
@@ -82,7 +82,6 @@ class CatalogComponent extends React.Component<ICatalogComponentProps, Object> {
         let tds: Array<JSX.Element> = [];
         tds.push(<td>{catalog.id}</td>);
         tds.push(<td>{catalog.name}</td>);
-        tds.push(<td>{catalog.connectorId}</td>);
         tds.push(<td>{catalog.catalogType}</td>);
         tds.push(<td>{this.getProperties(catalog.properties)}</td>);
 

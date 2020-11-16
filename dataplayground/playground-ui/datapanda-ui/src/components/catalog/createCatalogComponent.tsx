@@ -42,7 +42,7 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
 
     constructor(props: ICreateCatalogComponentProps) {
         super(props);
-        this.state = { catalogBeingCreated: { id: "", catalogType: CatalogType.HIVE, name: "", connectorId: "hive-hadoop2", properties: {} } }
+        this.state = { catalogBeingCreated: { id: "", catalogType: CatalogType.S3, name: "", properties: {} } }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -104,14 +104,14 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
 
         const theme = {
             blue: {
-              default: "#3f51b5",
-              hover: "#283593"
+                default: "#3f51b5",
+                hover: "#283593"
             },
             pink: {
-              default: "#e91e63",
-              hover: "#ad1457"
+                default: "#e91e63",
+                hover: "#ad1457"
             }
-          };
+        };
 
         const Button = styled.button`
                         background-color: ${theme['blue'].default};
@@ -159,15 +159,6 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
                                 />
                                 <br />
 
-                                <label htmlFor="connectorId" className="grey-text">
-                                    Connector Id
-                            </label>
-                                <input type="text" id="connectorId" className="form-control"
-                                    disabled={true}
-                                    value={this.state.catalogBeingCreated.connectorId}
-                                />
-                                <br />
-
                                 <label htmlFor="catalogType" className="grey-text">
                                     Type
                             </label>
@@ -177,10 +168,10 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
                                 />
                                 <br />
                                 <div className="text-center mt-4">
-                                    
+
                                     <Button type='submit'>Create</Button>
                                 </div>
-                                <br/>
+                                <br />
                             </fieldset>
                         </form>
                     </MDBCol>

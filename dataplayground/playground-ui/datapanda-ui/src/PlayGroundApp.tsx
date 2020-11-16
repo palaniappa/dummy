@@ -98,7 +98,7 @@ class App extends React.Component<IPlayGroundAppProps, {}> {
               itemId: '/model',
               subNav: [
                 {
-                  title: 'Catalogs',
+                  title: 'Data Sources',
                   itemId: '/model/catalogs',
                 },
                 {
@@ -106,7 +106,7 @@ class App extends React.Component<IPlayGroundAppProps, {}> {
                   itemId: '/model/tables',
                 },
                 {
-                  title: 'Computed Tables',
+                  title: 'Derived Tables',
                   itemId: '/model/computed-tables',
                 },
               ],

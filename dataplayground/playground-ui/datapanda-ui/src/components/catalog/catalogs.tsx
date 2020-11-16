@@ -44,7 +44,7 @@ class CatalogComponent extends React.Component<ICatalogComponentProps, Object> {
 
     private getColumnHeaders():JSX.Element  {
         
-        let columns = ["","Id", "Name", "Catalog Type", "Properties"]
+        let columns = ["","Id", "Name", "Data Source", "Properties"]
 
         let headers:Array<JSX.Element>  = [];
         columns.forEach( c => {

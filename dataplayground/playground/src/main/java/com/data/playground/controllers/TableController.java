@@ -1,18 +1,22 @@
 package com.data.playground.controllers;
 
+import com.data.playground.exception.PlaygroundException;
 import com.data.playground.hivemetastore.ThriftHiveMetastoreClient;
 import com.data.playground.model.data.dto.TableField;
 import com.data.playground.model.data.dto.TableDTO;
 import com.data.playground.model.data.dto.TableResponseDTO;
-import com.data.playground.repositories.DatabaseRepository;
-import com.data.playground.repositories.entity.Database;
+import com.data.playground.repositories.TableRepository;
+import com.data.playground.repositories.entity.Catalog;
+import com.data.playground.repositories.entity.DPTable;
+import com.data.playground.services.CatalogService;
+import com.data.playground.services.TableService;
+import com.data.playground.util.CommonUtil;
 import com.data.playground.util.TableCommandParser;
 import com.google.common.net.HostAndPort;
 import org.apache.hadoop.hive.metastore.api.FieldSchema;
 import org.apache.hadoop.hive.metastore.api.SerDeInfo;
 import org.apache.hadoop.hive.metastore.api.StorageDescriptor;
 import org.apache.hadoop.hive.metastore.api.Table;
-import org.apache.thrift.Option;
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,12 +32,13 @@ import java.util.Optional;
 public class TableController {
 
     private static String driverClass = "org.apache.hive.jdbc.HiveDriver";
-    private static String DEFAULT_DB_NAME = "default";
 
     @Autowired
-    private DatabaseRepository databaseRepository;
+    private CatalogService catalogService;
+    @Autowired
+    private TableService tableService;
 
-    @RequestMapping(value = "/createTable", method = RequestMethod.POST)
+    @RequestMapping(value = "/createTable",  method = RequestMethod.POST)
     public ResponseEntity<TableResponseDTO> createTable(@RequestBody TableDTO tableDTO) throws Exception {
 
         String createSql = TableCommandParser.getHiveCreateExternalTableCommand(tableDTO);
@@ -53,7 +58,7 @@ public class TableController {
 
         connection.close();
 
-        Table table = this.getHiveTable(DEFAULT_DB_NAME, tableDTO.getTableName());
+        Table table = this.getHiveTable("default", tableDTO.getTableName());
 
         TableResponseDTO res = new TableResponseDTO();
         res.setCreatedTable(table);
@@ -65,18 +70,31 @@ public class TableController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<TableResponseDTO> create(@RequestBody TableDTO tableDTO) throws Exception {
 
-        Database db = this.getUserDb(tableDTO.getUserId());
+        String userId = CommonUtil.getCurrentUserId();
+
+        Optional<Catalog> catalog = this.catalogService.getCatalogByCatalogIdAndUserId(tableDTO.getCatalogId(), userId);
+        if(catalog.isPresent() == false) {
+            throw new PlaygroundException(String.format("Failed to get the catalog for the user with id %s", tableDTO.getCatalogId()));
+        }
+
+        DPTable dpTable = new DPTable();
+        dpTable.setId(tableDTO.getTableName());
+        dpTable.setCatalogId(tableDTO.getCatalogId());
+        dpTable.setDatabaseName(tableDTO.getDatabaseName());
+        dpTable.setName(tableDTO.getTableName());
+        dpTable.setUserId(userId);
+        this.tableService.upsertTable(dpTable);
 
         ThriftHiveMetastoreClient client = new ThriftHiveMetastoreClient(HostAndPort.fromParts("localhost", 9083));
 
         try {
-            client.dropTable(db.getName(), tableDTO.getTableName(), false);
+            client.dropTable(tableDTO.getDatabaseName(), tableDTO.getTableName(), false);
         } catch (Exception e) {
             //ignore
         }
 
         Table table = new Table();
-        table.setDbName(db.getName());
+        table.setDbName(tableDTO.getDatabaseName());
         table.setTableName(tableDTO.getTableName());
         table.setTableType("EXTERNAL_TABLE");
         table.setParameters(new HashMap<>());
@@ -109,7 +127,7 @@ public class TableController {
 
         client.createTable(table);
 
-        table = this.getHiveTable(db.getName(), table.getTableName());
+        table = this.getHiveTable(tableDTO.getDatabaseName(), table.getTableName());
         TableResponseDTO res = new TableResponseDTO();
         res.setCreatedTable(table);
 
@@ -117,24 +135,26 @@ public class TableController {
 
     }
 
-    @RequestMapping(value = "/{userId}/{tableId}", method = RequestMethod.GET)
-    public ResponseEntity<Table> getTable(@PathVariable(value="userId") String userId, @PathVariable(value="tableId") String tableId) throws Exception {
-        Database db = this.getUserDb(userId);
+    @RequestMapping(value = "/{tableId}", method = RequestMethod.GET)
+    public ResponseEntity<Table> getTable(@PathVariable(value="tableId") String tableId) throws Exception {
+        String userId = CommonUtil.getCurrentUserId();
+        Optional<DPTable> dpTable = this.tableService.getTable(tableId,userId);
+        if(dpTable.isPresent() == false) {
+            throw new PlaygroundException(String.format("Failed to find the table with id %s", tableId));
+        }
 
-        String dbName = db.getName();
-
-        Table table = this.getHiveTable(dbName, tableId);
+        Table table = this.getHiveTable(dpTable.get().getDatabaseName(), tableId);
         return new ResponseEntity<>(table, HttpStatus.OK);
 
     }
 
-    private Database getUserDb(String userId) throws Exception {
-        Optional<Database> db = this.databaseRepository.findOneByUserIdEquals(userId);
-        if(!db.isPresent()) {
-            throw new Exception("Failed to find the user DB");
-        }
-        return db.get();
-    }
+//    private Database getUserDb(String userId) throws Exception {
+//        Optional<Database> db = this.tableRepository.findOneByUserIdEquals(userId);
+//        if(!db.isPresent()) {
+//            throw new Exception("Failed to find the user DB");
+//        }
+//        return db.get();
+//    }
 
     private Table getHiveTable(String databaseName, String tableName) throws TException {
         ThriftHiveMetastoreClient client = new ThriftHiveMetastoreClient(HostAndPort.fromParts("localhost", 9083));

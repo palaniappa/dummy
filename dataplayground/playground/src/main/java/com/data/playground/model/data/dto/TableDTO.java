@@ -5,7 +5,7 @@ import java.util.List;
 public class TableDTO {
     private String tableName;
     private String catalogId;
-    private String userId;
+    private String databaseName;
     private String locationPath;
 
     private List<TableField> fields;
@@ -35,19 +35,19 @@ public class TableDTO {
         this.catalogId = catalogId;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public List<TableField> getFields() {
         return fields;
     }
 
     public void setFields(List<TableField> fields) {
         this.fields = fields;
+    }
+
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
+    public void setDatabaseName(String databaseName) {
+        this.databaseName = databaseName;
     }
 }

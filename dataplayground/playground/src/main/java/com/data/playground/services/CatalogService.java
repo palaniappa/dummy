@@ -3,15 +3,18 @@ package com.data.playground.services;
 import com.data.playground.exception.PlaygroundException;
 import com.data.playground.model.catalog.CatalogConnectorProperty;
 import com.data.playground.model.data.dto.UserCatalogType;
+import com.data.playground.repositories.CatalogRepository;
+import com.data.playground.repositories.entity.Catalog;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CatalogService {
+
+    @Autowired
+    private CatalogRepository catalogRepository;
 
     private static final String CATALOG_TYPE_HIVE = "HIVE";
 
@@ -63,5 +66,22 @@ public class CatalogService {
             userProps.put(prop.getName(),dbCatalogProperties.get(prop.getDisplayName()));
         }
         return userProps;
+    }
+
+    public List<Catalog> getAllCatalogs(String userId) {
+        List<Catalog> catalogs = this.catalogRepository.findAllByUserId(userId);
+        return catalogs;
+    }
+
+    public Catalog saveCatalog(Catalog catalog) {
+        return this.catalogRepository.save(catalog);
+    }
+
+    public Optional<Catalog> getCatalogByCatalogIdAndUserId(String catalogId, String userId) {
+        return this.catalogRepository.findCatalogByIdEqualsAndUserIdEquals(catalogId,userId);
+    }
+
+    public void deleteCatalog(Catalog catalog) {
+        this.catalogRepository.delete(catalog);
     }
 }

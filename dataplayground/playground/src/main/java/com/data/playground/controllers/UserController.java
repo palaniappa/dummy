@@ -1,7 +1,6 @@
 package com.data.playground.controllers;
 
-import com.data.playground.repositories.DatabaseRepository;
-import com.data.playground.repositories.entity.Database;
+import com.data.playground.repositories.TableRepository;
 import com.data.playground.repositories.entity.UserModel;
 import com.data.playground.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,31 +21,31 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
-    private DatabaseRepository databaseRepository;
+    private TableRepository tableRepository;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ResponseEntity<UserModel> login(@RequestParam String userEmail, @RequestParam String userName) {
-
-        Optional<UserModel> existingUser =  this.userRepository.findById(userEmail);
-        UserModel user;
-        if(!existingUser.isPresent()) {
-            user  = new UserModel();
-            user.setId(userEmail);
-            user.setUsername(userName);
-            user.setUserEmail(userEmail);
-            this.userRepository.save(user);
-
-            Database db = new Database();
-            String name = "db_" + user.getUserEmail().replaceAll(".","_").replaceAll("@","_").toLowerCase();
-            db.setId("default");
-            db.setName("default");
-            db.setUserId(user.getId());
-            this.databaseRepository.save(db);
-        }
-        else {
-            user = existingUser.get();
-        }
-        return  new ResponseEntity<>(user, HttpStatus.OK);
-
-    }
+//    @RequestMapping(value = "/login", method = RequestMethod.GET)
+//    public ResponseEntity<UserModel> login(@RequestParam String userEmail, @RequestParam String userName) {
+//
+//        Optional<UserModel> existingUser =  this.userRepository.findById(userEmail);
+//        UserModel user;
+//        if(!existingUser.isPresent()) {
+//            user  = new UserModel();
+//            user.setId(userEmail);
+//            user.setUsername(userName);
+//            user.setUserEmail(userEmail);
+//            this.userRepository.save(user);
+//
+////            Database db = new Database();
+////            String name = "db_" + user.getUserEmail().replaceAll(".","_").replaceAll("@","_").toLowerCase();
+////            db.setId("default");
+////            db.setName("default");
+////            db.setUserId(user.getId());
+////            this.tableRepository.save(db);
+//        }
+//        else {
+//            user = existingUser.get();
+//        }
+//        return  new ResponseEntity<>(user, HttpStatus.OK);
+//
+//    }
 }

@@ -3,7 +3,7 @@ package com.data.playground.model.data.dto;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CatalogDTO {
+public class Catalog {
 
     private String id;
 

@@ -1,7 +1,7 @@
 import { CatalogActions } from "./types";
 import { Dispatch } from 'redux';
 import * as refreshActions from './refresh-actions';
-import * as createActions from './create-catalog-actions';
+import * as createActions from './catalogActions';
 import { PlayGroundService } from "../../service/PlayGroundService";
 import { CatalogModel } from "../../models/catalog/CatalogModel";
 
@@ -36,4 +36,15 @@ export async function addCatalog( dispatch: Dispatch<CatalogActions>, catalog: C
         }
     );
     
+}
+
+export async function deleteCatalog( dispatch: Dispatch<CatalogActions>, catalogId: string) {
+    PlayGroundService.getInstance().deleteCatalog(catalogId).then( (items) => {
+        loadCatalogs(dispatch);
+    })
+    .catch(
+        (error) => {
+            dispatch(refreshActions.refereshFailed(error.message));
+        }
+    );
 }

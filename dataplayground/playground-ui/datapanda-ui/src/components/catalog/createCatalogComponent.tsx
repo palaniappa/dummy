@@ -2,7 +2,7 @@
 import { CatalogModel } from '../../models/catalog/CatalogModel';
 import { ApplicationRootState } from '../../store/ApplicationState';
 import { CatalogActions } from '../../store/catalog/types';
-import * as asyncactions from '../../store/catalog/async-actions';
+import * as asyncactions from '../../store/catalog/catalogAsyncActions';
 import { Dispatch } from 'redux';
 import React from 'react';
 import { connect } from 'react-redux';

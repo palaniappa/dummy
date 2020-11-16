@@ -74,22 +74,24 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
         let executeForm = this.getForm();
 
         return (
-            <MDBContainer>
-                <MDBRow>
-                    <MDBCol>
-                        <br></br>
-                        {executeForm}
-                    </MDBCol>
-                </MDBRow>
-                <MDBRow>
-                    <MDBCol>{lastError}</MDBCol>
-                </MDBRow>
-                <MDBRow>
-                    <MDBCol>
-                        <QueryResultComponent />
-                    </MDBCol>
-                </MDBRow>
-            </MDBContainer>
+            <div style={{ margin: '20px' }}>
+                <MDBContainer>
+                    <MDBRow>
+                        <MDBCol>
+                            <br></br>
+                            {executeForm}
+                        </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                        <MDBCol>{lastError}</MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                        <MDBCol>
+                            <QueryResultComponent />
+                        </MDBCol>
+                    </MDBRow>
+                </MDBContainer>
+            </div>
         );
 
     }

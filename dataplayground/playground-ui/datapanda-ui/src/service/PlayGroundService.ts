@@ -44,6 +44,17 @@ export class PlayGroundService {
 
     }
 
+    public async deleteCatalog(catalogId: string): Promise<void> {
+        try {
+            let config = this.getCallConfig();
+            await Axios.delete(this.getResourceUrl(this.API_PATH_CATALOG + "/" + catalogId),config);
+            return;
+        }
+        catch(error) {
+            throw new Error(error);
+        }
+    }
+
     public async executeSql(query: String): Promise<QueryResult> {
         const API_PATH = "query/sql";
         console.log("Executing the query " + query);

@@ -1,7 +1,7 @@
 import { CatalogModel } from "../../models/catalog/CatalogModel";
 import { ActionType } from 'typesafe-actions';
 import * as refreshActions from './refresh-actions';
-import * as createActions from './create-catalog-actions';
+import * as createActions from './catalogActions';
 
 export type CatalogRefreshActions = ActionType<typeof refreshActions>  | refreshActions.CatalogRefreshLoadingAction | refreshActions.CatalogRefreshAction | refreshActions.CatalogRefreshFailedAction;
 export type CatalogCreateActions = ActionType<typeof createActions>;

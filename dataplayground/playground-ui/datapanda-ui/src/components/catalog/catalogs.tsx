@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import * as asyncactions from '../../store/catalog/async-actions';
+import * as asyncactions from '../../store/catalog/catalogAsyncActions';
 import { CatalogActions } from '../../store/catalog/types';
 import { ApplicationRootState } from '../../store/ApplicationState';
 import  CreateCatalogComponent from './createCatalogComponent';
-import { MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact';
+import { MDBTable, MDBTableHead, MDBTableBody, MDBIcon } from 'mdbreact';
 import { CatalogModel } from '../../models/catalog/CatalogModel';
+
 
 const mapStateToProps = (state: ApplicationRootState) => {
     return {
@@ -17,6 +18,7 @@ const mapStateToProps = (state: ApplicationRootState) => {
 const mapDispatcherToProps = (dispatch: Dispatch<CatalogActions>) => {
     return {
         loadCatalogs: () => asyncactions.loadCatalogs(dispatch)
+        , deleteCatalog:  (catalogId: string) => asyncactions.deleteCatalog(dispatch,catalogId)
     }
 }
 
@@ -35,22 +37,14 @@ class CatalogComponent extends React.Component<ICatalogComponentProps, Object> {
         return (
             <div style={{ margin: '20px' }}>
                 <CreateCatalogComponent/>
-                {catalogTable}
-
-                {/* <h2>Catalogs</h2>
-                {this.props.catalogs.loading && <div>Loading...</div>}
-                {this.props.catalogs.error && <div>{this.props.catalogs.error}</div>}
-                <ul>
-                    {this.props.catalogs.items.map(c => <li key={c.id}>{c.id} : {c.name} : {c.connectorId} </li>)}
-                </ul> */}
-                
+                {catalogTable}                
             </div>
         );
     }
 
     private getColumnHeaders():JSX.Element  {
         
-        let columns = ["Id", "Name", "Catalog Type", "Properties"]
+        let columns = ["","Id", "Name", "Catalog Type", "Properties"]
 
         let headers:Array<JSX.Element>  = [];
         columns.forEach( c => {
@@ -79,7 +73,10 @@ class CatalogComponent extends React.Component<ICatalogComponentProps, Object> {
 
     private getRow(index:number, catalog: CatalogModel): JSX.Element {
 
+        let deleteIcon = (<td><MDBIcon id={catalog.id} icon="trash-alt" onClick={this.onDeleteClick.bind(this)}/></td>);
+
         let tds: Array<JSX.Element> = [];
+        tds.push(deleteIcon)
         tds.push(<td>{catalog.id}</td>);
         tds.push(<td>{catalog.name}</td>);
         tds.push(<td>{catalog.catalogType}</td>);
@@ -90,6 +87,12 @@ class CatalogComponent extends React.Component<ICatalogComponentProps, Object> {
                 {tds}
             </tr>
         );
+    }
+
+    private onDeleteClick(event: React.SyntheticEvent<HTMLButtonElement>) {
+        let catalogIdToDelete = (event.target as HTMLButtonElement).id;
+        console.log('Delete clicked for id' +  catalogIdToDelete);
+        this.props.deleteCatalog(catalogIdToDelete);
     }
 
     private getCatalogTable() {

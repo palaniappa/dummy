@@ -49,16 +49,43 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
 
     public handleChange(event: React.ChangeEvent) {
         let textbox = event.target as HTMLInputElement;
-        let idValue = textbox.value;
-        idValue = idValue.toUpperCase().replaceAll(' ', '_');
+        if(textbox.id == "catalogName"){
+            let idValue = textbox.value;
+            idValue = idValue.toUpperCase().replaceAll(' ', '_');
 
-        let catalogBeingCreated = { ...this.state.catalogBeingCreated, name: textbox.value, id: idValue };
-        this.setState({ catalogBeingCreated })
+            let catalogBeingCreated = { ...this.state.catalogBeingCreated, name: textbox.value, id: idValue };
+            this.setState({ catalogBeingCreated })
+        }
+        // else {
+
+        //     let properyName = textbox.id.replace("_control_id","");
+
+        //     let catalogBeingCreated = { ...this.state.catalogBeingCreated, properties: {...this.state.catalogBeingCreated.properties, this.state.catalogBeingCreated.properties[properyName]}  };
+        //     this.setState({ catalogBeingCreated })
+        // }
+        
     }
 
     public handleSubmit(event: React.FormEvent) {
         event.preventDefault();
-        this.props.createCatalog(this.state.catalogBeingCreated);
+        let props = this.getApplicableProps(this.state.catalogBeingCreated.catalogType);
+
+        let propertyValues: {[name:string]:string} = {};
+        let formElement = event.target as HTMLFormElement;
+        for(let i=0;i<formElement.elements.length;++i){
+            let inputElement = formElement.elements.item(i) as HTMLInputElement; 
+            if(inputElement) {
+                if(props.indexOf(inputElement.name) > -1) {
+                    propertyValues[inputElement.name] = inputElement.value;
+                }
+            }
+
+        }
+
+        let catalogBeingCreated = { ...this.state.catalogBeingCreated, properties: propertyValues };
+        this.setState({ catalogBeingCreated })
+        
+        this.props.createCatalog(catalogBeingCreated);
     }
 
     render() {
@@ -133,42 +160,44 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
                         }
                         `;
 
+        let catalogProps = this.getCatalogPropsForm();
 
         return (
             <MDBContainer>
                 <MDBRow>
-                    <MDBCol md="6">
+                    <MDBCol md="10">
                         <form onSubmit={this.handleSubmit}>
                             <p className="h4 text-center mb-4">Create Catalog</p>
                             <fieldset disabled={this.props.creating === true}>
-                                <label htmlFor="catalogId" className="grey-text">
-                                    Id
-                            </label>
-                                <input type="text" id="catalogId" className="form-control"
-                                    disabled={true}
-                                    value={this.state.catalogBeingCreated.id}
-                                />
-                                <br />
+                                <MDBRow>
+                                    <MDBCol>
+                                    <label htmlFor="catalogId" className="grey-text">Id</label>
+                                        <input type="text" id="catalogId" className="form-control"
+                                            disabled={true}
+                                            value={this.state.catalogBeingCreated.id}
+                                        />
+                                        <br />
 
-                                <label htmlFor="catalogName" className="grey-text">
-                                    Name
-                            </label>
-                                <input type="text" id="catalogName" className="form-control"
-                                    value={this.state.catalogBeingCreated.name}
-                                    onChange={this.handleChange}
-                                />
-                                <br />
+                                        <label htmlFor="catalogName" className="grey-text">Name</label>
+                                        <input type="text" id="catalogName" className="form-control"
+                                            value={this.state.catalogBeingCreated.name}
+                                            onChange={this.handleChange}
+                                        />
+                                        <br />
 
-                                <label htmlFor="catalogType" className="grey-text">
-                                    Type
-                            </label>
-                                <input type="text" id="catalogType" className="form-control"
-                                    disabled={true}
-                                    value={this.state.catalogBeingCreated.catalogType}
-                                />
+                                        <label htmlFor="catalogType" className="grey-text">Type</label>
+                                        <input type="text" id="catalogType" className="form-control"
+                                            disabled={true}
+                                            value={this.state.catalogBeingCreated.catalogType}
+                                        />
+                                    </MDBCol>
+                                    <MDBCol>
+                                        {catalogProps}
+                                    </MDBCol>
+                                </MDBRow>
+                                
                                 <br />
                                 <div className="text-center mt-4">
-
                                     <Button type='submit'>Create</Button>
                                 </div>
                                 <br />
@@ -180,6 +209,34 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
         );
     }
 
+    private getCatalogPropsForm(): Array<JSX.Element> {
+        let applicableProps = this.getApplicableProps(this.state.catalogBeingCreated.catalogType);
+        let formItems:Array<JSX.Element> = [];
+        applicableProps.forEach( p => {
+            let propControls = (
+                <div>
+                     <label htmlFor={p + '_control_id'} className="grey-text">{p}</label>
+                    <input type="text" id={p + '_control_id'} name={p} className="form-control"
+                        value={this.state.catalogBeingCreated.properties[p]}
+                    />
+                    <br />
+                </div>
+            );
+            formItems.push(propControls);
+        });
+        return formItems;
+    }
+
+    private getApplicableProps(catalogType: string) {
+        let applicableProps = [];
+        if(catalogType === "S3") {
+            // TODO avoid this hardcoding..
+            applicableProps.push("S3 Endpoint");
+            applicableProps.push("AWS Access Key");
+            applicableProps.push("AWS Secret Key");
+        }
+        return applicableProps;
+    }
 }
 
 export default connect(mapStateToProps, mapDispatcherToProps)(CreateCatalogComponent); 

@@ -18,3 +18,12 @@
 - Add catalog pagination.
 - Add key to the list items.
 - Add the google client id in config in UI.
+- Add loading status to table details.
+
+
+
+
+# Key Analysis
+- Scale
+- Platform & Industry Specific Pre defined package
+- Interconnectivity

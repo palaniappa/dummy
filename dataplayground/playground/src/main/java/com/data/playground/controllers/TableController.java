@@ -5,7 +5,6 @@ import com.data.playground.hivemetastore.ThriftHiveMetastoreClient;
 import com.data.playground.model.data.dto.TableField;
 import com.data.playground.model.data.dto.TableDTO;
 import com.data.playground.model.data.dto.TableResponseDTO;
-import com.data.playground.repositories.TableRepository;
 import com.data.playground.repositories.entity.Catalog;
 import com.data.playground.repositories.entity.DPTable;
 import com.data.playground.services.CatalogService;
@@ -24,8 +23,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
+
+import static com.data.playground.util.TableCommandParser.getPlaygroundFieldType;
 
 @RestController
 @RequestMapping(value = "/table")
@@ -135,7 +138,7 @@ public class TableController {
     }
 
     @RequestMapping(value = "/{tableId}", method = RequestMethod.GET)
-    public ResponseEntity<Table> getTable(@PathVariable(value="tableId") String tableId) throws Exception {
+    public ResponseEntity<TableDTO> getTable(@PathVariable(value="tableId") String tableId) throws Exception {
         String userId = CommonUtil.getCurrentUserId();
         Optional<DPTable> dpTable = this.tableService.getTable(tableId,userId);
         if(dpTable.isPresent() == false) {
@@ -147,17 +150,31 @@ public class TableController {
             throw  new PlaygroundException(String.format("Failed to get the catalog with id %s", dpTable.get().getCatalogId()));
 
         Table table = this.getHiveTable(catalog.get().getDatabaseName(), tableId);
-        return new ResponseEntity<>(table, HttpStatus.OK);
+
+        TableDTO tableDTO = this.transformTableDto(dpTable.get(), catalog.get(), table);
+
+        return new ResponseEntity<>(tableDTO, HttpStatus.OK);
 
     }
 
-//    private Database getUserDb(String userId) throws Exception {
-//        Optional<Database> db = this.tableRepository.findOneByUserIdEquals(userId);
-//        if(!db.isPresent()) {
-//            throw new Exception("Failed to find the user DB");
-//        }
-//        return db.get();
-//    }
+    private TableDTO transformTableDto(DPTable dpTable, Catalog catalog, Table hiveTable) throws PlaygroundException{
+        TableDTO tableDTO = new TableDTO();
+        tableDTO.setTableName(dpTable.getName());
+        tableDTO.setCatalogId(dpTable.getCatalogId());
+        tableDTO.setDatabaseName(catalog.getDatabaseName());
+        tableDTO.setLocationPath(hiveTable.getSd().getLocation());
+
+        List<TableField> tableFields = new ArrayList<>();
+        for(FieldSchema col : hiveTable.getSd().getCols()) {
+            TableField tableField = new TableField();
+            tableField.setFieldName(col.getName());
+            tableField.setFieldType(getPlaygroundFieldType(col.getType()));
+            tableFields.add(tableField);
+        }
+
+        tableDTO.setFields(tableFields);
+        return  tableDTO;
+    }
 
     private Table getHiveTable(String databaseName, String tableName) throws TException {
         ThriftHiveMetastoreClient client = new ThriftHiveMetastoreClient(HostAndPort.fromParts("localhost", 9083));

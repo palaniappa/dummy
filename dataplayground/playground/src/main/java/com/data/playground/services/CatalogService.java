@@ -54,7 +54,14 @@ public class CatalogService {
         List<CatalogConnectorProperty> defaultProperties = this.getDefaultCatalogConnectorPropertyTypes(catalogType);
         Map<String,String> userProps = new HashMap<>();
         for(CatalogConnectorProperty prop : defaultProperties) {
-            userProps.put(prop.getDisplayName(),dbCatalogProperties.get(prop.getName()));
+//            if(prop.isKey()) {
+//                userProps.put(prop.getDisplayName(),"************************");
+//            }
+//            else
+                {
+
+                userProps.put(prop.getDisplayName(),dbCatalogProperties.get(prop.getName()));
+            }
         }
         return userProps;
     }

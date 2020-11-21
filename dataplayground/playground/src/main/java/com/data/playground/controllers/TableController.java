@@ -4,7 +4,6 @@ import com.data.playground.exception.PlaygroundException;
 import com.data.playground.hivemetastore.ThriftHiveMetastoreClient;
 import com.data.playground.model.data.dto.TableField;
 import com.data.playground.model.data.dto.TableDTO;
-import com.data.playground.model.data.dto.TableResponseDTO;
 import com.data.playground.repositories.entity.Catalog;
 import com.data.playground.repositories.entity.DPTable;
 import com.data.playground.services.CatalogService;
@@ -42,7 +41,7 @@ public class TableController {
     private TableService tableService;
 
     @RequestMapping(value = "/createTable",  method = RequestMethod.POST)
-    public ResponseEntity<TableResponseDTO> createTable(@RequestBody TableDTO tableDTO) throws Exception {
+    public ResponseEntity<Table> createTable(@RequestBody TableDTO tableDTO) throws Exception {
 
         String createSql = TableCommandParser.getHiveCreateExternalTableCommand(tableDTO);
 
@@ -63,15 +62,12 @@ public class TableController {
 
         Table table = this.getHiveTable("default", tableDTO.getTableName());
 
-        TableResponseDTO res = new TableResponseDTO();
-        res.setCreatedTable(table);
-
-        return new ResponseEntity<>(res, HttpStatus.CREATED);
+        return new ResponseEntity<>(table, HttpStatus.CREATED);
 
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<TableResponseDTO> create(@RequestBody TableDTO tableDTO) throws Exception {
+    public ResponseEntity<TableDTO> create(@RequestBody TableDTO tableDTO) throws Exception {
 
         String userId = CommonUtil.getCurrentUserId();
 
@@ -90,13 +86,13 @@ public class TableController {
         ThriftHiveMetastoreClient client = new ThriftHiveMetastoreClient(HostAndPort.fromParts("localhost", 9083));
 
         try {
-            client.dropTable(tableDTO.getDatabaseName(), tableDTO.getTableName(), false);
+            client.dropTable(catalog.get().getDatabaseName(), tableDTO.getTableName(), false);
         } catch (Exception e) {
             //ignore
         }
 
         Table table = new Table();
-        table.setDbName(tableDTO.getDatabaseName());
+        table.setDbName(catalog.get().getDatabaseName());
         table.setTableName(tableDTO.getTableName());
         table.setTableType("EXTERNAL_TABLE");
         table.setParameters(new HashMap<>());
@@ -129,11 +125,11 @@ public class TableController {
 
         client.createTable(table);
 
-        table = this.getHiveTable(tableDTO.getDatabaseName(), table.getTableName());
-        TableResponseDTO res = new TableResponseDTO();
-        res.setCreatedTable(table);
+        table = this.getHiveTable(catalog.get().getDatabaseName(), table.getTableName());
 
-        return new ResponseEntity<>(res, HttpStatus.CREATED);
+        TableDTO resultTable = this.transformTableDto(dpTable, catalog.get(), table);
+
+        return new ResponseEntity<>(resultTable, HttpStatus.CREATED);
 
     }
 

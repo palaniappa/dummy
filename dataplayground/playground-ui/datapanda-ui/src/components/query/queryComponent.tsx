@@ -128,7 +128,7 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
                         `;
 
         return (
-        <MDBContainer>
+        <MDBContainer fluid={true}>
             <MDBRow>
                 <MDBCol md="12">
                     <form onSubmit={this.handleSubmit}>

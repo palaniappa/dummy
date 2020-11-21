@@ -8,7 +8,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { CatalogType } from '../../models/catalog/CatalogType';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
-import styled from "styled-components";
+import { PlaygroundButton } from '../componentConstants';
 
 
 export interface ICreateCatalogComponentStateProps {
@@ -129,41 +129,12 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
 
     private getForm() {
 
-        const theme = {
-            blue: {
-                default: "#3f51b5",
-                hover: "#283593"
-            },
-            pink: {
-                default: "#e91e63",
-                hover: "#ad1457"
-            }
-        };
-
-        const Button = styled.button`
-                        background-color: ${theme['blue'].default};
-                        color: white;
-                        padding: 5px 15px;
-                        border-radius: 5px;
-                        outline: 0;
-                        text-transform: uppercase;
-                        margin: 10px 0px;
-                        cursor: pointer;
-                        box-shadow: 0px 2px 2px lightgray;
-                        transition: ease background-color 250ms;
-                        &:hover {
-                        background-color: ${theme['blue'].hover};
-                        }
-                        &:disabled {
-                        cursor: default;
-                        opacity: 0.7;
-                        }
-                        `;
+        
 
         let catalogProps = this.getCatalogPropsForm();
 
         return (
-            <MDBContainer>
+            <MDBContainer fluid={true}>
                 <MDBRow>
                     <MDBCol md="12">
                         <form onSubmit={this.handleSubmit}>
@@ -205,7 +176,7 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
                                 
                                 <br />
                                 <div className="text-center">
-                                    <Button type='submit'>Create</Button>
+                                    <PlaygroundButton type='submit'>Create</PlaygroundButton>
                                 </div>
                                 <br />
                             </fieldset>

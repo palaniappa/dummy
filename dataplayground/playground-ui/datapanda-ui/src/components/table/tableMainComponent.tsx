@@ -7,15 +7,21 @@ import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import { CatalogModel } from '../../models/catalog/CatalogModel';
 import { CatalogActions } from '../../store/catalog/types';
 import * as asyncactions from '../../store/catalog/catalogAsyncActions';
-import { loadTablesOfSelectedCatalog } from '../../store/table/tableAsyncActions';
+import { loadTablesOfSelectedCatalog, loadTableDetails } from '../../store/table/tableAsyncActions';
 import { TableActions } from '../../store/table/tableActions';
 import { MDBTable, MDBTableHead, MDBTableBody, MDBIcon } from 'mdbreact';
 import { CatalogTable, CatalogTables } from '../../models/catalog/CatalogTables';
+import { parseConfigFileTextToJson } from 'typescript';
+import { TableDetails } from '../../models/table/TableDetails';
+import { stat } from 'fs';
+import { create } from 'domain';
 
 interface ITableMainComponentStateProps {
     catalogs: Array<CatalogModel>;
     catalogTables?: CatalogTables;
     selectedDataSource: string;
+    selectedTableId: string;
+    tableDetails?: TableDetails;
 }
 
 const mapStateToProps = (state: ApplicationRootState): ITableMainComponentStateProps => {
@@ -23,6 +29,8 @@ const mapStateToProps = (state: ApplicationRootState): ITableMainComponentStateP
         catalogs: state.catalog.catalogItems.items
         , catalogTables: state.table.catalogTables
         , selectedDataSource: state.table.selectedDataSource
+        , selectedTableId: state.table.selectedTableId
+        , tableDetails: state.table.tableDetails
     };
 }
 
@@ -30,6 +38,7 @@ const mapDispatcherToProps = (dispatch: Dispatch<CatalogActions|TableActions>) =
     return {
         loadCatalogs: () => asyncactions.loadCatalogs(dispatch)
         , loadTablesOfSelectedCatalog: (selectedCatalogId: string) => loadTablesOfSelectedCatalog(dispatch, selectedCatalogId)
+        , loadTableDetails: (selectedTableId: string) => loadTableDetails(dispatch, selectedTableId)
     };
 }
 
@@ -51,8 +60,12 @@ class TableMainComponent extends React.Component<ITableMainComponentProps, {}> {
 
         let selectedCatalogTables = this.getCatalogTableControls();
 
+        let tableDetails = this.getTableTableDetailsPane();
+
+        let createTable = <div>Create Table Section</div>
+
         return (
-            <MDBContainer>
+            <MDBContainer fluid={true}>
                 <MDBRow>
                     <MDBCol md="12">
                         <br></br>
@@ -64,13 +77,77 @@ class TableMainComponent extends React.Component<ITableMainComponentProps, {}> {
                                 {selectedCatalogTables}
                             </MDBCol>
                             <MDBCol md="9">
-                                here we will have the selected table's details.
+                                <MDBContainer>
+                                    {tableDetails}
+                                </MDBContainer>
+                                <MDBContainer>
+                                    {createTable}
+                                </MDBContainer>
                             </MDBCol>
                         </MDBRow>
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
         );
+    }
+
+    private getTableTableDetailsPane(): JSX.Element {
+        if(!this.props.tableDetails) {
+            return (<span>Select a table to see the details.</span>)
+        }
+        let fields: Array<JSX.Element> = [];
+        this.props.tableDetails.fields.forEach( f => {
+            let row = (
+                <tr>
+                    <td>
+                        {f.fieldName}
+                    </td>
+                    <td>
+                        {f.fieldType}
+                    </td>
+                </tr>
+            )
+            fields.push(row);
+        });
+        return (<div>
+            <MDBContainer>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBTable>
+                            <MDBTableBody>
+                                <tr>
+                                    <td><b>Table Name</b></td>
+                                    <td>{this.props.tableDetails.tableName}</td>
+                                    <td><b>Database Name</b></td>
+                                    <td>{this.props.tableDetails.databaseName}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Location Path</b></td>
+                                    <td>{this.props.tableDetails.locationPath}</td>
+                                    <td><b></b></td>
+                                    <td></td>
+                                </tr>
+                            </MDBTableBody>
+                        </MDBTable>
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBTable hover striped bordered small scrollY maxHeight="500px">
+                            <MDBTableHead color="primary-color" textWhite>
+                                <tr>
+                                    <th>Field Name</th>
+                                    <th>Field Type</th>
+                                </tr>
+                            </MDBTableHead>
+                            <MDBTableBody>
+                                {fields}
+                            </MDBTableBody>
+                        </MDBTable>
+                    </MDBCol>
+                </MDBRow>
+            </MDBContainer>
+        </div>);
     }
 
     private getCatalogs(): JSX.Element {
@@ -91,7 +168,7 @@ class TableMainComponent extends React.Component<ITableMainComponentProps, {}> {
     }
 
     private getCatalogTableControls(): JSX.Element {
-        let columns = ["","Name", ""]
+        let columns = ["","Name"]
 
         let headers:Array<JSX.Element>  = [];
         columns.forEach( c => {
@@ -107,7 +184,7 @@ class TableMainComponent extends React.Component<ITableMainComponentProps, {}> {
 
         let contents = this.getContents();
         return (
-            <MDBTable striped bordered small scrollY maxHeight="500px">
+            <MDBTable hover striped bordered small scrollY maxHeight="500px">
                 <caption>Tables</caption>
                 <MDBTableHead color="primary-color" textWhite>
                     {headerRow}
@@ -125,7 +202,6 @@ class TableMainComponent extends React.Component<ITableMainComponentProps, {}> {
         if(this.props.catalogTables?.catalogTables) {
             let index:number = 1;
             this.props.catalogTables?.catalogTables.forEach( r => {
-                let row = <tr>{}</tr>
                 rows.push(this.getRow(index, r));
                 index++;
             })
@@ -135,18 +211,37 @@ class TableMainComponent extends React.Component<ITableMainComponentProps, {}> {
 
     private getRow(index:number, catalogTable: CatalogTable): JSX.Element {
 
-        let deleteIcon = (<td><MDBIcon id={catalogTable.tableId} icon="trash-alt" onClick={this.onDeleteClick.bind(this)}/></td>);
-
+        let deleteIcon = (<MDBIcon id={catalogTable.tableId} icon="trash-alt" onClick={this.onDeleteClick.bind(this)}/>);
+        
         let tds: Array<JSX.Element> = [];
-        tds.push(deleteIcon)
-        tds.push(<td>{catalogTable.tableName}</td>);
-        tds.push(<td>Show</td>);
+        tds.push(<td align={"center"}>{deleteIcon}</td>)
+        if(catalogTable.tableId == this.props.selectedTableId) {
+            tds.push(<td id={catalogTable.tableId} onClick={this.onTableSelect.bind(this)}>{catalogTable.tableName}</td>);
+        }
+        else {
+            tds.push(<td id={catalogTable.tableId} onClick={this.onTableSelect.bind(this)}>{catalogTable.tableName}</td>);
+        }
 
-        return (
-            <tr key={"CATALOG_TABLE" + index}>
-                {tds}
-            </tr>
-        );
+        let tr = undefined;
+        if(catalogTable.tableId == this.props.selectedTableId) {
+            tr = (<tr style ={{backgroundColor:"antiquewhite"}} key={"CATALOG_TABLE" + index}>
+                    {tds}
+                </tr>);
+        }
+        else {
+            tr = (<tr key={"CATALOG_TABLE" + index}>
+                    {tds}
+                </tr>);
+        }
+
+        return tr;
+    }
+
+    private onTableSelect(event: React.MouseEvent<HTMLTableDataCellElement,MouseEvent>) {
+        let td = event.target as HTMLTableDataCellElement;
+        let selectedTableId: string = td.id;
+        this.props.loadTableDetails(selectedTableId)
+        console.log("Table selected {} " + selectedTableId);
     }
 
     private onDeleteClick(event: React.SyntheticEvent<HTMLButtonElement>) {

@@ -5,16 +5,17 @@ import { CatalogTables } from "../../models/catalog/CatalogTables";
 import { TableDetails } from "../../models/table/TableDetails";
 
 
-export async function loadTablesOfSelectedCatalog( dispatch: Dispatch<TableActions>, selectedCatalogId: string) {
+export async function loadTablesOfSelectedCatalog( dispatch: Dispatch<TableActions>, selectedCatalogId: string): Promise<void | CatalogTables> {
 
     dispatch(changeSelectedCatalog(selectedCatalogId));
     dispatch(setLoadingCatalogTables(true));
-    PlayGroundService.getInstance().getCatalogTables(selectedCatalogId).then( (items) => {
+    return PlayGroundService.getInstance().getCatalogTables(selectedCatalogId).then( (items) => {
         let catalogTables: CatalogTables = {
             catalogId: selectedCatalogId
             , catalogTables: items
         };
         dispatch(finishLoadingCatalogTables(catalogTables));
+        return catalogTables;
     })
     .catch(
         (error) => {
@@ -24,11 +25,24 @@ export async function loadTablesOfSelectedCatalog( dispatch: Dispatch<TableActio
     )
 }
 
-export async function loadTableDetails(dispatch: Dispatch<TableActions>, selectedTableId: string) {
+export async function loadTableDetails(dispatch: Dispatch<TableActions>, selectedTableId: string): Promise<TableDetails> {
 
     dispatch(changeSelectedTable(selectedTableId));
-    PlayGroundService.getInstance().getTableDetails(selectedTableId).then( (tableDetails: TableDetails) => {
+    return PlayGroundService.getInstance().getTableDetails(selectedTableId).then( (tableDetails: TableDetails) => {
         dispatch(finishLoadingTableDetails(tableDetails));
+        return tableDetails;
     });
 
+}
+
+
+export async function createTable(dispatch: Dispatch<TableActions>, tableDetails: TableDetails) : Promise<void|TableDetails> {
+
+    return PlayGroundService.getInstance().createTable(tableDetails).then( (tableDetails: TableDetails) => {
+        loadTablesOfSelectedCatalog(dispatch,tableDetails.catalogId).then( () => {
+            loadTableDetails(dispatch,tableDetails.tableName);
+        });
+        
+        return tableDetails;
+    });
 }

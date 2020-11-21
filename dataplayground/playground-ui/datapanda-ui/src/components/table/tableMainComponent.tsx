@@ -11,10 +11,8 @@ import { loadTablesOfSelectedCatalog, loadTableDetails } from '../../store/table
 import { TableActions } from '../../store/table/tableActions';
 import { MDBTable, MDBTableHead, MDBTableBody, MDBIcon } from 'mdbreact';
 import { CatalogTable, CatalogTables } from '../../models/catalog/CatalogTables';
-import { parseConfigFileTextToJson } from 'typescript';
 import { TableDetails } from '../../models/table/TableDetails';
-import { stat } from 'fs';
-import { create } from 'domain';
+import CreateTableComponent from './createTableComponent';
 
 interface ITableMainComponentStateProps {
     catalogs: Array<CatalogModel>;
@@ -62,7 +60,7 @@ class TableMainComponent extends React.Component<ITableMainComponentProps, {}> {
 
         let tableDetails = this.getTableTableDetailsPane();
 
-        let createTable = <div>Create Table Section</div>
+        let createTable = <CreateTableComponent/>
 
         return (
             <MDBContainer fluid={true}>
@@ -77,10 +75,13 @@ class TableMainComponent extends React.Component<ITableMainComponentProps, {}> {
                                 {selectedCatalogTables}
                             </MDBCol>
                             <MDBCol md="9">
-                                <MDBContainer>
+                                <MDBContainer  fluid={true}>
                                     {tableDetails}
                                 </MDBContainer>
-                                <MDBContainer>
+                                <br></br>
+                                <br></br>
+                                <MDBContainer  fluid={true}>
+                                    <p className="h5 text-center mb-5">Create New Table</p>
                                     {createTable}
                                 </MDBContainer>
                             </MDBCol>
@@ -160,7 +161,8 @@ class TableMainComponent extends React.Component<ITableMainComponentProps, {}> {
 
         return (
             <div>
-                <select className="browser-default custom-select" value={this.props.selectedDataSource} onChange={this.handleDataSourceChange.bind(this)}>
+                <label htmlFor="catalogsAvailable" className="grey-text">Data Sources</label>
+                <select id="catalogsAvailable" className="browser-default custom-select" value={this.props.selectedDataSource} onChange={this.handleDataSourceChange.bind(this)}>
                     {optionValues}
                 </select>
             </div>
@@ -256,4 +258,4 @@ class TableMainComponent extends React.Component<ITableMainComponentProps, {}> {
     } 
 }
 
-export default connect(mapStateToProps, mapDispatcherToProps)(TableMainComponent)
+export default connect(mapStateToProps, mapDispatcherToProps)(TableMainComponent);

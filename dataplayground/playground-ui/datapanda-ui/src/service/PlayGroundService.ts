@@ -65,6 +65,12 @@ export class PlayGroundService {
         return result.data;
     }
 
+    public async createTable(table: TableDetails): Promise<TableDetails> {
+        let config = this.getCallConfig();
+        let result: AxiosResponse<TableDetails>  = await Axios.post(this.getResourceUrl(this.API_PATH_TABLE),table, config);
+        return result.data;
+    }
+
     public async executeSql(query: String): Promise<QueryResult> {
         const API_PATH = "query/sql";
         console.log("Executing the query " + query);

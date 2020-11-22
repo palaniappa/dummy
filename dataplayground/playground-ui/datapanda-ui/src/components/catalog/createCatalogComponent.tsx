@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { CatalogType } from '../../models/catalog/CatalogType';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 import { PlaygroundButton } from '../componentConstants';
+import { Alert } from 'react-bootstrap';
 
 
 export interface ICreateCatalogComponentStateProps {
@@ -91,7 +92,7 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
     render() {
         let lastError = null;
         if (this.props.error) {
-            lastError = <div>Error {this.props.error}</div>
+            lastError = (<Alert variant="danger">{this.props.error}</Alert>);
         }
 
 
@@ -119,9 +120,9 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
 
         return (
             <div>
-                {lastError}
                 {creating}
                 {createForm}
+                {lastError}
             </div>
         )
     }

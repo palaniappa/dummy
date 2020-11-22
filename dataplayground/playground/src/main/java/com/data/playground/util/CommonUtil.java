@@ -10,4 +10,8 @@ public class CommonUtil {
         return user.getId();
         //return "palaniappa@gmail.com";
     }
+
+    public static boolean isEmpty(String data) {
+        return(data == null || data == "");
+    }
 }

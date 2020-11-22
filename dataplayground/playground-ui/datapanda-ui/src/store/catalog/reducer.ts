@@ -35,6 +35,8 @@ export function createCatalogReducer(state: CreateCatalogState, action: CatalogC
     switch(action.type) {
         case CatalogConstants.SET_CREATING:
             return {...state, creating: action.payload};
+            case CatalogConstants.CREATE_FAILED:
+                return { ...state, error: action.errorMessage, creating: false };
         default:
             return state;
     }

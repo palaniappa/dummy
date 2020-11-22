@@ -32,7 +32,7 @@ export async function addCatalog( dispatch: Dispatch<CatalogActions>, catalog: C
     })
     .catch(
         (error) => {
-            dispatch(refreshActions.refereshFailed(error.message));
+            dispatch(createActions.createFailed(error.message));
         }
     );
     

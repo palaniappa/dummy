@@ -15,11 +15,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleExceptions(Exception exception, WebRequest webRequest) {
 
+        HttpStatus returnStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        if(exception instanceof PlaygroundException) {
+            returnStatus = ((PlaygroundException)exception).getErrorStatus();
+        }
         ExceptionResponse error = new ExceptionResponse();
         error.setMessage(exception.getMessage());
         error.setPath(webRequest.getContextPath());
         error.setError(exception);
-        ResponseEntity<Object> entity = new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+        ResponseEntity<Object> entity = new ResponseEntity<>(error, returnStatus);
         return entity;
     }
 }

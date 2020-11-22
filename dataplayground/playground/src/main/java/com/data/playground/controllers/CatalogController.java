@@ -56,6 +56,15 @@ public class CatalogController {
 
         String userId = CommonUtil.getCurrentUserId();
 
+
+        if(CommonUtil.isEmpty(catalogDto.getId())
+                || CommonUtil.isEmpty(catalogDto.getName())
+                || CommonUtil.isEmpty(catalogDto.getDatabaseName())
+                || CommonUtil.isEmpty(catalogDto.getName())
+                || catalogDto.getProperties() == null
+        ) {
+            throw  new PlaygroundException(HttpStatus.BAD_REQUEST, "Invalid catalog object. Please ensure all required fiwlds are filled.");
+        }
         Catalog retrievedCatalog = this.getByCatalogIdAndUserId(catalogDto.getId(), userId);
 
         if(retrievedCatalog == null) {

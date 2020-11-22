@@ -18,14 +18,15 @@ export class PlayGroundService {
     }
 
     public async getCatalogItems(): Promise<Array<CatalogModel>> {
-        
+
         try {
             let config = this.getCallConfig();
-            let result: AxiosResponse<Array<CatalogModel>>  = await Axios.get(this.getResourceUrl(this.API_PATH_CATALOG), config);
+            let result: AxiosResponse<Array<CatalogModel>> = await Axios.get(this.getResourceUrl(this.API_PATH_CATALOG), config);
             return result.data;
         }
-        catch(error) {
-            throw new Error(error);
+        catch (error) {
+            console.log(error.response.data.message);
+            throw new Error(error.response.data.message);
         }
     }
 
@@ -33,63 +34,84 @@ export class PlayGroundService {
 
         try {
             let config = this.getCallConfig();
-            let createdCatalog: AxiosResponse<CatalogModel>  = await Axios.post(this.getResourceUrl(this.API_PATH_CATALOG), catalog,config);
+            let createdCatalog: AxiosResponse<CatalogModel> = await Axios.post(this.getResourceUrl(this.API_PATH_CATALOG), catalog, config);
             return createdCatalog.data;
         }
-        catch(error) {
-            throw new Error(error);
-        }
-
-    }
-
-    public async deleteCatalog(catalogId: string): Promise<void> {
-        try {
-            let config = this.getCallConfig();
-            await Axios.delete(this.getResourceUrl(this.API_PATH_CATALOG + "/" + catalogId),config);
-            return;
-        }
-        catch(error) {
-            throw new Error(error);
-        }
-    }
-
-    public async getCatalogTables(catalogId: string): Promise<Array<CatalogTable>> {
-        let config = this.getCallConfig();
-        let result: AxiosResponse<Array<CatalogTable>>  = await Axios.get(this.getResourceUrl(this.API_PATH_CATALOG + '/' + catalogId + '/table'), config);
-        return result.data;
-    }
-
-    public async getTableDetails(tableId: string): Promise<TableDetails> {
-        let config = this.getCallConfig();
-        let result: AxiosResponse<TableDetails>  = await Axios.get(this.getResourceUrl(this.API_PATH_TABLE + '/' + tableId ), config);
-        return result.data;
-    }
-
-    public async createTable(table: TableDetails): Promise<TableDetails> {
-        let config = this.getCallConfig();
-        let result: AxiosResponse<TableDetails>  = await Axios.post(this.getResourceUrl(this.API_PATH_TABLE),table, config);
-        return result.data;
-    }
-
-    public async executeSql(query: String): Promise<QueryResult> {
-        const API_PATH = "query/sql";
-        console.log("Executing the query " + query);
-        let req:QueryRequest = { sql: query};
-
-        try {
-            let config = this.getCallConfig();
-            let result: AxiosResponse<QueryResult>  = await Axios.post(this.getResourceUrl(API_PATH), req,config);
-            return result.data;
-        }
-        catch(error) {
+        catch (error) {
             console.log(error.response.data.message);
             throw new Error(error.response.data.message);
         }
     }
 
-    private getAccessToken(): string  {
-        let idtoken = localStorage.getItem("data_panda_id_token") ? 
-            localStorage.getItem("data_panda_id_token") as string 
+    public async deleteCatalog(catalogId: string): Promise<void> {
+        try {
+            let config = this.getCallConfig();
+            await Axios.delete(this.getResourceUrl(this.API_PATH_CATALOG + "/" + catalogId), config);
+            return;
+        }
+        catch (error) {
+            console.log(error.response.data.message);
+            throw new Error(error.response.data.message);
+        }
+    }
+
+    public async getCatalogTables(catalogId: string): Promise<Array<CatalogTable>> {
+        try {
+            let config = this.getCallConfig();
+            let result: AxiosResponse<Array<CatalogTable>> = await Axios.get(this.getResourceUrl(this.API_PATH_CATALOG + '/' + catalogId + '/table'), config);
+            return result.data;
+        }
+        catch (error) {
+            console.log(error.response.data.message);
+            throw new Error(error.response.data.message);
+        }
+    }
+
+    public async getTableDetails(tableId: string): Promise<TableDetails> {
+        try {
+            let config = this.getCallConfig();
+            let result: AxiosResponse<TableDetails> = await Axios.get(this.getResourceUrl(this.API_PATH_TABLE + '/' + tableId), config);
+            return result.data;
+        }
+        catch (error) {
+            console.log(error.response.data.message);
+            throw new Error(error.response.data.message);
+        }
+    }
+
+    public async createTable(table: TableDetails): Promise<TableDetails> {
+        try {
+            let config = this.getCallConfig();
+            let result: AxiosResponse<TableDetails> = await Axios.post(this.getResourceUrl(this.API_PATH_TABLE), table, config);
+            return result.data;
+
+        }
+        catch (error) {
+            console.log(error.response.data.message);
+            throw new Error(error.response.data.message);
+        }
+
+    }
+
+    public async executeSql(query: String): Promise<QueryResult> {
+        const API_PATH = "query/sql";
+        console.log("Executing the query " + query);
+        let req: QueryRequest = { sql: query };
+
+        try {
+            let config = this.getCallConfig();
+            let result: AxiosResponse<QueryResult> = await Axios.post(this.getResourceUrl(API_PATH), req, config);
+            return result.data;
+        }
+        catch (error) {
+            console.log(error.response.data.message);
+            throw new Error(error.response.data.message);
+        }
+    }
+
+    private getAccessToken(): string {
+        let idtoken = localStorage.getItem("data_panda_id_token") ?
+            localStorage.getItem("data_panda_id_token") as string
             : "";
         return idtoken;
     }

@@ -51,7 +51,8 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
 
         let lastError = null;
         if (this.props.errorMessage) {
-            lastError = (<Alert variant="danger">{this.props.errorMessage}</Alert>);}
+            lastError = (<Alert variant="danger">{this.props.errorMessage}</Alert>);
+        }
 
         // let executeForm = (
         //     <form onSubmit={this.handleSubmit}>

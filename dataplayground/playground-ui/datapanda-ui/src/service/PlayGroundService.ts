@@ -82,7 +82,8 @@ export class PlayGroundService {
             return result.data;
         }
         catch(error) {
-            throw new Error(error);
+            console.log(error.response.data.message);
+            throw new Error(error.response.data.message);
         }
     }
 

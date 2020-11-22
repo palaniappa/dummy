@@ -7,6 +7,7 @@ import CatalogComponent from './components/catalog/catalogs';
 import QueryComponent from './components/query/queryComponent';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import { MDBNavbar, MDBNavbarBrand, MDBContainer, MDBRow, MDBCol, MDBJumbotron } from 'mdbreact';
 import { BrowserRouter as Router } from 'react-router-dom';

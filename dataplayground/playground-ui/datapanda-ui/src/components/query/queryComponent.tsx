@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { executeQuery } from '../../store/query/queryAsyncActions';
 import { QueryActions } from '../../store/query/queryActions';
 import QueryResultComponent from './queryResultComponent';
-import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
+import { Alert } from 'react-bootstrap'
 import styled from "styled-components";
 
 
@@ -50,8 +51,7 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
 
         let lastError = null;
         if (this.props.errorMessage) {
-            lastError = <div>Error {this.props.errorMessage}</div>
-        }
+            lastError = (<Alert variant="danger">{this.props.errorMessage}</Alert>);}
 
         // let executeForm = (
         //     <form onSubmit={this.handleSubmit}>

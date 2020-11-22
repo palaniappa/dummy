@@ -7,6 +7,7 @@ import { FieldType, TableDetails, TableField } from '../../models/table/TableDet
 import { PlaygroundButton } from '../componentConstants';
 import { TableActions } from '../../store/table/tableActions';
 import { createTable } from '../../store/table/tableAsyncActions';
+import { textChangeRangeIsUnchanged } from 'typescript';
 
 interface ICreateTableComponentStateProps {
     selectedCatalogId: string;
@@ -240,7 +241,8 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
 
     private handleSubmit(event: React.FormEvent) {
         event.preventDefault();
-        this.props.createTable(this.state.tableBeingCreated).then( () => {
+        let tableBeingCreated = {...this.state.tableBeingCreated, catalogId: this.props.selectedCatalogId}
+        this.props.createTable(tableBeingCreated).then( () => {
             this.setState(this.getInitialState(this.props.selectedCatalogId));
         });
     }

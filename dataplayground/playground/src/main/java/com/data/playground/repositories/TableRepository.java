@@ -11,4 +11,5 @@ public interface TableRepository extends JpaRepository<DPTable,String> {
 
     Optional<DPTable> findDPTablesByIdAndUserId(String id, String userId);
     List<DPTable> findDPTablesByCatalogIdAndUserId(String catalogId, String userId);
+    List<DPTable> findDPTablesByIdInAndUserIdEquals(List<String> tableIds, String userId);
 }

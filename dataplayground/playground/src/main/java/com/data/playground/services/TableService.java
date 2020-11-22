@@ -35,4 +35,12 @@ public class TableService {
     public DPTable upsertTable(DPTable table) {
         return this.tableRepository.save(table);
     }
+
+    public List<DPTable> getTables(List<String> tableIds, String userId) {
+        List<DPTable> tables = new ArrayList<>();
+        if(tableIds != null && tableIds.size() > 0 && userId != null && userId != "") {
+            tables = this.tableRepository.findDPTablesByIdInAndUserIdEquals(tableIds,userId);
+        }
+        return  tables;
+    }
 }

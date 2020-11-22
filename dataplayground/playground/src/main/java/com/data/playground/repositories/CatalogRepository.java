@@ -11,4 +11,5 @@ public interface CatalogRepository extends JpaRepository<Catalog, String> {
 
     Optional<Catalog> findCatalogByIdEqualsAndUserIdEquals(String id, String userId);
     List<Catalog> findAllByUserId(String userId);
+    List<Catalog> findByIdInAndUserIdEquals(List<String> catalogIds, String userId);
 }

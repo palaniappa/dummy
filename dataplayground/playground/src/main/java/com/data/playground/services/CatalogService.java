@@ -91,4 +91,8 @@ public class CatalogService {
     public void deleteCatalog(Catalog catalog) {
         this.catalogRepository.delete(catalog);
     }
+
+    public List<Catalog> getCatalogs(List<String> catalogIds, String userId) {
+        return this.catalogRepository.findByIdInAndUserIdEquals(catalogIds, userId);
+    }
 }

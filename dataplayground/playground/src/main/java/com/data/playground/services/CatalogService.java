@@ -16,7 +16,7 @@ public class CatalogService {
     @Autowired
     private CatalogRepository catalogRepository;
 
-    private static final String CATALOG_TYPE_HIVE = "HIVE";
+    public static final String CATALOG_TYPE_HIVE = "HIVE";
 
     public UserCatalogType getUserCatalogType(String catalogType) throws PlaygroundException {
         if(catalogType.equals(CATALOG_TYPE_HIVE)) {

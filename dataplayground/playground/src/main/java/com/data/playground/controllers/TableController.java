@@ -2,8 +2,10 @@ package com.data.playground.controllers;
 
 import com.data.playground.exception.PlaygroundException;
 import com.data.playground.hivemetastore.ThriftHiveMetastoreClient;
+import com.data.playground.model.data.dto.SchemaRequest;
 import com.data.playground.model.data.dto.TableField;
 import com.data.playground.model.data.dto.TableDTO;
+import com.data.playground.model.data.dto.TableSchema;
 import com.data.playground.repositories.entity.Catalog;
 import com.data.playground.repositories.entity.DPTable;
 import com.data.playground.services.CatalogService;
@@ -11,6 +13,8 @@ import com.data.playground.services.TableService;
 import com.data.playground.util.CommonUtil;
 import com.data.playground.util.TableCommandParser;
 import com.google.common.net.HostAndPort;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import org.apache.hadoop.hive.metastore.api.FieldSchema;
 import org.apache.hadoop.hive.metastore.api.SerDeInfo;
 import org.apache.hadoop.hive.metastore.api.StorageDescriptor;
@@ -21,11 +25,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.data.playground.util.TableCommandParser.getPlaygroundFieldType;
 
@@ -153,6 +155,42 @@ public class TableController {
 
     }
 
+    @RequestMapping(value = "/analyzeSchema", method = RequestMethod.POST)
+    public ResponseEntity<TableSchema> getSchema(@RequestBody SchemaRequest schemaRequest) throws  Exception {
+
+        if(schemaRequest == null
+                || CommonUtil.isEmpty(schemaRequest.getCatalogId())
+                || CommonUtil.isEmpty(schemaRequest.getLocationPath())
+                ) {
+            throw new PlaygroundException(HttpStatus.BAD_REQUEST,"Invalid catalog id");
+        }
+
+
+        String userId = CommonUtil.getCurrentUserId();
+
+        Optional<Catalog> catalog =  this.catalogService.getCatalogByCatalogIdAndUserId(schemaRequest.getCatalogId(), userId);
+        if(catalog.isPresent() == false) {
+            throw new PlaygroundException(HttpStatus.BAD_REQUEST, "Catalog not found with id " + schemaRequest.getCatalogId());
+        }
+
+        if(!catalog.get().getCatalogType().equals(CatalogService.CATALOG_TYPE_HIVE)) {
+            throw new PlaygroundException(HttpStatus.INTERNAL_SERVER_ERROR, "Invalid catalog type");
+        }
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<Map<String,String>>(){}.getType();
+        Map<String,String> props = gson.fromJson(catalog.get() .getProperties(),type);
+
+        String accessKey = props.get("hive.s3.aws-access-key");
+        String secretKey = props.get("hive.s3.aws-secret-key");
+        String endPoint = props.get("hive.s3.endpoint");
+
+        System.out.println("Got the props " + accessKey + secretKey + endPoint);
+
+        TableSchema tableSchema = new TableSchema();
+
+        return new ResponseEntity<>(tableSchema, HttpStatus.OK);
+    }
     private TableDTO transformTableDto(DPTable dpTable, Catalog catalog, Table hiveTable) throws PlaygroundException{
         TableDTO tableDTO = new TableDTO();
         tableDTO.setTableName(dpTable.getName());
@@ -177,5 +215,6 @@ public class TableController {
         Table table = client.getTable(databaseName, tableName);
         return table;
     }
+
 
 }

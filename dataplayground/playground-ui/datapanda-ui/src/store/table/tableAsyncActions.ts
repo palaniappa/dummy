@@ -25,13 +25,20 @@ export async function loadTablesOfSelectedCatalog( dispatch: Dispatch<TableActio
     )
 }
 
-export async function loadTableDetails(dispatch: Dispatch<TableActions>, selectedTableId: string): Promise<TableDetails> {
+export async function loadTableDetails(dispatch: Dispatch<TableActions>, selectedTableId: string): Promise<void|TableDetails> {
 
     dispatch(changeSelectedTable(selectedTableId));
     return PlayGroundService.getInstance().getTableDetails(selectedTableId).then( (tableDetails: TableDetails) => {
         dispatch(finishLoadingTableDetails(tableDetails));
         return tableDetails;
-    });
+    })
+    .catch(
+        (error) => {
+            //TODO handle error.
+            console.log(error);
+        }
+    )
+    ;
 
 }
 
@@ -44,5 +51,10 @@ export async function createTable(dispatch: Dispatch<TableActions>, tableDetails
         });
         
         return tableDetails;
-    });
+    }).catch(
+        (error) => {
+            //TODO handle error.
+            console.log(error);
+        }
+    );
 }

@@ -74,7 +74,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
         fielTypeValues.push(<option value={FieldType.DATE}>{FieldType.DATE}</option>);
         fielTypeValues.push(<option value={FieldType.DATETIME}>{FieldType.DATETIME}</option>);
 
-        let fields: Array<JSX.Element> = this.getFields();
+        let fields: Array<JSX.Element> = this.getFields(fielTypeValues);
 
         let createDisabled = this.props.selectedCatalogId === "NONE";
 
@@ -134,7 +134,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
                                             />
                                         </td>
                                         <td>
-                                            <select id="fieldTypeId" className="browser-default custom-select" 
+                                            <select id="fieldtypeid" className="browser-default custom-select" 
                                                 value={this.state.currentFieldType}
                                                 onChange={this.onFieldTypeChange.bind(this)}>
                                                 {fielTypeValues}
@@ -207,11 +207,42 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
 
     private onFieldNameChange( event: React.ChangeEvent) {
         let textElement = event.target as HTMLInputElement;
-        this.setState({...this.state, currentFieldName: textElement.value});
+        if(textElement.id == "fieldNameId") {
+            this.setState({...this.state, currentFieldName: textElement.value});
+        } else {
+            let idx = Number(event.target.id.replace("fieldNameId_",""));
+            let tableField: TableField = this.state.tableBeingCreated.fields[idx];
+            let modifiedField: TableField = {...tableField, fieldName: textElement.value};
+
+            let tableBeingCreated = {...this.state.tableBeingCreated
+                , fields: this.state.tableBeingCreated.fields.slice(0, idx)
+                .concat(modifiedField)
+                .concat(this.state.tableBeingCreated.fields.slice(idx + 1, this.state.tableBeingCreated.fields.length))
+            };
+
+            let fieldListString = this.getUpdatedFieldListString(tableBeingCreated.fields);
+            this.setState({...this.state,tableBeingCreated: tableBeingCreated, fieldList: fieldListString});
+        }
+        
     }
 
     private onFieldTypeChange( event: React.ChangeEvent<HTMLSelectElement>) {
-        this.setState({...this.state, currentFieldType: event.target.value as FieldType});
+        if(event.target.id === "fieldtypeid")
+            this.setState({...this.state, currentFieldType: event.target.value as FieldType});
+        else {
+            let idx = Number(event.target.id.replace("fieldtypeid_",""));
+            let tableField: TableField = this.state.tableBeingCreated.fields[idx];
+            let modifiedField: TableField = {...tableField, fieldType: event.target.value as FieldType};
+
+            let tableBeingCreated = {...this.state.tableBeingCreated
+                , fields: this.state.tableBeingCreated.fields.slice(0, idx)
+                .concat(modifiedField)
+                .concat(this.state.tableBeingCreated.fields.slice(idx + 1, this.state.tableBeingCreated.fields.length))
+            };
+
+            let fieldListString = this.getUpdatedFieldListString(tableBeingCreated.fields);
+            this.setState({...this.state,tableBeingCreated: tableBeingCreated, fieldList: fieldListString});
+        }
 
     }
 
@@ -260,7 +291,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
         return fieldListString;
     }
 
-    private getFields(): Array<JSX.Element> {
+    private getFields(fielTypeValues: Array<JSX.Element>): Array<JSX.Element> {
         let fieldcontrols:Array<JSX.Element> = [];
         let index = 0;
         this.state.tableBeingCreated.fields.forEach( f => {
@@ -268,10 +299,17 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
             let row = (
                 <tr key={'tbl_field_' + index}>
                     <td>
-                        {f.fieldName}
+                        <input type="text" id={"fieldNameId_"+index} className="form-control"
+                                                value={f.fieldName}
+                                                onChange={this.onFieldNameChange.bind(this)}
+                                            />
                     </td>
                     <td>
-                        {f.fieldType}
+                        <select id={"fieldtypeid_" + index} className="browser-default custom-select" 
+                                                value={f.fieldType}
+                                                onChange={this.onFieldTypeChange.bind(this)}>
+                                                {fielTypeValues}
+                                            </select>
                     </td>
                     <td align="center" valign="middle">
                         {deleteIcon}

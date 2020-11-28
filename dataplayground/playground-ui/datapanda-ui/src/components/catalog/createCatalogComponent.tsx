@@ -163,7 +163,7 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
                                             value={this.state.catalogBeingCreated.catalogType}
                                         />
                                         <br />
-                                        <label htmlFor="databaseName" className="grey-text">Type</label>
+                                        <label htmlFor="databaseName" className="grey-text">Database Name</label>
                                         <input type="text" id="databaseName" className="form-control"
                                             disabled={true}
                                             value={this.state.catalogBeingCreated.databaseName}

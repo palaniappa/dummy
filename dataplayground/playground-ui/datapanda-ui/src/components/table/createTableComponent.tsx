@@ -4,10 +4,10 @@ import { ApplicationRootState } from '../../store/ApplicationState';
 import { MDBContainer, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody, MDBIcon } from 'mdbreact';
 import { connect } from 'react-redux';
 import { FieldType, TableDetails, TableField } from '../../models/table/TableDetails';
-import { PlaygroundButton } from '../componentConstants';
 import { TableActions } from '../../store/table/tableActions';
-import { createTable } from '../../store/table/tableAsyncActions';
-import { textChangeRangeIsUnchanged } from 'typescript';
+import { analyzeTableSchema, createTable } from '../../store/table/tableAsyncActions';
+import { Button, Alert } from 'react-bootstrap';
+import { TableSchema } from '../../models/table/TableSchema';
 
 interface ICreateTableComponentStateProps {
     selectedCatalogId: string;
@@ -22,6 +22,7 @@ const mapStateToProps = (state:ApplicationRootState) : ICreateTableComponentStat
 const mapDispatcherToProps = (dispatch : Dispatch<TableActions>) => {
     return {
         createTable: (table: TableDetails) => createTable(dispatch,table)
+        , analyzeTableSchema: (catalogId: string, locationPath: string) => analyzeTableSchema(dispatch, catalogId, locationPath)
     };
 }
 
@@ -32,6 +33,7 @@ interface ICreateTableComponentLocalState {
     tableBeingCreated: TableDetails;
     currentFieldName: string;
     currentFieldType: FieldType;
+    analyzeSchemaError?: string;
 }
 
 class CreateTableComponent extends React.Component<ICreateTableComponentProps, ICreateTableComponentLocalState> {
@@ -52,12 +54,19 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
         };
 
         let initState: ICreateTableComponentLocalState = {
-            fieldList:"", tableBeingCreated: tableBeingCreated, currentFieldName:"", currentFieldType: FieldType.TEXT
+            fieldList:"", tableBeingCreated: tableBeingCreated, currentFieldName:""
+            , currentFieldType: FieldType.TEXT
+            , analyzeSchemaError: undefined
         };
         return initState;
     }
 
     render() {
+        
+        let lastError = null;
+        if (this.state.analyzeSchemaError) {
+            lastError = (<Alert variant="danger">{this.state.analyzeSchemaError}</Alert>);
+        }
         
         let fielTypeValues: Array<JSX.Element> = [];
         fielTypeValues.push(<option value={FieldType.TEXT}>{FieldType.TEXT}</option>);
@@ -87,7 +96,18 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
                                 value={this.state.tableBeingCreated.locationPath}
                                 onChange={this.onValueChange.bind(this)}
                             />
-                            <br />
+                            <br/>
+
+                            {lastError}
+
+                            <Button variant="primary" size="sm" 
+                                onClick={this.onAnalyzeSchemaClick.bind(this)}
+                                disabled={this.state.tableBeingCreated.locationPath === ""}
+                            >
+                                Analyze Schema
+                            </Button>
+                            <br/>
+                            <br/>
 
                             <label htmlFor="fieldListId" className="grey-text">Field List</label>
                             <textarea rows={5} id="fieldListId" className="form-control"
@@ -95,6 +115,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
                                 onChange={this.onValueChange.bind(this)}
                             />
                             <br />
+
                             <MDBTable hover bordered small scrollY maxHeight="500px">
                                 <MDBTableHead color="primary-color" textWhite>
                                     <tr>
@@ -126,7 +147,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
                                     </tr>
                                     <tr>
                                         <td colSpan={3} align="center">
-                                            <PlaygroundButton onClick={this.onAddFieldClick.bind(this)}>Add Field</PlaygroundButton>
+                                            <Button size="sm" onClick={this.onAddFieldClick.bind(this)}>Add Field</Button>
                                         </td>
                                     </tr>
 
@@ -136,7 +157,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
                     </MDBRow>
                     <br />
                     <div className="text-center">
-                        <PlaygroundButton type='submit'>Create</PlaygroundButton>
+                        <Button type='submit'>Create</Button>
                     </div>
                     <br />
                 </fieldset>
@@ -144,16 +165,40 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
         </MDBContainer>);
     }
 
+    private onAnalyzeSchemaClick( event: React.MouseEvent<HTMLElement,MouseEvent>) {
+        event.preventDefault();
+        console.log("Analyze clicked..!");
+        this.props.analyzeTableSchema(this.props.selectedCatalogId, this.state.tableBeingCreated.locationPath).then( (schemaResult: void|TableSchema) => {
+            if(schemaResult){
+                if(schemaResult.resultMessage) {
+                    this.setState({...this.state, analyzeSchemaError: schemaResult.resultMessage});
+                }
+                else {
+                    let tableBeingCreated = {...this.state.tableBeingCreated
+                        , fields: schemaResult.fields }
+                    let fieldListString = this.getUpdatedFieldListString(tableBeingCreated.fields);
+                    this.setState({...this.state,tableBeingCreated: tableBeingCreated, currentFieldName: ""
+                        , currentFieldType: FieldType.TEXT
+                        , fieldList: fieldListString
+                        , analyzeSchemaError: undefined});            
+                }
+            }
+            else {
+                this.setState({...this.state, analyzeSchemaError: "Failed to analyze the schema, try again."});
+            }
+        });
+    }
+
     private onValueChange(event: React.ChangeEvent) {
         let textElement = event.target as HTMLInputElement;
-        if(textElement.id == "tableNameId") {
+        if(textElement.id === "tableNameId") {
             let tableBeingCreated = { ...this.state.tableBeingCreated, tableName: textElement.value };
             this.setState({...this.state, tableBeingCreated: tableBeingCreated });
         }
-        else if(textElement.id == "locationpathId") {
+        else if(textElement.id === "locationpathId") {
             let tableBeingCreated = { ...this.state.tableBeingCreated, locationPath: textElement.value };
             this.setState({...this.state, tableBeingCreated: tableBeingCreated });
-        } else if(textElement.id == "fieldListId") {
+        } else if(textElement.id === "fieldListId") {
             let fields = this.getUpdatedFieldList(textElement.value);
             let tableBeingCreated = {...this.state.tableBeingCreated, fields: fields }
             this.setState({...this.state, fieldList: textElement.value, tableBeingCreated: tableBeingCreated });
@@ -170,7 +215,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
 
     }
 
-    private onAddFieldClick( event: React.SyntheticEvent<HTMLButtonElement>) {
+    private onAddFieldClick( event: React.MouseEvent<HTMLElement,MouseEvent> | React.SyntheticEvent<HTMLButtonElement,Event>) {
         event.preventDefault();
         let newField =  { fieldName: this.state.currentFieldName, fieldType: this.state.currentFieldType };
         let tableBeingCreated = {...this.state.tableBeingCreated, fields: this.state.tableBeingCreated.fields.concat(newField) }
@@ -192,7 +237,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
             let fieldItems = fieldListString.split(",");
             fieldItems.forEach( fieldItem => {
                 let tokens = fieldItem.split(":");
-                if(tokens.length == 2) {
+                if(tokens.length === 2) {
                     let fieldName: string = tokens[0];
                     let fieldType = tokens[1] as FieldType;
                     newFields.push({ fieldName: fieldName, fieldType: fieldType});
@@ -207,7 +252,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
         if(fields) {
             fields.forEach( f => {
                 let fieldStringRep = f.fieldName + ':' + f.fieldType;
-                if(fieldListString != "")
+                if(fieldListString !== "")
                     fieldListString = fieldListString + ",";
                 fieldListString = fieldListString + fieldStringRep;
             });

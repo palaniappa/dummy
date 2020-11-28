@@ -3,6 +3,7 @@ import { TableActions, setLoadingCatalogTables, changeSelectedCatalog, finishLoa
 import { PlayGroundService } from '../../service/PlayGroundService';
 import { CatalogTables } from "../../models/catalog/CatalogTables";
 import { TableDetails } from "../../models/table/TableDetails";
+import { TableSchema, TableSchemaRequest } from "../../models/table/TableSchema";
 
 
 export async function loadTablesOfSelectedCatalog( dispatch: Dispatch<TableActions>, selectedCatalogId: string): Promise<void | CatalogTables> {
@@ -57,4 +58,9 @@ export async function createTable(dispatch: Dispatch<TableActions>, tableDetails
             console.log(error);
         }
     );
+}
+
+export async function analyzeTableSchema(dispatch: Dispatch<TableActions>, catalogId: string, locationPath: string) : Promise<void|TableSchema> {
+    let tableSchemaRequest: TableSchemaRequest = {catalogId, locationPath };
+    return PlayGroundService.getInstance().alanlyzeTableSchema(tableSchemaRequest);
 }

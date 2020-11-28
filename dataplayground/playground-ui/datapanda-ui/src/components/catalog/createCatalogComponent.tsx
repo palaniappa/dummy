@@ -8,7 +8,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { CatalogType } from '../../models/catalog/CatalogType';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
-import { PlaygroundButton } from '../componentConstants';
+import { Button } from 'react-bootstrap';
 import { Alert } from 'react-bootstrap';
 
 
@@ -177,7 +177,7 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
                                 
                                 <br />
                                 <div className="text-center">
-                                    <PlaygroundButton type='submit'>Create</PlaygroundButton>
+                                    <Button type='submit'>Create</Button>
                                 </div>
                                 <br />
                             </fieldset>

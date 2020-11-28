@@ -4,6 +4,7 @@ import { QueryRequest } from "../models/query/QueryRequest";
 import { CatalogModel } from '../models/catalog/CatalogModel';
 import { CatalogTable } from '../models/catalog/CatalogTables';
 import { TableDetails } from '../models/table/TableDetails';
+import { TableSchema, TableSchemaRequest } from "../models/table/TableSchema";
 
 export class PlayGroundService {
 
@@ -93,6 +94,21 @@ export class PlayGroundService {
 
     }
 
+    public async alanlyzeTableSchema(tableSchemaRequest: TableSchemaRequest) : Promise<TableSchema> {
+        try {
+
+            let config = this.getCallConfig();
+            let result: AxiosResponse<TableSchema> = await Axios.post(
+                    this.getResourceUrl(this.API_PATH_TABLE) + "/analyzeSchema", tableSchemaRequest
+                    , config);
+            return result.data;
+
+        }
+        catch (error) {
+            return { fields: [], resultMessage: error.response.data.message};
+        }
+    }
+
     public async executeSql(query: String): Promise<QueryResult> {
         const API_PATH = "query/sql";
         console.log("Executing the query " + query);
@@ -108,6 +124,9 @@ export class PlayGroundService {
             throw new Error(error.response.data.message);
         }
     }
+
+    
+
 
     private getAccessToken(): string {
         let idtoken = localStorage.getItem("data_panda_id_token") ?

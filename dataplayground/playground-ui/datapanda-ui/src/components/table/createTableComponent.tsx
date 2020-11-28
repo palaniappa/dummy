@@ -92,7 +92,8 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
         let createDisabled = this.props.selectedCatalogId === "NONE";
 
         let locationPath = undefined;
-        if(this.props.selectedCatalogType == CatalogType.S3) {
+        let addFieldControls = [];
+        if (this.props.selectedCatalogType == CatalogType.S3) {
             locationPath = (
                 <div>
                     <label htmlFor="locationpathId" className="grey-text">Location Path</label>
@@ -103,6 +104,33 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
                     <br />
                 </div>
             );
+
+            addFieldControls.push(
+                <tr key={"addfieldssrow"}>
+                    <td>
+                        <input type="text" id="fieldNameId" className="form-control"
+                            value={this.state.currentFieldName}
+                            onChange={this.onFieldNameChange.bind(this)}
+                        />
+                    </td>
+                    <td>
+                        <select id="fieldtypeid" className="browser-default custom-select"
+                            value={this.state.currentFieldType}
+                            onChange={this.onFieldTypeChange.bind(this)}>
+                            {fieldTypeValues}
+                        </select>
+                    </td>
+
+                    <td align="center" valign="middle">
+                        <MDBIcon icon="plus" onClick={this.onAddFieldClick.bind(this)} />
+                    </td>
+                </tr>);
+            addFieldControls.push(
+                <tr>
+                    <td colSpan={3} align="center">
+                        <Button size="sm" onClick={this.onAddFieldClick.bind(this)}>Add Field</Button>
+                    </td>
+                </tr>);
         }
 
         return (
@@ -125,8 +153,8 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
                                 <Button variant="primary" size="sm"
                                     onClick={this.onAnalyzeSchemaClick.bind(this)}
                                     disabled=
-                                    { 
-                                        (this.props.selectedCatalogType === CatalogType.S3  && this.state.tableBeingCreated.locationPath === "")
+                                    {
+                                        (this.props.selectedCatalogType === CatalogType.S3 && this.state.tableBeingCreated.locationPath === "")
                                         || (this.props.selectedCatalogType === CatalogType.PostgreSQL && this.state.tableBeingCreated.tableName === "")
                                     }
                                 >
@@ -158,30 +186,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
                                     </MDBTableHead>
                                     <MDBTableBody>
                                         {fields}
-                                        <tr key={"addfieldssrow"}>
-                                            <td>
-                                                <input type="text" id="fieldNameId" className="form-control"
-                                                    value={this.state.currentFieldName}
-                                                    onChange={this.onFieldNameChange.bind(this)}
-                                                />
-                                            </td>
-                                            <td>
-                                                <select id="fieldtypeid" className="browser-default custom-select"
-                                                    value={this.state.currentFieldType}
-                                                    onChange={this.onFieldTypeChange.bind(this)}>
-                                                    {fieldTypeValues}
-                                                </select>
-                                            </td>
-
-                                            <td align="center" valign="middle">
-                                                <MDBIcon icon="plus" onClick={this.onAddFieldClick.bind(this)} />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colSpan={3} align="center">
-                                                <Button size="sm" onClick={this.onAddFieldClick.bind(this)}>Add Field</Button>
-                                            </td>
-                                        </tr>
+                                        {addFieldControls}
 
                                     </MDBTableBody>
                                 </MDBTable>
@@ -198,7 +203,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
     }
 
     private getSampleData(): JSX.Element {
-        if (!this.state.schewmaResult)
+        if (!this.state.schewmaResult || !this.state.schewmaResult.samplesRows)
             return (<div></div>);
 
         let headers: Array<JSX.Element> = [];
@@ -230,7 +235,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
                         {rows}
                     </MDBTableBody>
                 </MDBTable>
-                <br/>
+                <br />
             </div>
         )
 

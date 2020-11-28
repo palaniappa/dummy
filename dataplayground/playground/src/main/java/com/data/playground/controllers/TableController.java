@@ -173,11 +173,14 @@ public class TableController {
     public ResponseEntity<TableSchema> getSchema(@RequestBody SchemaRequest schemaRequest) throws  Exception {
 
         if(schemaRequest == null
-                || CommonUtil.isEmpty(schemaRequest.getCatalogId())
-                || CommonUtil.isEmpty(schemaRequest.getLocationPath())
+                || CommonUtil.isEmpty(schemaRequest.getCatalogId().trim())
+                || CommonUtil.isEmpty(schemaRequest.getLocationPath().trim())
                 ) {
             throw new PlaygroundException(HttpStatus.BAD_REQUEST,"Invalid catalog id");
         }
+
+        schemaRequest.setLocationPath(schemaRequest.getLocationPath().trim());
+        schemaRequest.setCatalogId(schemaRequest.getCatalogId().trim());
 
         if(schemaRequest.getLocationPath().endsWith("/") == false) {
             schemaRequest.setLocationPath(schemaRequest.getLocationPath() + "/");
@@ -204,9 +207,6 @@ public class TableController {
         //https://s3.ap-south-1.amazonaws.com/
         AmazonS3URI path = new AmazonS3URI(schemaRequest.getLocationPath().replace("s3a://", endPoint));
 
-
-        System.out.println("Got the props " + accessKey + secretKey + endPoint);
-
         BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretKey);
         AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
@@ -227,10 +227,11 @@ public class TableController {
             throw new PlaygroundException(HttpStatus.BAD_REQUEST, "No csv files found");
         }
         List<TableField> fields = null;
+        List<String[]> sampleRows = new ArrayList<>();
         for(S3ObjectSummary object : objectsV2Result.getObjectSummaries()) {
             System.out.println(object.getKey());
             if(object.getKey().endsWith(".csv")) {
-                fields = this.getFieldsFromCsv(s3Client, object);
+                fields = this.getFieldsFromCsv(s3Client, object, sampleRows);
                 if(fields != null) {
                     break;
                 }
@@ -257,10 +258,11 @@ public class TableController {
 
         TableSchema tableSchema = new TableSchema();
         tableSchema.setFields(fields);
+        tableSchema.setSamplesRows(sampleRows);
         return new ResponseEntity<>(tableSchema, HttpStatus.OK);
     }
 
-    private List<TableField> getFieldsFromCsv(AmazonS3 s3Client, S3ObjectSummary fileObject) {
+    private List<TableField> getFieldsFromCsv(AmazonS3 s3Client, S3ObjectSummary fileObject,List<String[]> sampleRows) {
         if(fileObject == null || s3Client == null) {
             return null;
         }
@@ -271,7 +273,6 @@ public class TableController {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(object.getObjectContent()));
                 String[] headers = null;
                 String currentLine = null;
-                List<String[]> sampleRows = new ArrayList<>();
                 while ((currentLine = reader.readLine()) != null)
                 {
                     if(!CommonUtil.isEmpty(currentLine)) {

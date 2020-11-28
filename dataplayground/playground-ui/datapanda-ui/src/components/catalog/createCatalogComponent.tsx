@@ -43,9 +43,13 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
 
     constructor(props: ICreateCatalogComponentProps) {
         super(props);
-        this.state = { catalogBeingCreated: { id: "", catalogType: CatalogType.S3, name: "", properties: {}, databaseName: "default" } }
+        this.state = this.getInitialState();
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    private getInitialState() {
+        return { catalogBeingCreated: { id: "", catalogType: CatalogType.S3, name: "", properties: {}, databaseName: "default" } }
     }
 
     public handleChange(event: React.ChangeEvent) {
@@ -55,6 +59,11 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
             idValue = idValue.toUpperCase().replaceAll(' ', '_');
 
             let catalogBeingCreated = { ...this.state.catalogBeingCreated, name: textbox.value, id: idValue };
+            this.setState({ catalogBeingCreated })
+        }
+        else if(textbox.id == "databaseName"){
+            let dbNameValue = textbox.value.trim();
+            let catalogBeingCreated = { ...this.state.catalogBeingCreated, databaseName: dbNameValue };
             this.setState({ catalogBeingCreated })
         }
         // else {
@@ -86,7 +95,9 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
         let catalogBeingCreated = { ...this.state.catalogBeingCreated, properties: propertyValues };
         this.setState({ catalogBeingCreated })
         
-        this.props.createCatalog(catalogBeingCreated);
+        this.props.createCatalog(catalogBeingCreated).then( (r) => {
+            this.setState(this.getInitialState());
+        });
     }
 
     render() {
@@ -125,6 +136,9 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
 
         let catalogProps = this.getCatalogPropsForm();
 
+        let dbNameLabel = this.state.catalogBeingCreated.catalogType == CatalogType.S3 ?  "Database Name" : "Schema Name";
+        let dbNameEditable = this.state.catalogBeingCreated.catalogType == CatalogType.S3 ?  false : true;
+
         return (
             <MDBContainer fluid={true}>
                 <MDBRow>
@@ -162,10 +176,11 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
                                         </select>
 
                                         <br />
-                                        <label htmlFor="databaseName" className="grey-text">Database Name</label>
+                                        <label htmlFor="databaseName" className="grey-text">{dbNameLabel}</label>
                                         <input type="text" id="databaseName" className="form-control"
-                                            disabled={true}
+                                            disabled={!dbNameEditable}
                                             value={this.state.catalogBeingCreated.databaseName}
+                                            onChange={this.handleChange}
                                         />
                                         
                                     </MDBCol>
@@ -227,7 +242,8 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
     private onCatalogTypeChange( event: React.ChangeEvent<HTMLSelectElement>) {
         event.preventDefault();
         let newCatalogType: CatalogType = event.target.value as CatalogType;
-        let newCatalog = {...this.state.catalogBeingCreated, catalogType: newCatalogType};
+        let newDbName = newCatalogType == CatalogType.S3 ? "default" : "public";
+        let newCatalog = {...this.state.catalogBeingCreated, catalogType: newCatalogType, databaseName: newDbName};
         this.setState({...this.state, catalogBeingCreated: newCatalog});
     }
 

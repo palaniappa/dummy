@@ -27,7 +27,7 @@ export class PlayGroundService {
         }
         catch (error) {
             console.log(error.response.data.message);
-            throw new Error(error.response.data.message);
+            throw Error(error.response.data.message);
         }
     }
 
@@ -40,7 +40,7 @@ export class PlayGroundService {
         }
         catch (error) {
             console.log(error.response.data.message);
-            throw new Error(error.response.data.message);
+            throw Error(error.response.data.message);
         }
     }
 
@@ -52,7 +52,7 @@ export class PlayGroundService {
         }
         catch (error) {
             console.log(error.response.data.message);
-            throw new Error(error.response.data.message);
+            throw Error(error.response.data.message);
         }
     }
 
@@ -64,7 +64,7 @@ export class PlayGroundService {
         }
         catch (error) {
             console.log(error.response.data.message);
-            throw new Error(error.response.data.message);
+            throw Error(error.response.data.message);
         }
     }
 
@@ -76,7 +76,7 @@ export class PlayGroundService {
         }
         catch (error) {
             console.log(error.response.data.message);
-            throw new Error(error.response.data.message);
+            throw Error(error.response.data.message);
         }
     }
 
@@ -89,7 +89,7 @@ export class PlayGroundService {
         }
         catch (error) {
             console.log(error.response.data.message);
-            throw new Error(error.response.data.message);
+            throw Error(error.response.data.message);
         }
 
     }
@@ -120,7 +120,7 @@ export class PlayGroundService {
         }
         catch (error) {
             console.log(error.response.data.message);
-            throw new Error(error.response.data.message);
+            throw Error(error.response.data.message);
         }
     }
 

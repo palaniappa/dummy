@@ -95,19 +95,6 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
             lastError = (<Alert variant="danger">{this.props.error}</Alert>);
         }
 
-
-        // let createForm = (
-        //     <form onSubmit={this.handleSubmit}>
-        //         <fieldset disabled={this.props.creating === true}>
-        //             <label>
-        //                 Name:
-        //         <input type="text" value={this.state.catalogBeingCreated.name} onChange={this.handleChange} />
-        //             </label>
-        //             <input type="submit" value="Submit" />
-        //         </fieldset>
-        //     </form>
-        // );
-
         let createForm = this.getForm();
 
         let creating = null;
@@ -130,6 +117,10 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
 
     private getForm() {
 
+        
+        let catalogTypeValues: Array<JSX.Element> = [];
+        catalogTypeValues.push(<option value={CatalogType.S3}>{CatalogType.S3}</option>);
+        catalogTypeValues.push(<option value={CatalogType.PostgreSQL}>{CatalogType.PostgreSQL}</option>);
         
 
         let catalogProps = this.getCatalogPropsForm();
@@ -157,11 +148,19 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
                                         />
                                         <br />
 
-                                        <label htmlFor="catalogType" className="grey-text">Type</label>
+                                        {/* 
                                         <input type="text" id="catalogType" className="form-control"
                                             disabled={true}
                                             value={this.state.catalogBeingCreated.catalogType}
-                                        />
+                                        /> */}
+
+                                        <label htmlFor="catalogType" className="grey-text">Type</label>
+                                        <select id="catalogType" className="browser-default custom-select" 
+                                                value={this.state.catalogBeingCreated.catalogType}
+                                                onChange={this.onCatalogTypeChange.bind(this)}>
+                                                {catalogTypeValues}
+                                        </select>
+
                                         <br />
                                         <label htmlFor="databaseName" className="grey-text">Database Name</label>
                                         <input type="text" id="databaseName" className="form-control"
@@ -206,16 +205,32 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
         return formItems;
     }
 
-    private getApplicableProps(catalogType: string) {
+    private getApplicableProps(catalogType: CatalogType) {
         let applicableProps = [];
-        if(catalogType === "S3") {
+        if(catalogType === CatalogType.S3) {
             // TODO avoid this hardcoding..
             applicableProps.push("S3 Endpoint");
             applicableProps.push("AWS Access Key");
             applicableProps.push("AWS Secret Key");
         }
+        else if( catalogType == CatalogType.PostgreSQL) {
+            applicableProps.push("Endpoint With Port");
+            applicableProps.push("User Name");
+            applicableProps.push("Password");
+        }
+        else {
+            throw Error("Unknow catalog type.");
+        }
         return applicableProps;
     }
+
+    private onCatalogTypeChange( event: React.ChangeEvent<HTMLSelectElement>) {
+        event.preventDefault();
+        let newCatalogType: CatalogType = event.target.value as CatalogType;
+        let newCatalog = {...this.state.catalogBeingCreated, catalogType: newCatalogType};
+        this.setState({...this.state, catalogBeingCreated: newCatalog});
+    }
+
 }
 
 export default connect(mapStateToProps, mapDispatcherToProps)(CreateCatalogComponent); 

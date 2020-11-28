@@ -60,7 +60,7 @@ export async function createTable(dispatch: Dispatch<TableActions>, tableDetails
     );
 }
 
-export async function analyzeTableSchema(dispatch: Dispatch<TableActions>, catalogId: string, locationPath: string) : Promise<void|TableSchema> {
-    let tableSchemaRequest: TableSchemaRequest = {catalogId, locationPath };
+export async function analyzeTableSchema(dispatch: Dispatch<TableActions>, catalogId: string, tableNameOrLocationPath: string) : Promise<void|TableSchema> {
+    let tableSchemaRequest: TableSchemaRequest = {catalogId, tableNameOrLocationPath: tableNameOrLocationPath };
     return PlayGroundService.getInstance().alanlyzeTableSchema(tableSchemaRequest);
 }

@@ -8,5 +8,5 @@ export interface TableSchema {
 
 export interface TableSchemaRequest { 
     catalogId: string;
-    locationPath: string;
+    tableNameOrLocationPath: string;
 }

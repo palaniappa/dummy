@@ -136,7 +136,7 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
 
         let catalogProps = this.getCatalogPropsForm();
 
-        let dbNameLabel = this.state.catalogBeingCreated.catalogType == CatalogType.S3 ?  "Database Name" : "Schema Name";
+        let dbNameLabel = "Schema Name";
         let dbNameEditable = this.state.catalogBeingCreated.catalogType == CatalogType.S3 ?  false : true;
 
         return (
@@ -175,6 +175,7 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
                                                 {catalogTypeValues}
                                         </select>
 
+                                        <br />
                                         <br />
                                         <label htmlFor="databaseName" className="grey-text">{dbNameLabel}</label>
                                         <input type="text" id="databaseName" className="form-control"

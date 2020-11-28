@@ -119,7 +119,7 @@ class TableMainComponent extends React.Component<ITableMainComponentProps, {}> {
                                 <tr>
                                     <td><b>Table Name</b></td>
                                     <td>{this.props.tableDetails.tableName}</td>
-                                    <td><b>Database Name</b></td>
+                                    <td><b>Schema Name</b></td>
                                     <td>{this.props.tableDetails.databaseName}</td>
                                 </tr>
                                 <tr>

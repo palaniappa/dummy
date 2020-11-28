@@ -113,12 +113,15 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
 
                             {sampleData}
 
-                            <label htmlFor="fieldListId" className="grey-text">Field List</label>
-                            <textarea rows={5} id="fieldListId" className="form-control"
-                                value={this.state.fieldList}
-                                onChange={this.onValueChange.bind(this)}
-                            />
-                            <br />
+                            <div style={{display:"none"}}>
+                                <label htmlFor="fieldListId" className="grey-text">Field List</label>
+                                <textarea rows={5} id="fieldListId" className="form-control"
+                                    value={this.state.fieldList}
+                                    onChange={this.onValueChange.bind(this)}
+                                />
+                                <br />
+                            </div>
+                            
 
                             <MDBTable hover bordered small scrollY maxHeight="500px">
                                 <MDBTableHead color="primary-color" textWhite>
@@ -194,7 +197,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
         return (
             <div style={{maxWidth:"100%"}}>
                 <label htmlFor="sampleDataTable" className="grey-text">Sample Data</label>
-                 <MDBTable id="sampleDataTable" bordered small={true} scrollY maxHeight="200px">
+                 <MDBTable id="sampleDataTable" bordered small={true} scrollY maxHeight="250px">
                     <MDBTableHead color="primary-color" textWhite>
                         {headers}
                     </MDBTableHead>

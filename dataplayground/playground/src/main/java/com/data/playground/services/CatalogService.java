@@ -17,10 +17,14 @@ public class CatalogService {
     private CatalogRepository catalogRepository;
 
     public static final String CATALOG_TYPE_HIVE = "HIVE";
+    public static final String CATALOG_TYPE_POSTGRESQL = "POSTGRESQL";
 
     public UserCatalogType getUserCatalogType(String catalogType) throws PlaygroundException {
         if(catalogType.equals(CATALOG_TYPE_HIVE)) {
             return  UserCatalogType.S3;
+        }
+        else if(catalogType.equals(CATALOG_TYPE_POSTGRESQL)) {
+            return UserCatalogType.PostgreSQL;
         }
         throw new PlaygroundException("Unknown catalog type");
     }
@@ -29,12 +33,17 @@ public class CatalogService {
         if(catalogType == UserCatalogType.S3) {
             return  CATALOG_TYPE_HIVE;
         }
+        else if(catalogType == UserCatalogType.PostgreSQL) {
+            return CATALOG_TYPE_POSTGRESQL;
+        }
         throw new PlaygroundException("Unknown catalog type");
     }
 
     public String getConnectorIdForCatalogType(String catalogType) throws PlaygroundException {
         if(catalogType.equals(CATALOG_TYPE_HIVE)) {
             return  "hive-hadoop2";
+        } else if( catalogType.equals(CATALOG_TYPE_POSTGRESQL)) {
+            return "postgresql";
         }
         throw new PlaygroundException("Unknown catalog type");
     }
@@ -45,6 +54,12 @@ public class CatalogService {
             properties.add(new CatalogConnectorProperty("hive.s3.aws-access-key","AWS Access Key",true));
             properties.add(new CatalogConnectorProperty("hive.s3.aws-secret-key","AWS Secret Key",true));
             properties.add(new CatalogConnectorProperty("hive.s3.endpoint","S3 Endpoint",false));
+            return properties;
+        }
+        else if(catalogType.equals(CATALOG_TYPE_POSTGRESQL)) {
+            properties.add(new CatalogConnectorProperty("connection-url","Endpoint With Port",false));
+            properties.add(new CatalogConnectorProperty("connection-user","User Name",false));
+            properties.add(new CatalogConnectorProperty("connection-password","Password",true));
             return properties;
         }
         throw new PlaygroundException("Unknown catalog type");

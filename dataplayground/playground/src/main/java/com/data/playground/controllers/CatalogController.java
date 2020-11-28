@@ -63,7 +63,7 @@ public class CatalogController {
                 || CommonUtil.isEmpty(catalogDto.getName())
                 || catalogDto.getProperties() == null
         ) {
-            throw  new PlaygroundException(HttpStatus.BAD_REQUEST, "Invalid catalog object. Please ensure all required fiwlds are filled.");
+            throw  new PlaygroundException(HttpStatus.BAD_REQUEST, "Invalid catalog object. Please ensure all required fields are filled.");
         }
         Catalog retrievedCatalog = this.getByCatalogIdAndUserId(catalogDto.getId(), userId);
 

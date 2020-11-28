@@ -2,7 +2,7 @@ package com.data.playground.model.data.dto;
 
 public class SchemaRequest {
     private String catalogId;
-    private String locationPath;
+    private String tableNameOrLocationPath;
 
     public String getCatalogId() {
         return catalogId;
@@ -12,11 +12,11 @@ public class SchemaRequest {
         this.catalogId = catalogId;
     }
 
-    public String getLocationPath() {
-        return locationPath;
+    public String getTableNameOrLocationPath() {
+        return tableNameOrLocationPath;
     }
 
-    public void setLocationPath(String locationPath) {
-        this.locationPath = locationPath;
+    public void setTableNameOrLocationPath(String tableNameOrLocationPath) {
+        this.tableNameOrLocationPath = tableNameOrLocationPath;
     }
 }

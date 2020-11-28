@@ -174,16 +174,16 @@ public class TableController {
 
         if(schemaRequest == null
                 || CommonUtil.isEmpty(schemaRequest.getCatalogId().trim())
-                || CommonUtil.isEmpty(schemaRequest.getLocationPath().trim())
+                || CommonUtil.isEmpty(schemaRequest.getTableNameOrLocationPath().trim())
                 ) {
             throw new PlaygroundException(HttpStatus.BAD_REQUEST,"Invalid catalog id");
         }
 
-        schemaRequest.setLocationPath(schemaRequest.getLocationPath().trim());
+        schemaRequest.setTableNameOrLocationPath(schemaRequest.getTableNameOrLocationPath().trim());
         schemaRequest.setCatalogId(schemaRequest.getCatalogId().trim());
 
-        if(schemaRequest.getLocationPath().endsWith("/") == false) {
-            schemaRequest.setLocationPath(schemaRequest.getLocationPath() + "/");
+        if(schemaRequest.getTableNameOrLocationPath().endsWith("/") == false) {
+            schemaRequest.setTableNameOrLocationPath(schemaRequest.getTableNameOrLocationPath() + "/");
         }
 
         String userId = CommonUtil.getCurrentUserId();
@@ -205,7 +205,7 @@ public class TableController {
         String secretKey = props.get("hive.s3.aws-secret-key");
         String endPoint = props.get("hive.s3.endpoint");
         //https://s3.ap-south-1.amazonaws.com/
-        AmazonS3URI path = new AmazonS3URI(schemaRequest.getLocationPath().replace("s3a://", endPoint));
+        AmazonS3URI path = new AmazonS3URI(schemaRequest.getTableNameOrLocationPath().replace("s3a://", endPoint));
 
         BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretKey);
         AmazonS3 s3Client = AmazonS3ClientBuilder.standard()

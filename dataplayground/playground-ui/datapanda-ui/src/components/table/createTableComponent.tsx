@@ -147,7 +147,8 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
                                 </div>
 
 
-                                <MDBTable hover bordered small scrollY maxHeight="500px">
+                                <label htmlFor="tableFieldList" className="grey-text">Fields</label>
+                                <MDBTable hover bordered small scrollY maxHeight="500px" id="tableFieldList">
                                     <MDBTableHead color="primary-color" textWhite>
                                         <tr>
                                             <th>Field Name</th>
@@ -229,6 +230,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
                         {rows}
                     </MDBTableBody>
                 </MDBTable>
+                <br/>
             </div>
         )
 

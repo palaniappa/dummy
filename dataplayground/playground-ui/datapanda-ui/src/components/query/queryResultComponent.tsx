@@ -33,7 +33,7 @@ class QueryResultComponent extends React.Component<IQueryResultComponentProps, O
         let table = this.getResultTable();
 
         return (
-            <div style={{ margin: '20px' }}>
+            <div>
                 {table}
             </div>
         );
@@ -91,7 +91,6 @@ class QueryResultComponent extends React.Component<IQueryResultComponentProps, O
         let rows:Array<JSX.Element> = [];
         let index:number = 1;
         this.props.queryResult.records.forEach( r => {
-        let row = <tr>{}</tr>
             rows.push(this.getRow(index, r));
             index++;
         })

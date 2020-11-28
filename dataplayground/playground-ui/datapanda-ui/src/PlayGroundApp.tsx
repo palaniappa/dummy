@@ -49,8 +49,8 @@ class App extends React.Component<IPlayGroundAppProps, {}> {
         {titleBar}
         <MDBContainer fluid={true}>
           <MDBRow>
-            <MDBCol md="2">{menus}</MDBCol>
-            <MDBCol middle={false}>{menuSpecificItem}</MDBCol>
+            <MDBCol size="2">{menus}</MDBCol>
+            <MDBCol size="10" middle={false}>{menuSpecificItem}</MDBCol>
           </MDBRow>
         </MDBContainer>
       </div>

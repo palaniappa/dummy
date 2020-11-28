@@ -102,10 +102,9 @@ export class PlayGroundService {
                     this.getResourceUrl(this.API_PATH_TABLE) + "/analyzeSchema", tableSchemaRequest
                     , config);
             return result.data;
-
         }
         catch (error) {
-            return { fields: [], resultMessage: error.response.data.message};
+            return { fields: [], samplesRows:[], resultMessage: error.response.data.message};
         }
     }
 

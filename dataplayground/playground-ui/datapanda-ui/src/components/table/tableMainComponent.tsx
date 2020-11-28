@@ -65,16 +65,16 @@ class TableMainComponent extends React.Component<ITableMainComponentProps, {}> {
         return (
             <MDBContainer fluid={true}>
                 <MDBRow>
-                    <MDBCol md="12">
+                    <MDBCol size="12">
                         <br></br>
                         <p className="h4 text-center mb-4">Tables</p>
                         <MDBRow>
-                            <MDBCol md="3">
+                            <MDBCol size="2">
                                 {datasources}
                                 <br></br>
                                 {selectedCatalogTables}
                             </MDBCol>
-                            <MDBCol md="9">
+                            <MDBCol size="10">
                                 <MDBContainer  fluid={true}>
                                     {tableDetails}
                                 </MDBContainer>

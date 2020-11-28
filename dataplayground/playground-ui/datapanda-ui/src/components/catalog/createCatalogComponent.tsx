@@ -137,7 +137,7 @@ class CreateCatalogComponent extends React.Component<ICreateCatalogComponentProp
         return (
             <MDBContainer fluid={true}>
                 <MDBRow>
-                    <MDBCol md="12">
+                    <MDBCol size="12">
                         <form onSubmit={this.handleSubmit}>
                             <p className="h4 text-center mb-4">Data Sources</p>
                             <fieldset disabled={this.props.creating === true}>

@@ -75,9 +75,9 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
         let executeForm = this.getForm();
 
         return (
-                <MDBContainer>
+                <MDBContainer fluid={true}>
                     <MDBRow>
-                        <MDBCol>
+                        <MDBCol size="12">
                             <br></br>
                             <p className="h4 text-center mb-4">Interactive SQL</p>
                             {executeForm}
@@ -87,7 +87,7 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
                         <MDBCol>{lastError}</MDBCol>
                     </MDBRow>
                     <MDBRow>
-                        <MDBCol>
+                        <MDBCol size="12">
                             <QueryResultComponent />
                         </MDBCol>
                     </MDBRow>
@@ -131,24 +131,19 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
         return (
         <MDBContainer fluid={true}>
             <MDBRow>
-                <MDBCol md="12">
+                <MDBCol size="12">
                     <form onSubmit={this.handleSubmit}>
-                        
-                        <label htmlFor="sqlTextArea" className="grey-text">
-                            SQL
-                            <div>
-                                <textarea id="sqlTextArea" className="form-control" rows={9}
-                                name="querybox"
-                                style={{width: '1070px'}}
-                                onChange={this.onQueryChange}
-                                value={this.state.modifiedSql}
-                                disabled={this.props.executing} />
-                             </div>
-                        </label>
-
+                        <label htmlFor="sqlTextArea" className="grey-text">SQL</label>
+                        <textarea id="sqlTextArea" className="form-control" rows={9}
+                        name="querybox"
+                        onChange={this.onQueryChange}
+                        value={this.state.modifiedSql}
+                        disabled={this.props.executing} />
+                        <br></br>
                         <div className="text-center">
                             <Button type='submit'>Execute</Button>
                         </div>
+                        <br></br>
                     </form>
                 </MDBCol>
             </MDBRow>

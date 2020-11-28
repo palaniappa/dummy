@@ -34,6 +34,7 @@ interface ICreateTableComponentLocalState {
     currentFieldName: string;
     currentFieldType: FieldType;
     analyzeSchemaError?: string;
+    schewmaResult?: TableSchema;
 }
 
 class CreateTableComponent extends React.Component<ICreateTableComponentProps, ICreateTableComponentLocalState> {
@@ -57,6 +58,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
             fieldList:"", tableBeingCreated: tableBeingCreated, currentFieldName:""
             , currentFieldType: FieldType.TEXT
             , analyzeSchemaError: undefined
+            , schewmaResult : undefined
         };
         return initState;
     }
@@ -75,7 +77,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
         fielTypeValues.push(<option value={FieldType.DATETIME}>{FieldType.DATETIME}</option>);
 
         let fields: Array<JSX.Element> = this.getFields(fielTypeValues);
-
+        let sampleData = this.getSampleData();
         let createDisabled = this.props.selectedCatalogId === "NONE";
 
         return (
@@ -108,6 +110,8 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
                             </Button>
                             <br/>
                             <br/>
+
+                            {sampleData}
 
                             <label htmlFor="fieldListId" className="grey-text">Field List</label>
                             <textarea rows={5} id="fieldListId" className="form-control"
@@ -165,13 +169,52 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
         </MDBContainer>);
     }
 
+    private getSampleData():JSX.Element {
+        if(!this.state.schewmaResult)
+            return (<div></div>);
+        
+        let headers:Array<JSX.Element>  = [];
+        this.state.schewmaResult.fields.forEach( c => {
+            let th = <th key={c.fieldName}>{c.fieldName}</th>
+            headers.push(th);
+        });
+        
+        let rows:Array<JSX.Element> = [];
+        let index:number = 1;
+        this.state.schewmaResult.samplesRows.forEach( r => {
+            let tds: Array<JSX.Element> = [];
+            r.forEach( sampleData => {
+                tds.push(<td>{sampleData}</td>);
+            });
+            let row = <tr key={"sampleData" + index}>{tds}</tr>
+            rows.push(row);
+            index++;
+        })
+
+        return (
+            <div style={{maxWidth:"100%"}}>
+                <label htmlFor="sampleDataTable" className="grey-text">Sample Data</label>
+                 <MDBTable id="sampleDataTable" bordered small={true} scrollY maxHeight="200px">
+                    <MDBTableHead color="primary-color" textWhite>
+                        {headers}
+                    </MDBTableHead>
+                    <MDBTableBody>
+                        {rows}
+                    </MDBTableBody>
+                </MDBTable>
+            </div>
+        )
+           
+
+    }
+
     private onAnalyzeSchemaClick( event: React.MouseEvent<HTMLElement,MouseEvent>) {
         event.preventDefault();
         console.log("Analyze clicked..!");
         this.props.analyzeTableSchema(this.props.selectedCatalogId, this.state.tableBeingCreated.locationPath).then( (schemaResult: void|TableSchema) => {
             if(schemaResult){
                 if(schemaResult.resultMessage) {
-                    this.setState({...this.state, analyzeSchemaError: schemaResult.resultMessage});
+                    this.setState({...this.state, analyzeSchemaError: schemaResult.resultMessage, schewmaResult:undefined});
                 }
                 else {
                     let tableBeingCreated = {...this.state.tableBeingCreated
@@ -180,7 +223,8 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
                     this.setState({...this.state,tableBeingCreated: tableBeingCreated, currentFieldName: ""
                         , currentFieldType: FieldType.TEXT
                         , fieldList: fieldListString
-                        , analyzeSchemaError: undefined});            
+                        , analyzeSchemaError: undefined
+                        , schewmaResult: schemaResult});            
                 }
             }
             else {

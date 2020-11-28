@@ -5,7 +5,7 @@ import { act } from 'react-dom/test-utils';
 const init: QueryState = {
     executing: false
     , queryResult: undefined
-    , sqlQuery: "select id, personname, gender, yearlyincome from hive.default.storeindividuals limit 50"
+    , sqlQuery: "select id, personname, gender, yearlyincome from customerdata limit 50"
     
 }
 

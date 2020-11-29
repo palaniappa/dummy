@@ -55,10 +55,12 @@ public class HiveMetastoreService {
         sd.setOutputFormat("org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat");
 
         SerDeInfo serDeInfo = new SerDeInfo();
-        serDeInfo.setSerializationLib("org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe");
+        //serDeInfo.setSerializationLib("org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe");
+        serDeInfo.setSerializationLib("org.apache.hadoop.hive.serde2.OpenCSVSerde");
         serDeInfo.setParameters(new HashMap<>());
         serDeInfo.getParameters().put("serialization.format", ",");
         serDeInfo.getParameters().put("escape.delim", "\\");
+        serDeInfo.getParameters().put("quote.delim", "\"");
         serDeInfo.getParameters().put("field.delim", ",");
 
         sd.setSerdeInfo(serDeInfo);

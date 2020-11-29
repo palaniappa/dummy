@@ -24,6 +24,7 @@
 
 
 # Key Analysis
+- POC -> Done
 - Scale
 - Platform & Industry Specific Pre defined package
 - Interconnectivity

@@ -8,6 +8,15 @@ import QueryResultComponent from './queryResultComponent';
 import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import { Alert } from 'react-bootstrap'
 import styled from "styled-components";
+import {Controlled as CodeMirror} from 'react-codemirror2'
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/material.css';
+require('codemirror/mode/sql/sql');
+require('codemirror/mode/shell/shell');
+require('codemirror/addon/display/placeholder'); 
+ require('codemirror/addon/hint/show-hint.css'); // Used for code hints
+ require('codemirror/addon/hint/show-hint.js'); // Used for code hints
+ require('codemirror/addon/hint/sql-hint.js'); 
 
 
 interface IQueryComponentStateProps {
@@ -128,17 +137,43 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
                         }
                         `;
 
+        const codeMirronOptions = {
+            mode: 'text/x-sql',
+            indentWithTabs: true,
+            smartIndent: true,
+            lineNumbers: true,
+            matchBrackets: true,
+            autofocus: true,
+            extraKeys: { Tab: 'autocomplete' },
+            hintOptions: { completeSingle: false },
+            lineWrapping: true,
+            theme: 'default'
+        };
+
         return (
         <MDBContainer fluid={true}>
             <MDBRow>
                 <MDBCol size="12">
                     <form onSubmit={this.handleSubmit}>
                         <label htmlFor="sqlTextArea" className="grey-text">SQL</label>
-                        <textarea id="sqlTextArea" className="form-control" rows={9}
+                        {/* <textarea id="sqlTextArea" className="form-control" rows={9}
                         name="querybox"
                         onChange={this.onQueryChange}
                         value={this.state.modifiedSql}
-                        disabled={this.props.executing} />
+                        disabled={this.props.executing} /> */}
+
+                        <div style={{fontSize:"large"}}>
+                        <CodeMirror
+                            value={this.state.modifiedSql}
+                            options={codeMirronOptions}
+                            onBeforeChange={(editor, data, value) => {
+                                this.setState({...this.state, modifiedSql: value});
+                            }}
+                            onChange={(editor, data, value) => {
+                                
+                            }}
+                            />
+                        </div>
                         <br></br>
                         <div className="text-center">
                             <Button type='submit'>Execute</Button>

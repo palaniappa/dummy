@@ -108,6 +108,18 @@ export class PlayGroundService {
         }
     }
 
+    public async deleteTable(tableId: string): Promise<void> {
+        try {
+            let config = this.getCallConfig();
+            await Axios.delete(this.getResourceUrl(this.API_PATH_TABLE + "/" + tableId), config);
+            return;
+        }
+        catch (error) {
+            console.log(error.response.data.message);
+            throw Error(error.response.data.message);
+        }
+    }
+
     public async executeSql(query: String): Promise<QueryResult> {
         const API_PATH = "query/sql";
         console.log("Executing the query " + query);

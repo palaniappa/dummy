@@ -7,7 +7,7 @@ import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import { CatalogModel } from '../../models/catalog/CatalogModel';
 import { CatalogActions } from '../../store/catalog/types';
 import * as asyncactions from '../../store/catalog/catalogAsyncActions';
-import { loadTablesOfSelectedCatalog, loadTableDetails } from '../../store/table/tableAsyncActions';
+import { loadTablesOfSelectedCatalog, loadTableDetails, deleteTable } from '../../store/table/tableAsyncActions';
 import { TableActions } from '../../store/table/tableActions';
 import { MDBTable, MDBTableHead, MDBTableBody, MDBIcon } from 'mdbreact';
 import { CatalogTable, CatalogTables } from '../../models/catalog/CatalogTables';
@@ -37,6 +37,7 @@ const mapDispatcherToProps = (dispatch: Dispatch<CatalogActions|TableActions>) =
         loadCatalogs: () => asyncactions.loadCatalogs(dispatch)
         , loadTablesOfSelectedCatalog: (selectedCatalogId: string) => loadTablesOfSelectedCatalog(dispatch, selectedCatalogId)
         , loadTableDetails: (selectedTableId: string) => loadTableDetails(dispatch, selectedTableId)
+        , deleteTable: (tableId: string) => deleteTable(dispatch, tableId)
     };
 }
 
@@ -248,7 +249,9 @@ class TableMainComponent extends React.Component<ITableMainComponentProps, {}> {
 
     private onDeleteClick(event: React.SyntheticEvent<HTMLButtonElement>) {
         let tableIdToDelete = (event.target as HTMLButtonElement).id;
-        console.log('Delete clicked for id' +  tableIdToDelete);
+        this.props.deleteTable(tableIdToDelete).then( () => {
+            this.props.loadTablesOfSelectedCatalog(this.props.selectedDataSource);
+        });
         
     }
 

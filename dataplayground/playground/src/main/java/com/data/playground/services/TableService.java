@@ -43,4 +43,11 @@ public class TableService {
         }
         return  tables;
     }
+
+    public void delete(String tableId, String userId) {
+        Optional<DPTable> dpTable = this.tableRepository.findDPTablesByIdAndUserId(tableId, userId);
+        if(dpTable.isPresent()) {
+            this.tableRepository.delete(dpTable.get());
+        }
+    }
 }

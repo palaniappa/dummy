@@ -194,7 +194,7 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
                         </MDBRow>
                         <br />
                         <div className="text-center">
-                            <Button type='submit'>Create</Button>
+                            <Button type='submit'>Add Table</Button>
                         </div>
                         <br />
                     </fieldset>
@@ -238,8 +238,6 @@ class CreateTableComponent extends React.Component<ICreateTableComponentProps, I
                 <br />
             </div>
         )
-
-
     }
 
     private onAnalyzeSchemaClick(event: React.MouseEvent<HTMLElement, MouseEvent>) {

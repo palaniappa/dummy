@@ -2,27 +2,35 @@ package com.data.playground.services;
 
 import com.data.playground.exception.PlaygroundException;
 import com.data.playground.model.data.dto.FieldType;
-import com.data.playground.model.data.dto.SchemaRequest;
 import com.data.playground.model.data.dto.TableField;
 import com.data.playground.model.data.dto.TableSchema;
 import com.data.playground.repositories.entity.Catalog;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class PostgreSQLSchemaAnalyzer extends SchemaAnalyzer {
-    public PostgreSQLSchemaAnalyzer(Catalog catalog, SchemaRequest schemaRequest) {
-        super(catalog, schemaRequest);
-    }
+@Service
+public class PostgreSQLService {
 
-    @Override
-    public TableSchema getSchema() throws PlaygroundException {
+    public List<TableField> getTableFields(
+            Catalog catalog
+            , String tableName
+    ) throws PlaygroundException {
 
+        Gson gson = new Gson();
+        Type type = new TypeToken<Map<String, String>>() {
+        }.getType();
+        Map<String,String> catalogProps = gson.fromJson(catalog.getProperties(), type);
 
-        String connectionUrl = this.catalogConnectProperties.get("connection-url");
-        String userName = this.catalogConnectProperties.get("connection-user");
-        String password = this.catalogConnectProperties.get("connection-password");
+        String connectionUrl = catalogProps.get("connection-url");
+        String userName = catalogProps.get("connection-user");
+        String password = catalogProps.get("connection-password");
 
         Connection connection = null;
         Statement statement = null;
@@ -35,43 +43,37 @@ public class PostgreSQLSchemaAnalyzer extends SchemaAnalyzer {
 
             String sqlStatement = String.format("select column_name, data_type  from information_schema.columns where table_schema = '%s' and table_name = '%s'"
                     , catalog.getDatabaseName()
-                    , schemaRequest.getTableNameOrLocationPath());
+                    , tableName);
+
             statement = connection.createStatement();
             rs = statement.executeQuery(sqlStatement);
             List<TableField> fields = new ArrayList<>();
-            while(rs.next()) {
+            while (rs.next()) {
                 TableField field = new TableField();
                 field.setFieldName(rs.getString(1));
                 field.setFieldType(this.getFieldType(rs.getString(2)));
                 fields.add(field);
                 System.out.println(rs.getString(1) + ":" + rs.getString(2));
             }
-
-            TableSchema tableSchema = new TableSchema();
-            tableSchema.setSamplesRows(null);
-            tableSchema.setFields(fields);
-            return  tableSchema;
-        }
-        catch (Exception e) {
+            return fields;
+        } catch (Exception e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             throw new PlaygroundException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if(statement != null) {
+                if (statement != null) {
                     statement.close();
                 }
 
-                if(rs != null) {
+                if (rs != null) {
                     rs.close();
                 }
 
-                if(connection != null) {
+                if (connection != null) {
                     connection.close();
                 }
-            }
-            catch (SQLException sqlException) {
+            } catch (SQLException sqlException) {
                 System.out.println(sqlException.getMessage());
             }
 

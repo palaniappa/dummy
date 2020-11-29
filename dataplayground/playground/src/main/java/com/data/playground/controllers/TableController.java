@@ -1,46 +1,24 @@
 package com.data.playground.controllers;
 
-import au.com.bytecode.opencsv.CSVParser;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.AmazonS3URI;
-import com.amazonaws.services.s3.model.*;
 import com.data.playground.exception.PlaygroundException;
-import com.data.playground.hivemetastore.ThriftHiveMetastoreClient;
 import com.data.playground.model.data.dto.*;
 import com.data.playground.repositories.entity.Catalog;
 import com.data.playground.repositories.entity.DPTable;
+import com.data.playground.schema.PostgreSQLSchemaAnalyzer;
+import com.data.playground.schema.S3SchemaAnalyzer;
+import com.data.playground.schema.SchemaAnalyzer;
 import com.data.playground.services.*;
 import com.data.playground.util.CommonUtil;
 import com.data.playground.util.TableCommandParser;
-import com.google.common.net.HostAndPort;
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
 import org.apache.hadoop.hive.metastore.api.FieldSchema;
-import org.apache.hadoop.hive.metastore.api.SerDeInfo;
-import org.apache.hadoop.hive.metastore.api.StorageDescriptor;
 import org.apache.hadoop.hive.metastore.api.Table;
-import org.apache.thrift.TException;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Date;
 
 import static com.data.playground.util.TableCommandParser.getPlaygroundFieldType;
 
@@ -52,8 +30,15 @@ public class TableController {
 
     @Autowired
     private CatalogService catalogService;
+
     @Autowired
     private TableService tableService;
+
+    @Autowired
+    private PostgreSQLService postgreSQLService;
+
+    @Autowired
+    private HiveMetastoreService hiveMetastoreService;
 
     @RequestMapping(value = "/createTable",  method = RequestMethod.POST)
     public ResponseEntity<Table> createTable(@RequestBody TableDTO tableDTO) throws Exception {
@@ -75,7 +60,7 @@ public class TableController {
 
         connection.close();
 
-        Table table = this.getHiveTable("default", tableDTO.getTableName());
+        Table table = this.hiveMetastoreService.getTable("default", tableDTO.getTableName());
 
         return new ResponseEntity<>(table, HttpStatus.CREATED);
 
@@ -98,52 +83,18 @@ public class TableController {
         dpTable.setUserId(userId);
         this.tableService.upsertTable(dpTable);
 
-        ThriftHiveMetastoreClient client = new ThriftHiveMetastoreClient(HostAndPort.fromParts("localhost", 9083));
-
-        try {
-            client.dropTable(catalog.get().getDatabaseName(), tableDTO.getTableName(), false);
-        } catch (Exception e) {
-            //ignore
+        TableDTO resultTable = null;
+        if(catalog.get().getCatalogType().equals(CatalogService.CATALOG_TYPE_HIVE)) {
+            Table hiveTable = this.hiveMetastoreService.upsertTable(catalog.get(), tableDTO);
+            resultTable = this.transformTableDto(dpTable, catalog.get(), hiveTable);
         }
-
-        Table table = new Table();
-        table.setDbName(catalog.get().getDatabaseName());
-        table.setTableName(tableDTO.getTableName());
-        table.setTableType("EXTERNAL_TABLE");
-        table.setParameters(new HashMap<>());
-        table.getParameters().put("skip.header.line.count", "1");
-        table.getParameters().put("EXTERNAL", "true");
-        table.getParameters().put("numFiles", "1");
-        table.getParameters().put("bucketing_version", "2");
-
-        StorageDescriptor sd = new StorageDescriptor();
-        for (TableField f : tableDTO.getFields()) {
-            FieldSchema fs = new FieldSchema();
-            fs.setName(f.getFieldName());
-            fs.setType(TableCommandParser.getHiveFieldTypeString(f.getFieldType()));
-            sd.addToCols(fs);
+        else if(catalog.get().getCatalogType().equals(CatalogService.CATALOG_TYPE_POSTGRESQL)) {
+            List<TableField> fields = this.postgreSQLService.getTableFields(catalog.get(), tableDTO.getTableName());
+            resultTable = this.transformTableDto(dpTable, catalog.get(), fields);
         }
-        sd.setLocation(tableDTO.getLocationPath());
-        sd.setInputFormat("org.apache.hadoop.mapred.TextInputFormat");
-        sd.setOutputFormat("org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat");
-
-        SerDeInfo serDeInfo = new SerDeInfo();
-        serDeInfo.setSerializationLib("org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe");
-        serDeInfo.setParameters(new HashMap<>());
-        serDeInfo.getParameters().put("serialization.format", ",");
-        serDeInfo.getParameters().put("escape.delim", "\\");
-        serDeInfo.getParameters().put("field.delim", ",");
-
-        sd.setSerdeInfo(serDeInfo);
-        table.setSd(sd);
-
-
-        client.createTable(table);
-
-        table = this.getHiveTable(catalog.get().getDatabaseName(), table.getTableName());
-
-        TableDTO resultTable = this.transformTableDto(dpTable, catalog.get(), table);
-
+        else {
+            throw new PlaygroundException("Unsupported catalog type!");
+        }
         return new ResponseEntity<>(resultTable, HttpStatus.CREATED);
 
     }
@@ -160,11 +111,16 @@ public class TableController {
         if(catalog.isPresent() == false)
             throw  new PlaygroundException(String.format("Failed to get the catalog with id %s", dpTable.get().getCatalogId()));
 
-        Table table = this.getHiveTable(catalog.get().getDatabaseName(), tableId);
-
-        TableDTO tableDTO = this.transformTableDto(dpTable.get(), catalog.get(), table);
-
-        return new ResponseEntity<>(tableDTO, HttpStatus.OK);
+        TableDTO resultTable = null;
+        if(catalog.get().getCatalogType().equals(CatalogService.CATALOG_TYPE_HIVE)) {
+            Table table = this.hiveMetastoreService.getTable(catalog.get().getDatabaseName(), tableId);
+            resultTable = this.transformTableDto(dpTable.get(), catalog.get(), table);
+        }
+        else if(catalog.get().getCatalogType().equals(CatalogService.CATALOG_TYPE_POSTGRESQL)) {
+            List<TableField> fields = this.postgreSQLService.getTableFields(catalog.get(), tableId);
+            resultTable = this.transformTableDto(dpTable.get(), catalog.get(), fields);
+        }
+        return new ResponseEntity<>(resultTable, HttpStatus.OK);
 
     }
 
@@ -204,6 +160,19 @@ public class TableController {
     }
 
 
+    @RequestMapping(value = "/{tableId}", method = RequestMethod.DELETE)
+    public ResponseEntity<String> delete(@PathVariable(value="tableId") String tableId) throws Exception {
+        String userId = CommonUtil.getCurrentUserId();
+        Optional<DPTable> dpTable = this.tableService.getTable(tableId,userId);
+        Optional<Catalog> catalog = this.catalogService.getCatalogByCatalogIdAndUserId(dpTable.get().getCatalogId(), userId);
+        if(dpTable.isPresent() && catalog.isPresent()) {
+            if(catalog.get().getCatalogType().equals(CatalogService.CATALOG_TYPE_HIVE)) {
+                //this.hiveMetastoreService
+            }
+            this.tableService.delete(tableId, userId);
+        }
+        return new ResponseEntity<>(tableId, HttpStatus.OK);
+    }
 
     private TableDTO transformTableDto(DPTable dpTable, Catalog catalog, Table hiveTable) throws PlaygroundException{
         TableDTO tableDTO = new TableDTO();
@@ -224,11 +193,14 @@ public class TableController {
         return  tableDTO;
     }
 
-    private Table getHiveTable(String databaseName, String tableName) throws TException {
-        ThriftHiveMetastoreClient client = new ThriftHiveMetastoreClient(HostAndPort.fromParts("localhost", 9083));
-        Table table = client.getTable(databaseName, tableName);
-        return table;
+    private TableDTO transformTableDto(DPTable dpTable, Catalog catalog, List<TableField> fields) throws PlaygroundException{
+        TableDTO tableDTO = new TableDTO();
+        tableDTO.setTableName(dpTable.getName());
+        tableDTO.setCatalogId(dpTable.getCatalogId());
+        tableDTO.setDatabaseName(catalog.getDatabaseName());
+        tableDTO.setLocationPath(dpTable.getId());
+        tableDTO.setFields(fields);
+        return  tableDTO;
     }
-
 
 }

@@ -1,4 +1,4 @@
-package com.data.playground.services;
+package com.data.playground.schema;
 
 import com.data.playground.exception.PlaygroundException;
 import com.data.playground.model.data.dto.SchemaRequest;

@@ -1,6 +1,7 @@
 package com.data.playground.exception;
 
 import com.data.playground.model.ExceptionResponse;
+import com.data.playground.util.CommonUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,7 +21,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             returnStatus = ((PlaygroundException)exception).getErrorStatus();
         }
         ExceptionResponse error = new ExceptionResponse();
-        error.setMessage(exception.getMessage());
+        if(CommonUtil.isEmpty(exception.getMessage())) {
+            error.setMessage(exception.getClass().getName());
+        }
+        else {
+            error.setMessage(exception.getMessage());
+        }
+
         error.setPath(webRequest.getContextPath());
         error.setError(exception);
         ResponseEntity<Object> entity = new ResponseEntity<>(error, returnStatus);

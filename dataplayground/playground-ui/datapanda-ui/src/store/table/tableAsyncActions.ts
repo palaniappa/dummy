@@ -64,3 +64,13 @@ export async function analyzeTableSchema(dispatch: Dispatch<TableActions>, catal
     let tableSchemaRequest: TableSchemaRequest = {catalogId, tableNameOrLocationPath: tableNameOrLocationPath };
     return PlayGroundService.getInstance().alanlyzeTableSchema(tableSchemaRequest);
 }
+
+export async function deleteTable(dispatch: Dispatch<TableActions>, tableId: string) : Promise<void|string> {
+
+    return PlayGroundService.getInstance().deleteTable(tableId).catch(
+        (error) => {
+            //TODO handle error.
+            console.log(error);
+        }
+    );
+}

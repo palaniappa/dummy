@@ -1,4 +1,4 @@
-package com.data.playground.services;
+package com.data.playground.schema;
 
 import au.com.bytecode.opencsv.CSVParser;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -15,20 +15,17 @@ import com.data.playground.model.data.dto.TableField;
 import com.data.playground.model.data.dto.TableSchema;
 import com.data.playground.repositories.entity.Catalog;
 import com.data.playground.util.CommonUtil;
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class S3SchemaAnalyzer extends SchemaAnalyzer {
     public S3SchemaAnalyzer(Catalog catalog, SchemaRequest schemaRequest) {

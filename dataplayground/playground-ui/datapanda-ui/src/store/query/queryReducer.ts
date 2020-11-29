@@ -1,6 +1,5 @@
 import { QueryState } from './queryState';
 import { QueryConstants, QueryActions } from './queryActions';
-import { act } from 'react-dom/test-utils';
 
 const sampleQuery = 
 `--Type the SQL here 

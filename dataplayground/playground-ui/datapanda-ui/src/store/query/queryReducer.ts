@@ -2,22 +2,21 @@ import { QueryState } from './queryState';
 import { QueryConstants, QueryActions } from './queryActions';
 import { act } from 'react-dom/test-utils';
 
-const sampleQuery = `
---Type the SQL here 
-select i.id, i.personname, i.email, count(o.order_id) as CountOfSales, sum(o.sales) as TotalSales,
-    avg(o.sales) as AverageSales,
-    sum(o.quantity) as TotalQuantity,
-    sum(o.discount) as TotalDiscount,
-    sum(o.profit) as TotalProfit,
-    avg(o.profit) as AverageProfit
+const sampleQuery = 
+`--Type the SQL here 
+select 
+
+    i.id, i.personname, i.email, count(o.order_id) as CountOfSales, sum(o.sales) as TotalSales, 
+    avg(o.sales) as AverageSales, sum(o.quantity) as TotalQuantity, sum(o.discount) as TotalDiscount, 
+    sum(o.profit) as TotalProfit, avg(o.profit) as AverageProfit
     
-    from testorders o
-    left outer join Individuals i
+from testorders o
+left outer join Individuals i
     on o.IndividualId = i.id 
     
-    group by
+group by
     i.id, i.personname, i.email
-    limit 100`;
+limit 100`;
 
 const init: QueryState = {
     executing: false

@@ -92,10 +92,6 @@ class App extends React.Component<IPlayGroundAppProps, {}> {
               //   elemBefore: () => <Icon name="inbox" />,
             },
             {
-              title: 'Query',
-              itemId: '/query'
-            },
-            {
               title: 'Model',
               itemId: '/model',
               subNav: [
@@ -104,14 +100,18 @@ class App extends React.Component<IPlayGroundAppProps, {}> {
                   itemId: '/model/catalogs',
                 },
                 {
-                  title: 'Tables',
+                  title: 'Data Tables',
                   itemId: '/model/tables',
                 },
                 {
-                  title: 'Derived Tables',
+                  title: 'Data Model',
                   itemId: '/model/computed-tables',
                 },
               ],
+            },
+            {
+              title: 'Query',
+              itemId: '/query'
             },
             {
               title: 'Dashboards',

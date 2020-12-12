@@ -19,7 +19,7 @@
 - Add key to the list items.
 - Add the google client id in config in UI.
 - Add loading status to table details.
-
+- Table schema 
 
 
 

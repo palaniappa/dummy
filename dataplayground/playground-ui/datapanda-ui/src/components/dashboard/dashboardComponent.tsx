@@ -4,12 +4,13 @@ import { ApplicationRootState } from '../../store/ApplicationState';
 import { connect } from 'react-redux';
 import { MDBContainer, MDBRow,MDBCol} from 'mdbreact';
 import { ChartComponent } from './chartComponent';
+import { Button } from 'react-bootstrap';
 import 'chartjs-plugin-colorschemes';
-import { DashboardDefinition } from '../../models/dashboard/DashboardModel';
-import { executeChartQuery } from  '../../store/dashboard/dashboardAsyncActions';
-import {executeQuery} from '../../store/query/queryAsyncActions';
+import { ChartDefinition, ChartType, DashboardDefinition } from '../../models/dashboard/DashboardModel';
+import { executeChartQuery, saveDashboardChart } from  '../../store/dashboard/dashboardAsyncActions';
 import { QueryResult } from '../../models/query/QueryReuslt';
 import { Action } from 'typesafe-actions';
+import { CommonUtil } from '../../utils/CommonUtil';
 
 interface IDashboardComponentStateProps {
     dashboard?: DashboardDefinition
@@ -24,6 +25,7 @@ const mapStateToProps = (state: ApplicationRootState): IDashboardComponentStateP
 const mapDispatcherToProps = (dispatch: Dispatch<Action>) => {
     return {
         executeChartQuery: (sql:string):Promise<QueryResult> => executeChartQuery(dispatch, sql)
+        , saveDashboardChart: (dashboard: DashboardDefinition, chart: ChartDefinition):Promise<void|ChartDefinition> => saveDashboardChart(dispatch, dashboard, chart)
     };
 }
 
@@ -41,14 +43,16 @@ class DashboardComponent extends React.Component<IDashboardComponentProps, {}> {
 
     render() {
 
-        let chart1 = null;
-        if(this.props.dashboard && this.props.dashboard.charts && this.props.dashboard?.charts[0]){
-            chart1 = <ChartComponent chart={this.props.dashboard?.charts[0]} executeChartSql={this.props.executeChartQuery}/>
-        }
-        let chart2 = null;
-        if(this.props.dashboard && this.props.dashboard.charts && this.props.dashboard?.charts[1]){
-            chart2 = <ChartComponent chart={this.props.dashboard?.charts[1]}  executeChartSql={this.props.executeChartQuery}/>
-        }
+        // let chart1 = null;
+        // if(this.props.dashboard && this.props.dashboard.charts && this.props.dashboard?.charts[0]){
+        //     chart1 = <ChartComponent chart={this.props.dashboard?.charts[0]} executeChartSql={this.props.executeChartQuery}/>
+        // }
+        // let chart2 = null;
+        // if(this.props.dashboard && this.props.dashboard.charts && this.props.dashboard?.charts[1]){
+        //     chart2 = <ChartComponent chart={this.props.dashboard?.charts[1]}  executeChartSql={this.props.executeChartQuery}/>
+        // }
+
+        let charts = this.getCharts();
 
         return (
             <MDBContainer fluid={true}>
@@ -57,20 +61,72 @@ class DashboardComponent extends React.Component<IDashboardComponentProps, {}> {
                         <br></br>
                         <p className="h4 text-center mb-4">{this.props.dashboard?.title}</p>
                         <p className= "text-center mb-1">{this.props.dashboard?.description}</p>
+                        {charts}
                         <MDBRow>
-                        <MDBCol size="6">
-                            {chart1}
-                        </MDBCol>
-                        
-                        <MDBCol size="6">
-                            {chart2}
-                        </MDBCol>
+                            <MDBCol>
+                                <Button variant="primary" size="sm"
+                                    onClick={this.addNewChart.bind(this)}
+                                    disabled = {
+                                        this.props.dashboard?.charts?.length == 6
+                                    }>
+                                    Add New
+                                </Button>
+                            </MDBCol>
                         </MDBRow>
-                        
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
         );
+    }
+
+    private getCharts():Array<JSX.Element> {
+        let charts: Array<JSX.Element> = [];
+        if(this.props.dashboard?.charts) {
+            let currentRowItems:Array<JSX.Element> = [];
+            this.props.dashboard.charts.forEach( c => {
+                let cDisplay = (
+                <MDBCol size="6">
+                    <ChartComponent key={c.id} chart={c} 
+                        executeChartSql={this.props.executeChartQuery}
+                        saveDashboardChart={this.saveDashboradChart.bind(this)}
+                    />
+                </MDBCol>
+                );
+                currentRowItems.push(cDisplay);
+                if(currentRowItems.length == 2) {
+                    charts.push(<MDBRow>{currentRowItems}</MDBRow>);
+                    currentRowItems = [];
+                }
+            });
+            if(currentRowItems.length > 0) {
+                charts.push(<MDBRow>{currentRowItems}</MDBRow>);
+                currentRowItems = [];
+            }
+        }
+        return charts;
+    }
+    
+    public saveDashboradChart(chart: ChartDefinition): Promise<void|ChartDefinition> {
+        if(this.props.dashboard){
+            return this.props.saveDashboardChart(this.props.dashboard, chart);
+        }
+        throw Error("Invalid");
+    }
+
+    private addNewChart(event: React.MouseEvent<HTMLElement, MouseEvent>) {
+        if(this.props.dashboard){
+            let c: ChartDefinition = {
+                id: CommonUtil.generateUuid()
+                , title: "New Chart"
+                , description: "New chart description"
+                , dashboardId: this.props.dashboard.id
+                , sql: ""
+                , chartType: ChartType.DOUGHNUT
+                , definition: '{}'
+            }
+            this.props.saveDashboardChart(this.props.dashboard, c);
+        }
+        
     }
 }
 

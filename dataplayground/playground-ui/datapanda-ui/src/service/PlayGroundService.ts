@@ -5,7 +5,7 @@ import { CatalogModel } from '../models/catalog/CatalogModel';
 import { CatalogTable } from '../models/catalog/CatalogTables';
 import { TableDetails } from '../models/table/TableDetails';
 import { TableSchema, TableSchemaRequest } from "../models/table/TableSchema";
-import { DashboardDefinition } from "../models/dashboard/DashboardModel";
+import { ChartDefinition, DashboardDefinition } from "../models/dashboard/DashboardModel";
 
 export class PlayGroundService {
 
@@ -168,6 +168,44 @@ export class PlayGroundService {
         try {
             let config = this.getCallConfig();
             await Axios.delete(this.getResourceUrl(this.API_PATH_DASHBOARD + "/" + dashboadId), config);
+            return;
+        }
+        catch (error) {
+            console.log(error.response.data.message);
+            throw Error(error.response.data.message);
+        }
+    }
+
+    public async getDashboardCharts(dashboardId: string): Promise<Array<ChartDefinition>> {
+
+        try {
+            let config = this.getCallConfig();
+            let result: AxiosResponse<Array<ChartDefinition>> = await Axios.get(this.getResourceUrl(this.API_PATH_DASHBOARD + "/"+ dashboardId + "/chart"), config);
+            return result.data;
+        }
+        catch (error) {
+            console.log(error.response.data.message);
+            throw Error(error.response.data.message);
+        }
+    }
+
+    public async upsertDashboardChart(dashboardId: string, chart: ChartDefinition): Promise<ChartDefinition> {
+
+        try {
+            let config = this.getCallConfig();
+            let result: AxiosResponse<ChartDefinition> = await Axios.post(this.getResourceUrl(this.API_PATH_DASHBOARD + "/"+ dashboardId + "/chart"), chart, config);
+            return result.data;
+        }
+        catch (error) {
+            console.log(error.response.data.message);
+            throw Error(error.response.data.message);
+        }
+    }
+
+    public async deleteDashboardChart(dashboadId: string, chartId: string): Promise<void> {
+        try {
+            let config = this.getCallConfig();
+            await Axios.delete(this.getResourceUrl(this.API_PATH_DASHBOARD + "/" + dashboadId  + "/chart" + chartId), config);
             return;
         }
         catch (error) {

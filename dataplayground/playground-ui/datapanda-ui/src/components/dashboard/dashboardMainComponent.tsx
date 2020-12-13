@@ -54,6 +54,7 @@ class DashboardMainComponent extends React.Component<IDashboardMainComponentProp
     render() {
         let dashboards = this.getDashboards();
         let selectedDashboradDetails = this.getSelectedDashboradDetails();
+        let dashboardCharts = this.getDashboardCharts();
         return (
             <MDBContainer fluid={true}>
                 <MDBRow>
@@ -73,12 +74,18 @@ class DashboardMainComponent extends React.Component<IDashboardMainComponentProp
                     </MDBCol>
                 </MDBRow>
                 <MDBRow>
-                    <DashboardComponent />
+                    {dashboardCharts}
                 </MDBRow>
             </MDBContainer>
         );
     }
 
+    private getDashboardCharts(): JSX.Element {
+        if(this.props.selectedDashboard){
+            return <DashboardComponent />
+        }
+        return <div></div>;
+    }
     private getDashboards(): JSX.Element {
 
         let optionValues: Array<JSX.Element> = [];
@@ -98,13 +105,13 @@ class DashboardMainComponent extends React.Component<IDashboardMainComponentProp
     }
 
     private getSelectedDashboradDetails(): JSX.Element {
-        if (this.props.selectedDashboard) {
+        if (this.state.dashboardBeingModified) {
             let selectedItem = (
                 <MDBTable>
                     <MDBTableBody>
                         <tr>
                             <td><b>Title</b></td>
-                            <td colSpan={2}>
+                            <td>
                                 <input type="text" id="dashboradTitle" className="form-control"
                                     value={this.state.dashboardBeingModified?.title}
                                     onChange={this.onValueChange.bind(this)} />
@@ -112,21 +119,21 @@ class DashboardMainComponent extends React.Component<IDashboardMainComponentProp
                         </tr>
                         <tr>
                             <td><b>Description</b></td>
-                            <td colSpan={2}>
+                            <td>
                                 <input type="text" id="dashboradDescription" className="form-control"
                                     value={this.state.dashboardBeingModified?.description}
                                     onChange={this.onValueChange.bind(this)} />
                             </td>
                         </tr>
                         <tr>
-                            <td colSpan={2}>
+                            <td colSpan={2} align="center">
                                 <Button variant="primary" size="sm"
                                     onClick={this.createNew.bind(this)}>
                                     Create New
                                 </Button>
                                 <Button variant="primary" size="sm"
                                     onClick={this.update.bind(this)}>
-                                    Update
+                                    Save
                                 </Button>
                                 <Button variant="primary" size="sm"
                                     onClick={this.delete.bind(this)}>
@@ -138,6 +145,8 @@ class DashboardMainComponent extends React.Component<IDashboardMainComponentProp
                 </MDBTable>
             );
             return selectedItem;
+        } else if(this.props.selectedDashboard) {
+            this.setState({...this.state,dashboardBeingModified: this.props.selectedDashboard})
         }
 
         return <div>Select any dashboard</div>;

@@ -24,10 +24,10 @@ public class DPChart {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "chartType")
+    @Column(name = "chart_type")
     private String chartType;
 
-    @Column(name = "sqlText")
+    @Column(name = "sql_text")
     private String sql;
 
     @Column(name = "definition")

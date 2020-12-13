@@ -2,7 +2,6 @@ package com.data.playground.services;
 
 import com.data.playground.repositories.DashboardRepository;
 import com.data.playground.repositories.entity.DPDashboard;
-import com.data.playground.repositories.entity.DPTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +22,9 @@ public class DashboardService {
         return this.dashboardRepository.save(dashboard);
     }
 
+    public Optional<DPDashboard> getDashboard(String dashboardId, String userId) {
+        return this.dashboardRepository.findDPDashboardByIdAndUserId(dashboardId, userId);
+    }
     public void delete(String dashboardId, String userId) {
         Optional<DPDashboard> dashboard = this.dashboardRepository.findDPDashboardByIdAndUserId(dashboardId, userId);
         if(dashboard.isPresent()) {

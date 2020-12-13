@@ -18,7 +18,7 @@ export interface ChartDefinition {
     dashboardId: string;
     sql: string;
     chartType: ChartType;
-    definition: DoughnutChartTypeDefinition;
+    definition: string;
 }
 
 export interface DoughnutChartTypeDefinition {

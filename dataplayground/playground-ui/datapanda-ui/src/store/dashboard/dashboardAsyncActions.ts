@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { DashboardDefinition } from '../../models/dashboard/DashboardModel';
+import { ChartDefinition, DashboardDefinition } from '../../models/dashboard/DashboardModel';
 import { QueryResult } from '../../models/query/QueryReuslt';
 import { PlayGroundService } from '../../service/PlayGroundService';
 import { DashboardActions, finishLoadingDashboards, selectDashboard } from './dashboardActions';
@@ -24,17 +24,16 @@ export async function loadDashboards( dispatch: Dispatch<DashboardActions> ) : P
 
 export async function loadSelectedDashboard( dispatch: Dispatch<DashboardActions>, selectedDashboard: DashboardDefinition ) : Promise<void> {
     
-    dispatch(selectDashboard(selectedDashboard));
-    // return PlayGroundService.getInstance().getDashboards().then( (dashboards: Array<DashboardDefinition>) => {
-    //     dispatch(finishLoadingDashboards(dashboards));
-    //     return dashboards;
-    // })
-    // .catch(
-    //     (error) => {
-    //         //TODO handle error.
-    //         console.log(error);
-    //     }
-    // );
+    return PlayGroundService.getInstance().getDashboardCharts(selectedDashboard.id).then( (charts: Array<ChartDefinition>) => {
+        let newDashborad = {...selectedDashboard,charts:charts};
+        dispatch(selectDashboard(newDashborad));
+    })
+    .catch(
+        (error) => {
+            //TODO handle error.
+            console.log(error);
+        }
+    );
 }
 
 export async function saveDashboard( dispatch: Dispatch<DashboardActions>, dashboard: DashboardDefinition ) : Promise<void|DashboardDefinition> {
@@ -62,3 +61,17 @@ export async function deleteDashboard( dispatch: Dispatch<DashboardActions>, das
         }
     );
 }
+
+export async function saveDashboardChart( dispatch: Dispatch<DashboardActions>, dashboard: DashboardDefinition, chart: ChartDefinition ) : Promise<void|ChartDefinition> {
+    return PlayGroundService.getInstance().upsertDashboardChart(dashboard.id, chart).then( (createdDashboardChart: ChartDefinition) => {
+        return loadSelectedDashboard(dispatch,dashboard).then( () => {
+            return createdDashboardChart;
+    })})
+    .catch(
+        (error) => {
+            //TODO handle error.
+            console.log(error);
+        }
+    );
+}
+

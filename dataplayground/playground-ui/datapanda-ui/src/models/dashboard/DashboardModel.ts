@@ -5,14 +5,17 @@ export enum ChartType {
     BAR = "BAR"
 }
 export interface DashboardDefinition {
-    name: string;
+    id: string;
     title: string;
-    charts: Array<ChartDefinition>;
+    description?: string;
+    charts?: Array<ChartDefinition>;
 }
 
 export interface ChartDefinition {
-    name: string;
+    id: string;
     title: string;
+    description?: string;
+    dashboardId: string;
     sql: string;
     chartType: ChartType;
     definition: DoughnutChartTypeDefinition;

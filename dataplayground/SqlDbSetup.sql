@@ -27,7 +27,7 @@ select * from DP_Table;
 alter table DP_Table drop column database_name;
 
 
-delete from DP_Catalog where properties = '{}';
+delete from DP_Catalog where properties = '{"hive.s3.aws-secret-key":"","hive.s3.aws-access-key":"","hive.s3.endpoint":""}';
 
 
 select * from DP_Database;
@@ -38,3 +38,11 @@ select * from DP_Catalog;
 select count(user_id), count(database_name) from DP_Catalog;
 
 insert into DP_Table values ('customers','palaniappa@gmail.com','customers','default','CUSTOMER_DATA');
+
+
+create table DP_Dashboard (id varchar(255), user_id varchar(255), title varchar(255), description varchar(255));
+
+drop table DP_Chart;
+
+create table DP_Chart(id varchar(255), user_id varchar(255), dashboard_id varchar(255), title varchar(255), description varchar(255), sqlText text,chartType varchar(255),definition varchar(5000));
+

@@ -1,37 +1,18 @@
 import { ChartType } from "../../models/dashboard/DashboardModel";
 import { DashboardState } from "./DashboardState";
+import { DashboardActions, DashboardConstants } from './dashboardActions';
 
 const initialState: DashboardState = {
-    selectedDashboard: {
-        name:"Test Dashboard",
-        title:"Test Dashboard",
-        charts: [
-            {
-                name:"CustomersByGender",
-                title:"Customers By Gender",
-                sql:"select count(Id) as Count, gender from Individuals group by gender",
-                chartType: ChartType.DOUGHNUT,
-                definition: {
-                    labelColumnName: "gender"
-                    , dataColumnName: "Count"
-                }
-            },
-            {
-                name:"CustomersByOccupation",
-                title:"Customers By Occupation",
-                sql:"select count(Id) as Count, occupation from Individuals group by occupation",
-                chartType: ChartType.BAR,
-                definition: {
-                    labelColumnName: "occupation"
-                    , dataColumnName: "Count"
-                }
-            }
-        ]
-    }
+    selectedDashboard: undefined,
+    dashboards:[]
 }
 
-export function dashboardReducer(state: DashboardState = initialState, action: any): DashboardState {
+export function dashboardReducer(state: DashboardState = initialState, action: DashboardActions): DashboardState {
     switch (action.type) {
+        case DashboardConstants.FINISHED_LOADING_DASHBOARDS:
+            return {...state,dashboards:action.dashboards};
+        case DashboardConstants.SELECT_DASHBORAD:
+            return {...state, selectedDashboard: action.dashboard};
         default:
             return state;
     }

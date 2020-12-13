@@ -16,7 +16,7 @@ import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import { PlayGroundAppActions, selectMenuItem } from './store/playGroundApp/playGroundActions';
 import LoginComponent from './components/login/loginComponent';
 import TableMainComponent from './components/table/tableMainComponent'; 
-import DashboardComponent from './components/dashboard/dashboardComponent';
+import DashboardMainComponent from './components/dashboard/dashboardMainComponent';
 
 interface IPlayGroundAppStateProps {
   currentMenuItem: String;
@@ -146,7 +146,7 @@ class App extends React.Component<IPlayGroundAppProps, {}> {
     } else if(menuItem == '/model/tables') {
       return <TableMainComponent/>;
     } else if(menuItem == '/dashboards') {
-      return <DashboardComponent/>;
+      return <DashboardMainComponent/>;
     }
   }
 

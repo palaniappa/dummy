@@ -40,9 +40,17 @@ export class ChartComponent extends React.Component<IChartComponentProps, IChart
             else if(this.props.chart?.chartType == ChartType.BAR) {
                 chart = <Bar data={data} height={120}/>;
             }
+            else {
+                chart = <div>Don't know what is happening...</div>
+            }
         }
         else {
-            chart = <div>Loading...</div>
+            if(this.state.errorMessage) {
+                return <div>{this.state.errorMessage}</div>
+            }
+            else {
+                chart = <div>Loading...</div>
+            }
         }
         
         return (
@@ -89,8 +97,6 @@ export class ChartComponent extends React.Component<IChartComponentProps, IChart
                 data.datasets[0].data.push(r[this.props.chart.definition.dataColumnName]);
             });
             return data;
-        } else if(this.state.errorMessage) {
-            return <div>{this.state.errorMessage}</div>
         }
         return null;
     }

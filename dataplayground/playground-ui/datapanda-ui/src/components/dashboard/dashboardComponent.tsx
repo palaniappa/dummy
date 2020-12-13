@@ -42,11 +42,11 @@ class DashboardComponent extends React.Component<IDashboardComponentProps, {}> {
     render() {
 
         let chart1 = null;
-        if(this.props.dashboard?.charts[0]){
+        if(this.props.dashboard && this.props.dashboard.charts && this.props.dashboard?.charts[0]){
             chart1 = <ChartComponent chart={this.props.dashboard?.charts[0]} executeChartSql={this.props.executeChartQuery}/>
         }
         let chart2 = null;
-        if(this.props.dashboard?.charts[1]){
+        if(this.props.dashboard && this.props.dashboard.charts && this.props.dashboard?.charts[1]){
             chart2 = <ChartComponent chart={this.props.dashboard?.charts[1]}  executeChartSql={this.props.executeChartQuery}/>
         }
 
@@ -55,7 +55,8 @@ class DashboardComponent extends React.Component<IDashboardComponentProps, {}> {
                 <MDBRow>
                     <MDBCol size="12">
                         <br></br>
-                        <p className="h4 text-center mb-4">Dashboards</p>
+                        <p className="h4 text-center mb-4">{this.props.dashboard?.title}</p>
+                        <p className= "text-center mb-1">{this.props.dashboard?.description}</p>
                         <MDBRow>
                         <MDBCol size="6">
                             {chart1}

@@ -56,13 +56,13 @@ class DashboardComponent extends React.Component<IDashboardComponentProps, {}> {
 
         return (
             <MDBContainer fluid={true}>
-                <MDBRow>
+                <MDBRow center={true}>
                     <MDBCol size="12">
                         <br></br>
                         <p className="h4 text-center mb-4">{this.props.dashboard?.title}</p>
                         <p className= "text-center mb-1">{this.props.dashboard?.description}</p>
                         {charts}
-                        <MDBRow>
+                        <MDBRow center={true}>
                             <MDBCol>
                                 <Button variant="primary" size="sm"
                                     onClick={this.addNewChart.bind(this)}
@@ -81,11 +81,13 @@ class DashboardComponent extends React.Component<IDashboardComponentProps, {}> {
 
     private getCharts():Array<JSX.Element> {
         let charts: Array<JSX.Element> = [];
+        let noOfChatsInRow = 1;
+        let colSize: string = (12/noOfChatsInRow).toString();
         if(this.props.dashboard?.charts) {
             let currentRowItems:Array<JSX.Element> = [];
             this.props.dashboard.charts.forEach( c => {
                 let cDisplay = (
-                <MDBCol size="6">
+                <MDBCol size={"12"}>
                     <ChartComponent key={c.id} chart={c} 
                         executeChartSql={this.props.executeChartQuery}
                         saveDashboardChart={this.saveDashboradChart.bind(this)}
@@ -93,7 +95,7 @@ class DashboardComponent extends React.Component<IDashboardComponentProps, {}> {
                 </MDBCol>
                 );
                 currentRowItems.push(cDisplay);
-                if(currentRowItems.length == 2) {
+                if(currentRowItems.length == noOfChatsInRow) {
                     charts.push(<MDBRow>{currentRowItems}</MDBRow>);
                     currentRowItems = [];
                 }

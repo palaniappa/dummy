@@ -7,6 +7,7 @@ import com.data.playground.util.CommonUtil;
 import net.sf.jsqlparser.expression.Alias;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.Select;
+import net.sf.jsqlparser.statement.select.WithItem;
 import net.sf.jsqlparser.util.TablesNamesFinder;
 
 import java.util.ArrayList;
@@ -52,6 +53,12 @@ public class PhysicalTableResolver extends TablesNamesFinder {
             first = false;
         }
         return String.format("The table(s) %s failed resolution",tableNames.toString());
+    }
+
+    @Override
+    public void visit(WithItem withItem) {
+        super.visit(withItem);
+        this.tableAliases.put(withItem.getName().toLowerCase(),withItem.getName().toLowerCase());
     }
 
     @Override

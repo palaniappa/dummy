@@ -1,10 +1,12 @@
 import React from 'react';
-import { Doughnut, Line, Bar, ChartData } from 'react-chartjs-2';
+import { Doughnut, Pie, Line, Bar, ChartData } from 'react-chartjs-2';
+import Chart from 'react-chartjs-2';
 import 'chartjs-plugin-colorschemes';
-import { ChartDefinition, ChartType, DoughnutChartTypeDefinition } from '../../models/dashboard/DashboardModel';
+import { ChartDefinition, ChartType, DoughnutChartTypeDefinition, SeriesChartTypeDefinition } from '../../models/dashboard/DashboardModel';
 import { QueryResult } from '../../models/query/QueryReuslt';
-import { MDBCol, MDBContainer, MDBRow } from 'mdbreact';
+import { MDBCol, MDBContainer, MDBRow, MDBIcon } from 'mdbreact';
 import { Button } from 'react-bootstrap';
+import 'chartjs-plugin-zoom';
 
 
 interface IChartComponentProps {
@@ -17,7 +19,7 @@ interface IChartLocalState {
     queryResult?: QueryResult;
     errorMessage?: string;
     chartBeingEdited?: ChartDefinition;
-    definition?: DoughnutChartTypeDefinition;
+    definition?: DoughnutChartTypeDefinition | SeriesChartTypeDefinition;
 }
 
 export class ChartComponent extends React.Component<IChartComponentProps, IChartLocalState> {
@@ -31,7 +33,6 @@ export class ChartComponent extends React.Component<IChartComponentProps, IChart
 
     public componentDidMount() {
         this.refreshChart();
-        
     }
 
     render() {
@@ -45,11 +46,29 @@ export class ChartComponent extends React.Component<IChartComponentProps, IChart
         else{
             let data = this.getData();
             if(data) {
+                let options={
+                    title: { display: true, text: this.props.chart.title },
+                    zoom: {
+                      enabled: true,
+                      mode: 'x',
+                    },
+                    pan: {
+                      enabled: true,
+                      mode: 'x',
+                    },
+                  };
+
                 if(this.props.chart?.chartType == ChartType.DOUGHNUT) {
-                    mainContent = <Doughnut data={data} height={this.DEFAULT_HEIGHT}/>;
+                    mainContent = <Doughnut data={data} height={this.DEFAULT_HEIGHT} options={options}/>;
+                }
+                else if(this.props.chart?.chartType == ChartType.PIE) {
+                    mainContent = <Pie data={data} height={this.DEFAULT_HEIGHT} options={options}/>;
                 }
                 else if(this.props.chart?.chartType == ChartType.BAR) {
-                    mainContent = <Bar data={data} height={this.DEFAULT_HEIGHT}/>;
+                    mainContent = <Bar data={data} height={this.DEFAULT_HEIGHT} options={options}/>;
+                }
+                else if(this.props.chart.chartType == ChartType.LINE) {
+                    mainContent = <Line data={data} height={this.DEFAULT_HEIGHT} options={options}/>;
                 }
                 else {
                     mainContent = <div>Don't know what is happening...</div>
@@ -83,12 +102,7 @@ export class ChartComponent extends React.Component<IChartComponentProps, IChart
 
     private editChart(event: React.MouseEvent<HTMLElement, MouseEvent>) {
         console.log("edit chart");
-        let defString= "{}";
-        if(this.state.chartBeingEdited?.definition){
-            defString = this.state.chartBeingEdited?.definition;
-        }
-        let def:any = JSON.parse(defString);
-        this.setState({...this.state,chartBeingEdited:this.props.chart, definition: def});
+        this.setState({...this.state,chartBeingEdited:this.props.chart, definition: JSON.parse(this.props.chart.definition)});
     }
 
     private deleteChart(event: React.MouseEvent<HTMLElement, MouseEvent>) {
@@ -115,7 +129,7 @@ export class ChartComponent extends React.Component<IChartComponentProps, IChart
 
     private getButtons(): JSX.Element {
         if (!this.state.chartBeingEdited) {
-            return (<MDBRow>
+            return (<MDBRow center={true}>
                 <Button variant="primary" size="sm"
                     onClick={this.editChart.bind(this)}
                 >
@@ -133,9 +147,12 @@ export class ChartComponent extends React.Component<IChartComponentProps, IChart
 
     private getChartEditForm(): JSX.Element {
         let chartTypeValues: Array<JSX.Element> = [];
-        chartTypeValues.push(<option value={ChartType.DOUGHNUT}>{ChartType.DOUGHNUT}</option>);
         chartTypeValues.push(<option value={ChartType.BAR}>{ChartType.BAR}</option>);
+        chartTypeValues.push(<option value={ChartType.DOUGHNUT}>{ChartType.DOUGHNUT}</option>);
+        chartTypeValues.push(<option value={ChartType.LINE}>{ChartType.LINE}</option>);
+        chartTypeValues.push(<option value={ChartType.PIE}>{ChartType.PIE}</option>);
         
+        let chartTypeComponents = this.getChartTypeDefinitionComponents();
 
         return (
             <form onSubmit={this.saveChart.bind(this)}>
@@ -171,20 +188,7 @@ export class ChartComponent extends React.Component<IChartComponentProps, IChart
                                 {chartTypeValues}
                                 </select>
                             </MDBRow>
-                            <MDBRow>
-                                <label htmlFor="labelColumnNameId" className="grey-text">Label Column Name</label>
-                                <input type="text" id="labelColumnNameId" className="form-control"
-                                    value={this.state.definition?.labelColumnName}
-                                    onChange={this.onValueChange.bind(this)}
-                                />
-                            </MDBRow>
-                            <MDBRow>
-                                <label htmlFor="dataColumnNameId" className="grey-text">Value Column Name</label>
-                                <input type="text" id="dataColumnNameId" className="form-control"
-                                    value={this.state.definition?.dataColumnName}
-                                    onChange={this.onValueChange.bind(this)}
-                                />
-                            </MDBRow>
+                            {chartTypeComponents}
                             <MDBRow>
                                 <Button variant="primary" size="sm"
                                     onClick={this.cancelEdit.bind(this)}
@@ -207,10 +211,124 @@ export class ChartComponent extends React.Component<IChartComponentProps, IChart
         );
     }
 
-    private onChartTypeChange(event: React.ChangeEvent<HTMLSelectElement>) {
-        let chartBeingEdited:any = { ...this.state.chartBeingEdited, chartType: event.target.value as ChartType };
-            this.setState({ ...this.state, chartBeingEdited: chartBeingEdited });   
+    private getChartTypeDefinitionComponents() : Array<JSX.Element> {
+        let elements: Array<JSX.Element> = [];
         
+        if (this.state.definition) {
+            if (this.state.chartBeingEdited?.chartType == ChartType.DOUGHNUT || this.state.chartBeingEdited?.chartType == ChartType.PIE) {
+                let def = this.state.definition as DoughnutChartTypeDefinition;
+                elements.push((
+                    <MDBRow>
+                        <label htmlFor="labelColumnNameId" className="grey-text">Label Column Name</label>
+                        <input type="text" id="labelColumnNameId" className="form-control"
+                            value={def.labelColumnName}
+                            onChange={this.onValueChange.bind(this)}
+                        /></MDBRow>));
+
+                elements.push((
+                    <MDBRow>
+                        <label htmlFor="dataColumnNameId" className="grey-text">Value Column Name</label>
+                        <input type="text" id="dataColumnNameId" className="form-control"
+                            value={def.dataColumnName}
+                            onChange={this.onValueChange.bind(this)}
+                        />
+                    </MDBRow>));
+            }
+            else if (this.state.chartBeingEdited?.chartType == ChartType.BAR || this.state.chartBeingEdited?.chartType == ChartType.LINE) {
+                let def = this.state.definition as SeriesChartTypeDefinition;
+                elements.push((
+                    <MDBRow>
+                        <label htmlFor="axisColumnNameId" className="grey-text">Axis Column Name</label>
+                        <input type="text" id="axisColumnNameId" className="form-control"
+                            value={def.axisColumnName}
+                            onChange={this.onValueChange.bind(this)}/>
+                    </MDBRow>));
+
+                let seriesId = 0;
+                if(def.series){
+                    def.series.forEach( (s) =>{
+                        let deleteIcon = (<MDBIcon id={seriesId} icon="trash-alt" onClick={this.deleteSeriesClick.bind(this)} />);
+                        elements.push(
+                            <MDBRow>
+                                <label htmlFor={"seriesParentId"+seriesId} className="grey-text">Series {seriesId+1}:</label>
+                                <MDBRow id={"seriesParentId"+seriesId}>
+                                    <MDBCol size="10" >
+                                        <input type="text" id={"seriesId_"+seriesId} className="form-control"
+                                            value={s}
+                                            onChange={this.onValueChange.bind(this)}/>
+                                    </MDBCol>
+                                    <MDBCol size="2" >
+                                        {deleteIcon}
+                                    </MDBCol>
+                                </MDBRow>
+                            </MDBRow>
+                        );
+                        seriesId++;
+                     });
+                }
+                elements.push(<Button size="sm" onClick={this.addSeriesClick.bind(this)}>Add Series</Button>); 
+            }
+        }
+        return elements;
+    }
+
+    private addSeriesClick(event: React.MouseEvent<HTMLElement, MouseEvent> | React.SyntheticEvent<HTMLButtonElement, Event>) {
+        event.preventDefault();
+        if(this.state.chartBeingEdited?.chartType == ChartType.LINE || this.state.chartBeingEdited?.chartType == ChartType.BAR){
+            let existingDef = this.state.definition as SeriesChartTypeDefinition;
+            let def:any = undefined;
+            if(existingDef.series) {
+                def = {...this.state.definition, series: existingDef.series.concat("")};
+            } else {
+                def = {...this.state.definition, series: [""]};
+            }
+            this.setState({...this.state,definition: def});
+        }
+        
+    }
+
+    private deleteSeriesClick(event: React.SyntheticEvent<HTMLButtonElement>) {
+        event.preventDefault();
+        let idx = Number((event.target as HTMLButtonElement).id);
+        if(this.state.chartBeingEdited?.chartType == ChartType.LINE || this.state.chartBeingEdited?.chartType == ChartType.BAR){
+            let def = this.state.definition as SeriesChartTypeDefinition;
+
+            let newDef: SeriesChartTypeDefinition = {
+                ...def
+                , series: def.series.slice(0, idx)
+                    .concat(def.series.slice(idx + 1, def.series.length))
+            };
+            this.setState({ ...this.state, definition: newDef });
+        }
+    }
+
+    private onChartTypeChange(event: React.ChangeEvent<HTMLSelectElement>) {
+        let newDefinition = this.state.definition;
+        let newChartType = event.target.value as ChartType;
+        let typeCompatible = this.chartTypeDefinitionsAreCompatible(this.state.chartBeingEdited?.chartType, newChartType);
+        if(typeCompatible == false) {
+            if(newChartType == ChartType.DOUGHNUT || ChartType.PIE) {
+                newDefinition = {labelColumnName:"", dataColumnName:""} as DoughnutChartTypeDefinition;
+            }
+            else if(newChartType == ChartType.BAR || newChartType == ChartType.LINE) {
+                newDefinition = {axisColumnName:"", series:[]} as SeriesChartTypeDefinition;
+            }
+        }
+        
+        let chartBeingEdited:any = { ...this.state.chartBeingEdited, chartType:  newChartType};
+        this.setState({ ...this.state, chartBeingEdited: chartBeingEdited, definition: newDefinition });   
+        
+    }
+
+    private chartTypeDefinitionsAreCompatible(oldType: ChartType | undefined, newType: ChartType): boolean {
+        if(oldType != undefined) {
+            if( (oldType == ChartType.BAR || oldType == ChartType.LINE) && (newType == ChartType.BAR || newType == ChartType.LINE))
+                return true;
+            if( (oldType == ChartType.DOUGHNUT || oldType == ChartType.PIE) && (newType == ChartType.DOUGHNUT || newType == ChartType.PIE))
+                return true;
+        }
+        
+        return false;
     }
 
     private onValueChange(event: React.ChangeEvent) {
@@ -234,6 +352,21 @@ export class ChartComponent extends React.Component<IChartComponentProps, IChart
             let def:any = {...this.state.definition, dataColumnName: textElement.value};
             this.setState({ ...this.state, definition: def });
         }
+        else if (textElement.id === "axisColumnNameId") {
+            let def:any = {...this.state.definition, axisColumnName: textElement.value};
+            this.setState({ ...this.state, definition: def });
+        } else if (textElement.id.startsWith("seriesId_")) {
+            let idx = Number(event.target.id.replace("seriesId_", ""));
+            let def = this.state.definition as SeriesChartTypeDefinition;
+
+            let newDef: SeriesChartTypeDefinition = {
+                ...def
+                , series: def.series.slice(0, idx)
+                    .concat(textElement.value)
+                    .concat(def.series.slice(idx + 1, def.series.length))
+            };
+            this.setState({ ...this.state, definition: newDef });
+        }
     }
 
     private refreshChart() {
@@ -247,40 +380,49 @@ export class ChartComponent extends React.Component<IChartComponentProps, IChart
     }
     private getData(): ChartData<any> {
 
-        // const data = {
-        //     labels: [
-        //         'Red',
-        //         'Green',
-        //         'Yellow'
-        //     ],
-        //     datasets: [{
-        //         data: [300, 50, 100],
-        //         backgroundColor: [
-        //         '#FF6384',
-        //         '#36A2EB',
-        //         '#FFCE56'
-        //         ],
-        //         hoverBackgroundColor: [
-        //         '#FF6384',
-        //         '#36A2EB',
-        //         '#FFCE56'
-        //         ]
-        //     }]
-        // };
-
         if(this.state.queryResult) {
-            let def:DoughnutChartTypeDefinition = JSON.parse(this.props.chart.definition);
-            if(def.dataColumnName && def.labelColumnName) {
-                let data: any = {};
-                data.labels = [];
-                data.datasets = [];
-                data.datasets.push({data:[]});
+            if(this.props.chart.chartType == ChartType.DOUGHNUT || this.props.chart.chartType == ChartType.PIE) {
+                let def:DoughnutChartTypeDefinition = JSON.parse(this.props.chart.definition);
+                if(def.dataColumnName && def.labelColumnName) {
+                    let data: any = {};
+                    data.labels = [];
+                    data.datasets = [];
+                    data.datasets.push({data:[]});
 
-                this.state.queryResult.records.forEach( r => {
-                    data.labels.push(r[def.labelColumnName]);
-                    data.datasets[0].data.push(r[def.dataColumnName]);
-                });
-                return data;
+                    this.state.queryResult.records.forEach( r => {
+                        data.labels.push(r[def.labelColumnName]);
+                        data.datasets[0].data.push(r[def.dataColumnName]);
+                    });
+                    return data;
+                }
+            }
+
+            if(this.props.chart.chartType == ChartType.LINE || this.props.chart.chartType == ChartType.BAR) {
+                let def:SeriesChartTypeDefinition = JSON.parse(this.props.chart.definition);
+                if(def.axisColumnName && def.series) {
+                    let data: any = {};
+                    data.labels = [];
+                    data.datasets = [];
+                    let idx = 0;
+                    def.series.forEach( s => {
+                        data.datasets.push({data:[]});
+                        data.datasets[idx].label = s;
+                        idx++;
+                    });
+                    
+
+                    this.state.queryResult.records.forEach( r => {
+                        data.labels.push(r[def.axisColumnName]);
+
+                        let idx = 0;
+                        def.series.forEach( s => {
+                            data.datasets[idx].data.push(r[def.series[idx]]);
+                            idx++;
+                        });
+                        
+                    });
+                    return data;
+                }
             }
         }
         return null;

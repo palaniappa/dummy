@@ -25,3 +25,8 @@ export interface DoughnutChartTypeDefinition {
     labelColumnName: string;
     dataColumnName: string;
 }
+
+export interface SeriesChartTypeDefinition {
+    axisColumnName: string;
+    series: Array<string>;
+}

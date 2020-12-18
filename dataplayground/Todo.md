@@ -25,6 +25,7 @@
 
 # Key Analysis
 - POC -> Done
+- Demoable product -> In porgress.
 - Scale
 - Platform & Industry Specific Pre defined package
 - Interconnectivity

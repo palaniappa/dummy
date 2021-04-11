@@ -115,6 +115,7 @@
       <option name="presentableId" value="Default" />
       <updated>1618058665017</updated>
       <workItem from="1618058666897" duration="14257000" />
+      <workItem from="1618160015869" duration="201000" />
     </task>
     <servers />
   </component>
@@ -131,6 +132,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="723" y="286" key="#xdebugger.evaluate" timestamp="1618157828829">

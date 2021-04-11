@@ -1,0 +1,151 @@
+{
+        "createUserId": 21662,
+        "createTime": 1607625318063,
+        "updateUserId": 21662,
+        "updateTime": 1607625318063,
+        "updateUser": "CDP-a360/falcontest/de5a861401a54d7b8b94cb383 CDP",
+        "createUser": "CDP-a360/falcontest/de5a861401a54d7b8b94cb383 CDP",
+        "id": 267715,
+        "name": "1cbf856a-a7f9-49a5-90e0-775c2ade9684",
+        "dataSourceId": 8,
+        "dataSourceName": "TotalConnect",
+        "parentInstanceId": null,
+        "channelId": 118227,
+        "email": "868880562EB84B4FBF4FF6AB4ABC58CA",
+        "description": null,
+        "dataLoadMode": "PARTITION_REPLACE",
+        "dataLoadRules": [],
+        "sourceDisplayName": "Data Lake (segment_member_96d2a2da23de45a2b557664cefccd79c)",
+        "enabled": true,
+        "lastUpdate": null,
+        "lastRunStatus": false,
+        "originalId": null,
+        "dimensionOnly": true,
+        "enableSlowlyChangingDimension": false,
+        "hasData": false,
+        "retrievalEnabled": true,
+        "retrievalPeriodType": "NONE",
+        "retrievalPeriodData": null,
+        "retrievalPeriodHour": null,
+        "lagInDays": null,
+        "retrievalNextDate": null,
+        "retrievalDeliveryMethod": "DATO_LAKE",
+        "retrievalDeliveryMethodDetails": {
+            "wildcardMatch": "",
+            "deleteAfterDownload": false,
+            "retrieveNewFiles": false,
+            "failWhenNoFileRetrieved": false,
+            "unifyFilesByFolders": false,
+            "includeSubDirectories": false,
+            "mergeFiles": false
+        },
+        "ignoreEmptyRows": false,
+        "fileWildcard": null,
+        "initRuleAfterUpdate": false,
+        "slidingWindow": null,
+        "defaultSlidingWindow": null,
+        "defaultFetchDaySpan": null,
+        "fetchDaySpan": null,
+        "templateId": null,
+        "lastDataDate": null,
+        "enableHourlyBreakdown": false,
+        "pendingStatsCount": 0.0,
+        "processStatsCounts": 0.0,
+        "customAttribute1": null,
+        "customAttribute2": null,
+        "customAttribute3": null,
+        "overrideHierarchies": false,
+        "useCultureSettings": false,
+        "allowHourlyProcessing": false,
+        "lastRowsRetrieved": null,
+        "retrievalRNDOnly": false,
+        "dataPreviewPageId": null,
+        "deletePreviousDimensionData": false,
+        "runOnlyAsPartOfWorkflow": false,
+        "type": "DATO_LAKE",
+        "processedRows": null,
+        "runStatus": null,
+        "ownerUserId": 21662,
+        "lastDeletedRows": null,
+        "totalDeletedRows": null,
+        "realtime": false,
+        "workspaceId": 20586,
+        "dataSourceAuthenticationId": null,
+        "config": {
+            "mappingDto": {
+                "transponseInfo": {
+                    "wholeWordsTranspose": false,
+                    "headersAsIs": false,
+                    "noHeaders": false,
+                    "removeTotalRows": true,
+                    "multilineHeader": false,
+                    "allowUnquotedMultilineFields": false,
+                    "workbookPasswordEnabled": false,
+                    "jsonValuesOnly": false,
+                    "jsonNestedObjects": false,
+                    "rss": false,
+                    "pdfPassword": "",
+                    "pdfForceSpreadsheetMethod": false,
+                    "pdfForceNoSpreadsheetMethod": false
+                },
+                "bucketKey": "DYNAMIC_SCHEMA_417133",
+                "schema2formulas": {
+                    "entityId": {
+                        "primaryFormula": {
+                            "formula": "csv['entityId']"
+                        }
+                    },
+                    "partitionId": {
+                        "primaryFormula": {
+                            "formula": "csv['partitionId']"
+                        }
+                    }
+                },
+                "csvStructure": {
+                    "fields": [
+                        {
+                            "name": "partitionId",
+                            "displayName": "partitionId",
+                            "type": "STRING",
+                            "subType": "NONE",
+                            "mandatory": false,
+                            "allowedToChangeAggregation": false,
+                            "maxLength": 0.0,
+                            "role": "NOT_SET",
+                            "slowlyChangingType": "NONE"
+                        },
+                        {
+                            "name": "entityId",
+                            "displayName": "entityId",
+                            "type": "STRING",
+                            "subType": "NONE",
+                            "mandatory": false,
+                            "allowedToChangeAggregation": false,
+                            "maxLength": 0.0,
+                            "role": "NOT_SET",
+                            "slowlyChangingType": "NONE"
+                        }
+                    ]
+                },
+                "convertEmptyNumbersToZero": true
+            },
+            "expectedTimePeriod": "None",
+            "daysWithoutData": 0.0,
+            "userSetFileVendor": false,
+            "utcDeliveryHours": [],
+            "liveConnect": false,
+            "mappingPreviewRemoved": false,
+            "enableOverrideDataLoadMode": false,
+            "shouldSkipParsers": true,
+            "reportOnCompletion": true,
+            "isDLZ": true,
+            "completionReportActionIds": [],
+            "completionJobReportActionIds": [
+                1041.0
+            ],
+            "bucketKey": "DYNAMIC_SCHEMA_417133",
+            "dynamicSchemaMode": false
+        },
+        "daysWithoutData": 0,
+        "originalDataStreamId": null
+    }

@@ -19,11 +19,13 @@
 - Add key to the list items.
 - Add the google client id in config in UI.
 - Add loading status to table details.
-
+- Table schema 
 
 
 
 # Key Analysis
+- POC -> Done
+- Demoable product -> In porgress.
 - Scale
 - Platform & Industry Specific Pre defined package
 - Interconnectivity

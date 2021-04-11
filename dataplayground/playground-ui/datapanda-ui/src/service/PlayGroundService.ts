@@ -5,11 +5,13 @@ import { CatalogModel } from '../models/catalog/CatalogModel';
 import { CatalogTable } from '../models/catalog/CatalogTables';
 import { TableDetails } from '../models/table/TableDetails';
 import { TableSchema, TableSchemaRequest } from "../models/table/TableSchema";
+import { ChartDefinition, DashboardDefinition } from "../models/dashboard/DashboardModel";
 
 export class PlayGroundService {
 
     private readonly baseUrl: string = "http://localhost:10080"
     private readonly API_PATH_CATALOG = "catalog";
+    private readonly API_PATH_DASHBOARD = "dashboard";
     private readonly API_PATH_TABLE = "table";
 
     private static instance: PlayGroundService = new PlayGroundService();
@@ -136,8 +138,81 @@ export class PlayGroundService {
         }
     }
 
-    
+    public async getDashboards(): Promise<Array<DashboardDefinition>> {
 
+        try {
+            let config = this.getCallConfig();
+            let result: AxiosResponse<Array<DashboardDefinition>> = await Axios.get(this.getResourceUrl(this.API_PATH_DASHBOARD), config);
+            return result.data;
+        }
+        catch (error) {
+            console.log(error.response.data.message);
+            throw Error(error.response.data.message);
+        }
+    }
+
+    public async upsertDashboard(dashboard: DashboardDefinition): Promise<DashboardDefinition> {
+
+        try {
+            let config = this.getCallConfig();
+            let result: AxiosResponse<DashboardDefinition> = await Axios.post(this.getResourceUrl(this.API_PATH_DASHBOARD), dashboard, config);
+            return result.data;
+        }
+        catch (error) {
+            console.log(error.response.data.message);
+            throw Error(error.response.data.message);
+        }
+    }
+
+    public async deleteDashboard(dashboadId: string): Promise<void> {
+        try {
+            let config = this.getCallConfig();
+            await Axios.delete(this.getResourceUrl(this.API_PATH_DASHBOARD + "/" + dashboadId), config);
+            return;
+        }
+        catch (error) {
+            console.log(error.response.data.message);
+            throw Error(error.response.data.message);
+        }
+    }
+
+    public async getDashboardCharts(dashboardId: string): Promise<Array<ChartDefinition>> {
+
+        try {
+            let config = this.getCallConfig();
+            let result: AxiosResponse<Array<ChartDefinition>> = await Axios.get(this.getResourceUrl(this.API_PATH_DASHBOARD + "/"+ dashboardId + "/chart"), config);
+            return result.data;
+        }
+        catch (error) {
+            console.log(error.response.data.message);
+            throw Error(error.response.data.message);
+        }
+    }
+
+    public async upsertDashboardChart(dashboardId: string, chart: ChartDefinition): Promise<ChartDefinition> {
+
+        try {
+            let config = this.getCallConfig();
+            let result: AxiosResponse<ChartDefinition> = await Axios.post(this.getResourceUrl(this.API_PATH_DASHBOARD + "/"+ dashboardId + "/chart"), chart, config);
+            return result.data;
+        }
+        catch (error) {
+            console.log(error.response.data.message);
+            throw Error(error.response.data.message);
+        }
+    }
+
+    public async deleteDashboardChart(dashboadId: string, chartId: string): Promise<void> {
+        try {
+            let config = this.getCallConfig();
+            await Axios.delete(this.getResourceUrl(this.API_PATH_DASHBOARD + "/" + dashboadId  + "/chart" + chartId), config);
+            return;
+        }
+        catch (error) {
+            console.log(error.response.data.message);
+            throw Error(error.response.data.message);
+        }
+    }
 
     private getAccessToken(): string {
         let idtoken = localStorage.getItem("data_panda_id_token") ?

@@ -8,6 +8,15 @@ import QueryResultComponent from './queryResultComponent';
 import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import { Alert } from 'react-bootstrap'
 import styled from "styled-components";
+import { Controlled as CodeMirror } from 'react-codemirror2'
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/material.css';
+require('codemirror/mode/sql/sql');
+require('codemirror/mode/shell/shell');
+require('codemirror/addon/display/placeholder');
+require('codemirror/addon/hint/show-hint.css'); // Used for code hints
+require('codemirror/addon/hint/show-hint.js'); // Used for code hints
+require('codemirror/addon/hint/sql-hint.js');
 
 
 interface IQueryComponentStateProps {
@@ -75,38 +84,38 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
         let executeForm = this.getForm();
 
         return (
-                <MDBContainer fluid={true}>
-                    <MDBRow>
-                        <MDBCol size="12">
-                            <br></br>
-                            <p className="h4 text-center mb-4">Interactive SQL</p>
-                            {executeForm}
-                        </MDBCol>
-                    </MDBRow>
-                    <MDBRow>
-                        <MDBCol>{lastError}</MDBCol>
-                    </MDBRow>
-                    <MDBRow>
-                        <MDBCol size="12">
-                            <QueryResultComponent />
-                        </MDBCol>
-                    </MDBRow>
-                </MDBContainer>
+            <MDBContainer fluid={true}>
+                <MDBRow>
+                    <MDBCol size="12">
+                        <br></br>
+                        <p className="h4 text-center mb-4">Interactive SQL</p>
+                        {executeForm}
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol>{lastError}</MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol size="12">
+                        <QueryResultComponent />
+                    </MDBCol>
+                </MDBRow>
+            </MDBContainer>
         );
 
     }
 
-    private getForm() { 
+    private getForm() {
         const theme = {
             blue: {
-              default: "#3f51b5",
-              hover: "#283593"
+                default: "#3f51b5",
+                hover: "#283593"
             },
             pink: {
-              default: "#e91e63",
-              hover: "#ad1457"
+                default: "#e91e63",
+                hover: "#ad1457"
             }
-          };
+        };
 
         const Button = styled.button`
                         background-color: ${theme['blue'].default};
@@ -128,26 +137,54 @@ class QueryComponent extends React.Component<IQueryComponentProps, IQueryCompone
                         }
                         `;
 
+        const codeMirronOptions = {
+            mode: 'text/x-sql',
+            indentWithTabs: true,
+            smartIndent: true,
+            lineNumbers: true,
+            matchBrackets: true,
+            autofocus: true,
+            extraKeys: { Tab: 'autocomplete' },
+            hintOptions: { completeSingle: false },
+            lineWrapping: true,
+            theme: 'default'
+        };
+
         return (
-        <MDBContainer fluid={true}>
-            <MDBRow>
-                <MDBCol size="12">
-                    <form onSubmit={this.handleSubmit}>
-                        <label htmlFor="sqlTextArea" className="grey-text">SQL</label>
-                        <textarea id="sqlTextArea" className="form-control" rows={9}
+            <MDBContainer fluid={true}>
+                <MDBRow>
+                    <MDBCol size="12">
+                        <form onSubmit={this.handleSubmit}>
+                            <fieldset disabled={this.props.executing}>
+                                <label htmlFor="sqlTextArea" className="grey-text">SQL</label>
+                                {/* <textarea id="sqlTextArea" className="form-control" rows={9}
                         name="querybox"
                         onChange={this.onQueryChange}
                         value={this.state.modifiedSql}
-                        disabled={this.props.executing} />
-                        <br></br>
-                        <div className="text-center">
-                            <Button type='submit'>Execute</Button>
-                        </div>
-                        <br></br>
-                    </form>
-                </MDBCol>
-            </MDBRow>
-        </MDBContainer>
+                        disabled={this.props.executing} /> */}
+
+                                <div style={{ fontSize: "large" }}>
+                                    <CodeMirror
+                                        value={this.state.modifiedSql}
+                                        options={codeMirronOptions}
+                                        onBeforeChange={(editor, data, value) => {
+                                            this.setState({ ...this.state, modifiedSql: value });
+                                        }}
+                                        onChange={(editor, data, value) => {
+
+                                        }}
+                                    />
+                                </div>
+                                <br></br>
+                                <div className="text-center">
+                                    <Button type='submit'>Execute</Button>
+                                </div>
+                                <br></br>
+                            </fieldset>
+                        </form>
+                    </MDBCol>
+                </MDBRow>
+            </MDBContainer>
         );
     }
 

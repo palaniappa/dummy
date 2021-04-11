@@ -1,4 +1,3 @@
-import { type } from 'os';
 import React from 'react';
 import { Dispatch } from 'redux';
 import { ApplicationRootState } from '../../store/ApplicationState';

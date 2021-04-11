@@ -171,9 +171,9 @@ public class S3SchemaAnalyzer extends SchemaAnalyzer {
             }
 
             if (numberCount > 0 || dateCount > 0 || dateTimeCount > 0) {
-                if (dateTimeCount > numberCount && dateTimeCount > dateCount)
+                if (dateTimeCount > numberCount && dateTimeCount >= dateCount)
                     return FieldType.DATETIME;
-                else if (dateCount > numberCount && dateCount > dateTimeCount)
+                else if (dateCount > numberCount && dateCount >= dateTimeCount)
                     return FieldType.DATE;
                 return FieldType.NUMBER;
             }
@@ -203,7 +203,7 @@ public class S3SchemaAnalyzer extends SchemaAnalyzer {
 
     private boolean isDateTime(String data) {
         try {
-            DateTimeFormatter format = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
+            DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
             format.parseDateTime(data);
             return true;
         } catch (Exception e) {

@@ -9,6 +9,9 @@ import { PlayGroundAppState } from './playGroundApp/playGroundAppState';
 import { playGroundAppReducer } from './playGroundApp/playGroundAppReducers';
 import { TableState } from './table/tableState';
 import { tableReducer } from './table/tableReducer';
+import { dashboardReducer } from './dashboard/dashboardReducer';
+import  { DashboardState } from './dashboard/DashboardState';
+
 
 
 
@@ -18,6 +21,7 @@ export interface ApplicationRootState {
     query: QueryState; 
     playGroundApp: PlayGroundAppState;
     table: TableState;
+    dashboard: DashboardState;
 }
 
 
@@ -29,6 +33,7 @@ const store = createStore<ApplicationRootState, any, any, any>(
         ,query: queryReducer
         ,playGroundApp: playGroundAppReducer
         ,table: tableReducer
+        , dashboard: dashboardReducer
     }));
 
 export default store;

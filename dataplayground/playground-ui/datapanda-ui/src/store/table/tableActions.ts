@@ -71,4 +71,4 @@ export function finishLoadingTableDetails( tableDetails: TableDetails ): FinishL
 }
 
 
-export type TableActions = LoadingCatalogTablesAction | ChangeSelectedCatalogTablesAction | FinishLoadingCatalogTablesAction | ChangeSelectedTableAction | FinishLoadingTableDetailsAction;
+    export type TableActions = LoadingCatalogTablesAction | ChangeSelectedCatalogTablesAction | FinishLoadingCatalogTablesAction | ChangeSelectedTableAction | FinishLoadingTableDetailsAction;

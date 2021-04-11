@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="923e9a85-237d-49e1-bbd1-5548c4d30404" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../../Flink/firstjob/firstjob/src/main/java/com/learn/firstjob/DramaMovies.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Flink/firstjob/firstjob/src/main/java/com/learn/firstjob/JoinAndGroupBy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Flink/firstjob/firstjob/src/main/java/com/learn/firstjob/PartitionAndSort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Flink/firstjob/firstjob/src/main/java/com/learn/model/GenreWithRatings.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Flink/firstjob/firstjob/src/main/java/com/learn/model/Movie.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Flink/firstjob/firstjob/src/main/java/com/learn/model/MovieWithRatings.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SparkLearning/SparkWordCount/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SparkLearning/SparkWordCount/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SparkLearning/SparkWordCount/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SparkLearning/SparkWordCount/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SparkLearning/SparkWordCount/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SparkLearning/SparkWordCount/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SparkLearning/SparkWordCount/SparkWordCount.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SparkLearning/SparkWordCount/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SparkLearning/SparkWordCount/src/main/java/com/spark/SparkWordCount.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SparkLearning/sparkjob/SparkMainJob.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../kafkaconsumer/src/main/java/com/dummy/kafka/ConsumerClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/dummy/kafka/ProducerClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dataplayground/SqlDbSetup.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataplayground/SqlDbSetup.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dataplayground/playground-ui/datapanda-ui/src/components/catalog/createCatalogComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataplayground/playground-ui/datapanda-ui/src/components/catalog/createCatalogComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dataplayground/playground-ui/datapanda-ui/src/components/query/queryResultComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataplayground/playground-ui/datapanda-ui/src/components/query/queryResultComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dataplayground/playground-ui/datapanda-ui/src/models/query/QueryReuslt.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataplayground/playground-ui/datapanda-ui/src/models/query/QueryReuslt.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dataplayground/playground/src/main/java/com/data/playground/model/query/dto/QueryResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataplayground/playground/src/main/java/com/data/playground/model/query/dto/QueryResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dataplayground/playground/src/main/java/com/data/playground/services/CatalogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataplayground/playground/src/main/java/com/data/playground/services/CatalogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dataplayground/playground/src/main/java/com/data/playground/services/QueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataplayground/playground/src/main/java/com/data/playground/services/QueryService.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="userSettingsFile" value="$USER_HOME$/.m2/personal_settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1ovyxvvC8AkYSBfSWyrMaJ7FWVw" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RunManager">
+    <configuration name="ProducerClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.dummy.kafka.ProducerClient" />
+      <module name="kafkaproducer" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.dummy.kafka.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ProducerClient" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="923e9a85-237d-49e1-bbd1-5548c4d30404" name="Default Changelist" comment="" />
+      <created>1614181608622</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1614181608622</updated>
+      <workItem from="1614181611947" duration="3741000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="424" y="238" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1614181874637">
+      <screen x="0" y="23" width="1920" height="1106" />
+    </state>
+    <state x="424" y="238" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.1106@0.23.1920.1106" timestamp="1614181874637" />
+    <state x="497" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1614183169944">
+      <screen x="0" y="23" width="1920" height="1106" />
+    </state>
+    <state x="497" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1920.1106@0.23.1920.1106" timestamp="1614183169944" />
+    <state width="1878" height="377" key="GridCell.Tab.0.bottom" timestamp="1614261303099">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1878" height="377" key="GridCell.Tab.0.bottom/0.23.1920.1106@0.23.1920.1106" timestamp="1614184675404" />
+    <state width="1878" height="377" key="GridCell.Tab.0.bottom/1680.23.3360.1796/0.23.1680.1027@0.23.1680.1027" timestamp="1614261303099" />
+    <state width="1878" height="377" key="GridCell.Tab.0.center" timestamp="1614261303098">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1878" height="377" key="GridCell.Tab.0.center/0.23.1920.1106@0.23.1920.1106" timestamp="1614184675403" />
+    <state width="1878" height="377" key="GridCell.Tab.0.center/1680.23.3360.1796/0.23.1680.1027@0.23.1680.1027" timestamp="1614261303098" />
+    <state width="1878" height="377" key="GridCell.Tab.0.left" timestamp="1614261303097">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1878" height="377" key="GridCell.Tab.0.left/0.23.1920.1106@0.23.1920.1106" timestamp="1614184675403" />
+    <state width="1878" height="377" key="GridCell.Tab.0.left/1680.23.3360.1796/0.23.1680.1027@0.23.1680.1027" timestamp="1614261303097" />
+    <state width="1878" height="377" key="GridCell.Tab.0.right" timestamp="1614261303098">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1878" height="377" key="GridCell.Tab.0.right/0.23.1920.1106@0.23.1920.1106" timestamp="1614184675404" />
+    <state width="1878" height="377" key="GridCell.Tab.0.right/1680.23.3360.1796/0.23.1680.1027@0.23.1680.1027" timestamp="1614261303098" />
+    <state width="1878" height="377" key="GridCell.Tab.1.bottom" timestamp="1614261303100">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1878" height="377" key="GridCell.Tab.1.bottom/0.23.1920.1106@0.23.1920.1106" timestamp="1614184675406" />
+    <state width="1878" height="377" key="GridCell.Tab.1.bottom/1680.23.3360.1796/0.23.1680.1027@0.23.1680.1027" timestamp="1614261303100" />
+    <state width="1878" height="377" key="GridCell.Tab.1.center" timestamp="1614261303099">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1878" height="377" key="GridCell.Tab.1.center/0.23.1920.1106@0.23.1920.1106" timestamp="1614184675405" />
+    <state width="1878" height="377" key="GridCell.Tab.1.center/1680.23.3360.1796/0.23.1680.1027@0.23.1680.1027" timestamp="1614261303099" />
+    <state width="1878" height="377" key="GridCell.Tab.1.left" timestamp="1614261303099">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1878" height="377" key="GridCell.Tab.1.left/0.23.1920.1106@0.23.1920.1106" timestamp="1614184675405" />
+    <state width="1878" height="377" key="GridCell.Tab.1.left/1680.23.3360.1796/0.23.1680.1027@0.23.1680.1027" timestamp="1614261303099" />
+    <state width="1878" height="377" key="GridCell.Tab.1.right" timestamp="1614261303099">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1878" height="377" key="GridCell.Tab.1.right/0.23.1920.1106@0.23.1920.1106" timestamp="1614184675405" />
+    <state width="1878" height="377" key="GridCell.Tab.1.right/1680.23.3360.1796/0.23.1680.1027@0.23.1680.1027" timestamp="1614261303099" />
+    <state x="498" y="238" key="Maven.ArtifactSearchDialog" timestamp="1614182019320">
+      <screen x="0" y="23" width="1920" height="1106" />
+    </state>
+    <state x="498" y="238" key="Maven.ArtifactSearchDialog/0.23.1920.1106@0.23.1920.1106" timestamp="1614182019320" />
+    <state x="448" y="157" key="SettingsEditor" timestamp="1614181972564">
+      <screen x="0" y="23" width="1920" height="1106" />
+    </state>
+    <state x="448" y="157" key="SettingsEditor/0.23.1920.1106@0.23.1920.1106" timestamp="1614181972564" />
+    <state width="960" height="553" key="XDebugger.FullValuePopup" timestamp="1614184076791">
+      <screen x="0" y="23" width="1920" height="1106" />
+    </state>
+    <state width="960" height="553" key="XDebugger.FullValuePopup/0.23.1920.1106@0.23.1920.1106" timestamp="1614184076791" />
+    <state x="354" y="239" key="new project wizard" timestamp="1614184237778">
+      <screen x="0" y="23" width="1920" height="1106" />
+    </state>
+    <state x="354" y="239" key="new project wizard/0.23.1920.1106@0.23.1920.1106" timestamp="1614184237778" />
+    <state x="625" y="270" width="670" height="676" key="search.everywhere.popup" timestamp="1614183220378">
+      <screen x="0" y="23" width="1920" height="1106" />
+    </state>
+    <state x="625" y="270" width="670" height="676" key="search.everywhere.popup/0.23.1920.1106@0.23.1920.1106" timestamp="1614183220378" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/dummy/kafka/ProducerClient.java</url>
+          <line>16</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/dummy/kafka/ProducerClient.java</url>
+          <line>57</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

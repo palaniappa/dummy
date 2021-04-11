@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cf3f801a-61ef-4c26-a33c-a2ff72db7435" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/learn/firstjob/DramaMovies.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/learn/firstjob/JoinAndGroupBy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/learn/firstjob/PartitionAndSort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/learn/model/GenreWithRatings.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/learn/model/Movie.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/learn/model/MovieWithRatings.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../SparkLearning/SparkWordCount/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../SparkLearning/SparkWordCount/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../SparkLearning/SparkWordCount/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../SparkLearning/SparkWordCount/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../SparkLearning/SparkWordCount/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../SparkLearning/SparkWordCount/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../SparkLearning/SparkWordCount/SparkWordCount.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../SparkLearning/SparkWordCount/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../SparkLearning/SparkWordCount/src/main/java/com/spark/SparkWordCount.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../SparkLearning/sparkjob/SparkMainJob.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../dataplayground/SqlDbSetup.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../../dataplayground/SqlDbSetup.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../dataplayground/playground-ui/datapanda-ui/src/components/catalog/createCatalogComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../../dataplayground/playground-ui/datapanda-ui/src/components/catalog/createCatalogComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../dataplayground/playground-ui/datapanda-ui/src/components/query/queryResultComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../../dataplayground/playground-ui/datapanda-ui/src/components/query/queryResultComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../dataplayground/playground-ui/datapanda-ui/src/models/query/QueryReuslt.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../dataplayground/playground-ui/datapanda-ui/src/models/query/QueryReuslt.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../dataplayground/playground/src/main/java/com/data/playground/model/query/dto/QueryResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../dataplayground/playground/src/main/java/com/data/playground/model/query/dto/QueryResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../dataplayground/playground/src/main/java/com/data/playground/services/CatalogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../dataplayground/playground/src/main/java/com/data/playground/services/CatalogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../dataplayground/playground/src/main/java/com/data/playground/services/QueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../dataplayground/playground/src/main/java/com/data/playground/services/QueryService.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1ojbcL8wHX9ksbuqeXhkwx0d1Jp" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.learn.model" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.PartitionAndSort">
+    <configuration name="DramaMovies" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.learn.firstjob.DramaMovies" />
+      <module name="firstjob" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.learn.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JoinAndGroupBy" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.learn.firstjob.JoinAndGroupBy" />
+      <module name="firstjob" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.learn.firstjob.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PartitionAndSort" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.learn.firstjob.PartitionAndSort" />
+      <module name="firstjob" />
+      <option name="PROGRAM_PARAMETERS" value="--input $USER_HOME$/Documents/datasets/ml-latest-small/ --output $USER_HOME$/Documents/datasets/output/top10movies" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.learn.firstjob.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.DramaMovies" />
+      <item itemvalue="Application.JoinAndGroupBy" />
+      <item itemvalue="Application.PartitionAndSort" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.PartitionAndSort" />
+        <item itemvalue="Application.JoinAndGroupBy" />
+        <item itemvalue="Application.DramaMovies" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cf3f801a-61ef-4c26-a33c-a2ff72db7435" name="Default Changelist" comment="" />
+      <created>1613803025701</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1613803025701</updated>
+      <workItem from="1613803027043" duration="11917000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="424" y="238" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1613884734855">
+      <screen x="0" y="23" width="1920" height="1106" />
+    </state>
+    <state x="424" y="238" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.1106@0.23.1920.1106" timestamp="1613884734854" />
+    <state x="773" y="299" key="#com.intellij.ide.util.MemberChooser" timestamp="1613883470441">
+      <screen x="0" y="23" width="1920" height="1106" />
+    </state>
+    <state x="773" y="299" key="#com.intellij.ide.util.MemberChooser/0.23.1920.1106@0.23.1920.1106" timestamp="1613883470441" />
+    <state width="1878" height="377" key="GridCell.Tab.0.bottom" timestamp="1613970529802">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state width="1878" height="306" key="GridCell.Tab.0.bottom/0.23.1920.1106@0.23.1920.1106" timestamp="1613884443543" />
+    <state width="1878" height="377" key="GridCell.Tab.0.bottom/0.23.3360.1796@0.23.3360.1796" timestamp="1613970529802" />
+    <state width="1878" height="377" key="GridCell.Tab.0.center" timestamp="1613970529801">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state width="1878" height="306" key="GridCell.Tab.0.center/0.23.1920.1106@0.23.1920.1106" timestamp="1613884443542" />
+    <state width="1878" height="377" key="GridCell.Tab.0.center/0.23.3360.1796@0.23.3360.1796" timestamp="1613970529801" />
+    <state width="1878" height="377" key="GridCell.Tab.0.left" timestamp="1613970529801">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state width="1878" height="306" key="GridCell.Tab.0.left/0.23.1920.1106@0.23.1920.1106" timestamp="1613884443541" />
+    <state width="1878" height="377" key="GridCell.Tab.0.left/0.23.3360.1796@0.23.3360.1796" timestamp="1613970529801" />
+    <state width="1878" height="377" key="GridCell.Tab.0.right" timestamp="1613970529802">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state width="1878" height="306" key="GridCell.Tab.0.right/0.23.1920.1106@0.23.1920.1106" timestamp="1613884443542" />
+    <state width="1878" height="377" key="GridCell.Tab.0.right/0.23.3360.1796@0.23.3360.1796" timestamp="1613970529802" />
+    <state width="1878" height="377" key="GridCell.Tab.1.bottom" timestamp="1613970529803">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state width="1878" height="377" key="GridCell.Tab.1.bottom/0.23.1920.1106@0.23.1920.1106" timestamp="1613884402136" />
+    <state width="1878" height="377" key="GridCell.Tab.1.bottom/0.23.3360.1796@0.23.3360.1796" timestamp="1613970529803" />
+    <state width="1878" height="377" key="GridCell.Tab.1.center" timestamp="1613970529802">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state width="1878" height="377" key="GridCell.Tab.1.center/0.23.1920.1106@0.23.1920.1106" timestamp="1613884402136" />
+    <state width="1878" height="377" key="GridCell.Tab.1.center/0.23.3360.1796@0.23.3360.1796" timestamp="1613970529802" />
+    <state width="1878" height="377" key="GridCell.Tab.1.left" timestamp="1613970529802">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state width="1878" height="377" key="GridCell.Tab.1.left/0.23.1920.1106@0.23.1920.1106" timestamp="1613884402135" />
+    <state width="1878" height="377" key="GridCell.Tab.1.left/0.23.3360.1796@0.23.3360.1796" timestamp="1613970529802" />
+    <state width="1878" height="377" key="GridCell.Tab.1.right" timestamp="1613970529803">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state width="1878" height="377" key="GridCell.Tab.1.right/0.23.1920.1106@0.23.1920.1106" timestamp="1613884402136" />
+    <state width="1878" height="377" key="GridCell.Tab.1.right/0.23.3360.1796@0.23.3360.1796" timestamp="1613970529803" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/learn/firstjob/DramaMovies.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/learn/firstjob/DramaMovies.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

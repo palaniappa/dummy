@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e0da0063-8a10-45c8-b333-71c7d8713311" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/SparkMainJob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataplayground/SqlDbSetup.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../dataplayground/SqlDbSetup.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataplayground/playground-ui/datapanda-ui/src/components/catalog/createCatalogComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../dataplayground/playground-ui/datapanda-ui/src/components/catalog/createCatalogComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataplayground/playground-ui/datapanda-ui/src/components/query/queryResultComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../dataplayground/playground-ui/datapanda-ui/src/components/query/queryResultComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataplayground/playground-ui/datapanda-ui/src/models/query/QueryReuslt.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../dataplayground/playground-ui/datapanda-ui/src/models/query/QueryReuslt.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataplayground/playground/src/main/java/com/data/playground/model/query/dto/QueryResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dataplayground/playground/src/main/java/com/data/playground/model/query/dto/QueryResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataplayground/playground/src/main/java/com/data/playground/services/CatalogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dataplayground/playground/src/main/java/com/data/playground/services/CatalogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataplayground/playground/src/main/java/com/data/playground/services/QueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dataplayground/playground/src/main/java/com/data/playground/services/QueryService.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
+        <option name="userSettingsFile" value="$USER_HOME$/.m2/personal_settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1msyJhHsCHHkqcXfHMTX8FXdKb5" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="Debugger_Data_Views_Java" />
+  </component>
+  <component name="RunManager">
+    <configuration name="SparkMainJob" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="SparkMainJob" />
+      <module name="SparkMainJob" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.SparkMainJob" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e0da0063-8a10-45c8-b333-71c7d8713311" name="Default Changelist" comment="" />
+      <created>1610296522472</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1610296522472</updated>
+      <workItem from="1610296525436" duration="700000" />
+      <workItem from="1610297592805" duration="1698000" />
+      <workItem from="1610779431752" duration="16000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1984" y="582" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1610298477598">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state x="1984" y="582" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.3360.1796@0.23.3360.1796" timestamp="1610298477598" />
+    <state width="1638" height="653" key="GridCell.Tab.0.bottom" timestamp="1610299511280">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state width="1638" height="653" key="GridCell.Tab.0.bottom/0.23.3360.1796@0.23.3360.1796" timestamp="1610299511280" />
+    <state width="1638" height="653" key="GridCell.Tab.0.center" timestamp="1610299511280">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state width="1638" height="653" key="GridCell.Tab.0.center/0.23.3360.1796@0.23.3360.1796" timestamp="1610299511280" />
+    <state width="1638" height="653" key="GridCell.Tab.0.left" timestamp="1610299511280">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state width="1638" height="653" key="GridCell.Tab.0.left/0.23.3360.1796@0.23.3360.1796" timestamp="1610299511280" />
+    <state width="1638" height="653" key="GridCell.Tab.0.right" timestamp="1610299511280">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state width="1638" height="653" key="GridCell.Tab.0.right/0.23.3360.1796@0.23.3360.1796" timestamp="1610299511280" />
+    <state width="1638" height="653" key="GridCell.Tab.1.bottom" timestamp="1610299511281">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state width="1638" height="653" key="GridCell.Tab.1.bottom/0.23.3360.1796@0.23.3360.1796" timestamp="1610299511281" />
+    <state width="1638" height="653" key="GridCell.Tab.1.center" timestamp="1610299511281">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state width="1638" height="653" key="GridCell.Tab.1.center/0.23.3360.1796@0.23.3360.1796" timestamp="1610299511281" />
+    <state width="1638" height="653" key="GridCell.Tab.1.left" timestamp="1610299511281">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state width="1638" height="653" key="GridCell.Tab.1.left/0.23.3360.1796@0.23.3360.1796" timestamp="1610299511281" />
+    <state width="1638" height="653" key="GridCell.Tab.1.right" timestamp="1610299511281">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state width="1638" height="653" key="GridCell.Tab.1.right/0.23.3360.1796@0.23.3360.1796" timestamp="1610299511281" />
+    <state x="2135" y="661" width="1117" height="724" key="Maven.ArtifactSearchDialog" timestamp="1610299376972">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state x="2135" y="661" width="1117" height="724" key="Maven.ArtifactSearchDialog/0.23.3360.1796@0.23.3360.1796" timestamp="1610299376972" />
+    <state x="2029" y="559" key="SettingsEditor" timestamp="1610298319099">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state x="2029" y="559" key="SettingsEditor/0.23.3360.1796@0.23.3360.1796" timestamp="1610298319099" />
+  </component>
+</project>

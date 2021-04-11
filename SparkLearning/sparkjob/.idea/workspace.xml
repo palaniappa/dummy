@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9be38ae9-b7ad-411e-b94e-500e482d03c5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../SparkWordCount/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SparkWordCount/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SparkWordCount/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SparkWordCount/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SparkWordCount/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SparkWordCount/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SparkWordCount/SparkWordCount.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SparkWordCount/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SparkWordCount/src/main/java/com/spark/SparkWordCount.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SparkMainJob.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dataplayground/SqlDbSetup.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataplayground/SqlDbSetup.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dataplayground/playground-ui/datapanda-ui/src/components/catalog/createCatalogComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataplayground/playground-ui/datapanda-ui/src/components/catalog/createCatalogComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dataplayground/playground-ui/datapanda-ui/src/components/query/queryResultComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataplayground/playground-ui/datapanda-ui/src/components/query/queryResultComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dataplayground/playground-ui/datapanda-ui/src/models/query/QueryReuslt.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataplayground/playground-ui/datapanda-ui/src/models/query/QueryReuslt.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dataplayground/playground/src/main/java/com/data/playground/model/query/dto/QueryResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataplayground/playground/src/main/java/com/data/playground/model/query/dto/QueryResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dataplayground/playground/src/main/java/com/data/playground/services/CatalogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataplayground/playground/src/main/java/com/data/playground/services/CatalogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../dataplayground/playground/src/main/java/com/data/playground/services/QueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataplayground/playground/src/main/java/com/data/playground/services/QueryService.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="$USER_HOME$/.m2/personal_repository" />
+        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
+        <option name="userSettingsFile" value="$USER_HOME$/.m2/personal_settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1n8lFUqLt66NeZl7G3uePMGpdsI" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+  </component>
+  <component name="RunManager">
+    <configuration name="SparkMainJob" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="SparkMainJob" />
+      <module name="SparkMainJob" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.SparkMainJob" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9be38ae9-b7ad-411e-b94e-500e482d03c5" name="Default Changelist" comment="" />
+      <created>1610779497823</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1610779497823</updated>
+      <workItem from="1610779499724" duration="53000" />
+      <workItem from="1610779568404" duration="5983000" />
+      <workItem from="1610943963847" duration="1000" />
+      <workItem from="1611469004992" duration="5334000" />
+      <workItem from="1611632333839" duration="7014000" />
+      <workItem from="1611987218068" duration="1219000" />
+      <workItem from="1612768764612" duration="819000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1093" y="385" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1610791535459">
+      <screen x="0" y="23" width="1920" height="1106" />
+    </state>
+    <state x="1093" y="385" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1920.1106@0.23.1920.1106" timestamp="1610791535459" />
+    <state width="1638" height="800" key="GridCell.Tab.0.bottom" timestamp="1611722099794">
+      <screen x="0" y="23" width="1680" height="956" />
+    </state>
+    <state width="1638" height="800" key="GridCell.Tab.0.bottom/-3360.58.3360.1867/0.23.1680.956@0.23.1680.956" timestamp="1611722099794" />
+    <state width="1878" height="262" key="GridCell.Tab.0.bottom/0.23.1920.1106@0.23.1920.1106" timestamp="1611633624308" />
+    <state width="1638" height="459" key="GridCell.Tab.0.bottom/0.23.3360.1796@0.23.3360.1796" timestamp="1611666964277" />
+    <state width="1638" height="336" key="GridCell.Tab.0.bottom/1680.23.3360.1796/0.23.1680.956@0.23.1680.956" timestamp="1611507896383" />
+    <state width="1638" height="800" key="GridCell.Tab.0.center" timestamp="1611722099794">
+      <screen x="0" y="23" width="1680" height="956" />
+    </state>
+    <state width="1638" height="800" key="GridCell.Tab.0.center/-3360.58.3360.1867/0.23.1680.956@0.23.1680.956" timestamp="1611722099794" />
+    <state width="1878" height="262" key="GridCell.Tab.0.center/0.23.1920.1106@0.23.1920.1106" timestamp="1611633624307" />
+    <state width="1638" height="459" key="GridCell.Tab.0.center/0.23.3360.1796@0.23.3360.1796" timestamp="1611666964277" />
+    <state width="1638" height="336" key="GridCell.Tab.0.center/1680.23.3360.1796/0.23.1680.956@0.23.1680.956" timestamp="1611507896382" />
+    <state width="1638" height="800" key="GridCell.Tab.0.left" timestamp="1611722099793">
+      <screen x="0" y="23" width="1680" height="956" />
+    </state>
+    <state width="1638" height="800" key="GridCell.Tab.0.left/-3360.58.3360.1867/0.23.1680.956@0.23.1680.956" timestamp="1611722099793" />
+    <state width="1878" height="262" key="GridCell.Tab.0.left/0.23.1920.1106@0.23.1920.1106" timestamp="1611633624307" />
+    <state width="1638" height="459" key="GridCell.Tab.0.left/0.23.3360.1796@0.23.3360.1796" timestamp="1611666964276" />
+    <state width="1638" height="336" key="GridCell.Tab.0.left/1680.23.3360.1796/0.23.1680.956@0.23.1680.956" timestamp="1611507896382" />
+    <state width="1638" height="800" key="GridCell.Tab.0.right" timestamp="1611722099794">
+      <screen x="0" y="23" width="1680" height="956" />
+    </state>
+    <state width="1638" height="800" key="GridCell.Tab.0.right/-3360.58.3360.1867/0.23.1680.956@0.23.1680.956" timestamp="1611722099794" />
+    <state width="1878" height="262" key="GridCell.Tab.0.right/0.23.1920.1106@0.23.1920.1106" timestamp="1611633624308" />
+    <state width="1638" height="459" key="GridCell.Tab.0.right/0.23.3360.1796@0.23.3360.1796" timestamp="1611666964277" />
+    <state width="1638" height="336" key="GridCell.Tab.0.right/1680.23.3360.1796/0.23.1680.956@0.23.1680.956" timestamp="1611507896383" />
+    <state width="1638" height="459" key="GridCell.Tab.1.bottom" timestamp="1611722099791">
+      <screen x="0" y="23" width="1680" height="956" />
+    </state>
+    <state width="1638" height="459" key="GridCell.Tab.1.bottom/-3360.58.3360.1867/0.23.1680.956@0.23.1680.956" timestamp="1611722099791" />
+    <state width="1878" height="262" key="GridCell.Tab.1.bottom/0.23.1920.1106@0.23.1920.1106" timestamp="1611633624309" />
+    <state width="1638" height="459" key="GridCell.Tab.1.bottom/0.23.3360.1796@0.23.3360.1796" timestamp="1611666931000" />
+    <state width="1638" height="336" key="GridCell.Tab.1.bottom/1680.23.3360.1796/0.23.1680.956@0.23.1680.956" timestamp="1611507896384" />
+    <state width="1638" height="459" key="GridCell.Tab.1.center" timestamp="1611722099790">
+      <screen x="0" y="23" width="1680" height="956" />
+    </state>
+    <state width="1638" height="459" key="GridCell.Tab.1.center/-3360.58.3360.1867/0.23.1680.956@0.23.1680.956" timestamp="1611722099790" />
+    <state width="1878" height="262" key="GridCell.Tab.1.center/0.23.1920.1106@0.23.1920.1106" timestamp="1611633624309" />
+    <state width="1638" height="459" key="GridCell.Tab.1.center/0.23.3360.1796@0.23.3360.1796" timestamp="1611666930998" />
+    <state width="1638" height="336" key="GridCell.Tab.1.center/1680.23.3360.1796/0.23.1680.956@0.23.1680.956" timestamp="1611507896383" />
+    <state width="1638" height="459" key="GridCell.Tab.1.left" timestamp="1611722099790">
+      <screen x="0" y="23" width="1680" height="956" />
+    </state>
+    <state width="1638" height="459" key="GridCell.Tab.1.left/-3360.58.3360.1867/0.23.1680.956@0.23.1680.956" timestamp="1611722099790" />
+    <state width="1878" height="262" key="GridCell.Tab.1.left/0.23.1920.1106@0.23.1920.1106" timestamp="1611633624309" />
+    <state width="1638" height="459" key="GridCell.Tab.1.left/0.23.3360.1796@0.23.3360.1796" timestamp="1611666930997" />
+    <state width="1638" height="336" key="GridCell.Tab.1.left/1680.23.3360.1796/0.23.1680.956@0.23.1680.956" timestamp="1611507896383" />
+    <state width="1638" height="459" key="GridCell.Tab.1.right" timestamp="1611722099791">
+      <screen x="0" y="23" width="1680" height="956" />
+    </state>
+    <state width="1638" height="459" key="GridCell.Tab.1.right/-3360.58.3360.1867/0.23.1680.956@0.23.1680.956" timestamp="1611722099791" />
+    <state width="1878" height="262" key="GridCell.Tab.1.right/0.23.1920.1106@0.23.1920.1106" timestamp="1611633624309" />
+    <state width="1638" height="459" key="GridCell.Tab.1.right/0.23.3360.1796@0.23.3360.1796" timestamp="1611666930999" />
+    <state width="1638" height="336" key="GridCell.Tab.1.right/1680.23.3360.1796/0.23.1680.956@0.23.1680.956" timestamp="1611507896384" />
+    <state x="545" y="761" key="Maven.ArtifactSearchDialog" timestamp="1611495971103">
+      <screen x="0" y="23" width="3360" height="1796" />
+    </state>
+    <state x="545" y="761" key="Maven.ArtifactSearchDialog/0.23.3360.1796@0.23.3360.1796" timestamp="1611495971103" />
+    <state x="469" y="215" key="SettingsEditor" timestamp="1610790408169">
+      <screen x="0" y="23" width="1920" height="1106" />
+    </state>
+    <state x="469" y="215" key="SettingsEditor/0.23.1920.1106@0.23.1920.1106" timestamp="1610790408169" />
+    <state x="354" y="188" key="new project wizard" timestamp="1611987323892">
+      <screen x="0" y="23" width="1920" height="1106" />
+    </state>
+    <state x="354" y="188" key="new project wizard/0.23.1920.1106@0.23.1920.1106" timestamp="1611987323892" />
+    <state x="625" y="270" width="670" height="676" key="search.everywhere.popup" timestamp="1610790758044">
+      <screen x="0" y="23" width="1920" height="1106" />
+    </state>
+    <state x="625" y="270" width="670" height="676" key="search.everywhere.popup/0.23.1920.1106@0.23.1920.1106" timestamp="1610790758044" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/SparkMainJob.java</url>
+          <line>44</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/SparkMainJob.java</url>
+          <line>17</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/SparkMainJob.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

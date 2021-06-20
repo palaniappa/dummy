@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="39c5e75d-0697-47dc-a969-8a9fbc72c835" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/dataplayground/playground/src/main/java/com/data/playground/controllers/DataModelController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dataplayground/playground/src/main/java/com/data/playground/model/CreateTableRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dataplayground/playground/src/main/java/com/data/playground/model/CreateTableResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dataplayground/playground/src/main/java/com/data/playground/model/datamodel/FieldType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dataplayground/playground/src/main/java/com/data/playground/model/datamodel/TableField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataplayground/playground/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dataplayground/playground/pom.xml" afterDir="false" />
+    <list default="true" id="f91df172-9795-4b2e-a956-69bed0cf3830" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/ParquetRead/src/main/java/com/parquet/model/ColumnMetadata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ParquetRead/src/main/java/com/parquet/model/ColumnType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ParquetRead/src/main/java/com/parquet/model/Row.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ParquetRead/src/main/java/com/parquet/model/Table.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ParquetRead/src/main/java/com/parquet/read/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SparkTutorial/src/main/java/com/tutorial/actions/CollectExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SparkTutorial/src/main/java/com/tutorial/actions/ReduceExample.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/$CACHE_FILE$" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dummy.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,32 +25,25 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
-      </MavenGeneralSettings>
-    </option>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
   </component>
-  <component name="ProjectId" id="1jPws4zx1pae3HMwOfPSQUVVdYW" />
+  <component name="ProjectId" id="1u8ARJjIsFmREjEgKxpROBM6jn9" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="39c5e75d-0697-47dc-a969-8a9fbc72c835" name="Default Changelist" comment="" />
-      <created>1603719237946</created>
+      <changelist id="f91df172-9795-4b2e-a956-69bed0cf3830" name="Default Changelist" comment="" />
+      <created>1624036835006</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1603719237946</updated>
-      <workItem from="1603719239048" duration="9000" />
+      <updated>1624036835006</updated>
     </task>
     <servers />
   </component>

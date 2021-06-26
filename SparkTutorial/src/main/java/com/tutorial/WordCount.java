@@ -11,7 +11,7 @@ import java.util.Map;
 public class WordCount {
     public static void main(String[] args) {
         System.out.println("Welcome");
-        SparkConf conf = new SparkConf().setAppName("WordCount").setMaster("local[*]");
+        SparkConf conf = new SparkConf().setAppName("WordCount").setMaster("local[1]");
         JavaSparkContext sc = new JavaSparkContext(conf);
         JavaRDD<String> lines = sc.textFile("in/word_count.text");
         JavaRDD<String> words = lines.flatMap( l -> {

@@ -7,7 +7,7 @@ import org.apache.spark.sql.SparkSession;
 
 public class SparkMain {
     public static void main(String[] args) {
-        System.out.println("Welcome");
+        System.out.println("Welcome " + args[0]);
 
         SparkConf sparkConf = new SparkConf();//getSparkConf();
         sparkConf.setAppName("My First App")
@@ -17,8 +17,8 @@ public class SparkMain {
                 //.enableHiveSupport()
                 .getOrCreate();
 
-        sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.access.key", "**");
-        sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.secret.key", "**");
+        sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.access.key", "AKIAVZH4SBSYTQYH4O4S");
+        sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.secret.key", "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");
         sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.endpoint", "s3.amazonaws.com");
 
         Dataset<Row> dataset = sparkSession.read()

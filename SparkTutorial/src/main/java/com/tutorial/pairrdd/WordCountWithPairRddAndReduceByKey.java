@@ -27,7 +27,7 @@ public class WordCountWithPairRddAndReduceByKey {
         SparkConf sparkConf = new SparkConf().setAppName("Word count").setMaster("local[*]");
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
-        JavaRDD<String> lines = sc.textFile("in/*.*");
+        JavaRDD<String> lines = sc.textFile("/Volumes/HDD2/myownrepos/dummy/SparkTutorial/in/*.*");
         JavaRDD<String> words = lines.flatMap(new WordSplitter());
         JavaRDD<String> enrichedWords = words.map( w -> w.toLowerCase(Locale.ROOT).replaceAll("\"","").replaceAll(",",""));
         JavaRDD<String> filteredWords = enrichedWords.filter( w -> !w.isEmpty());

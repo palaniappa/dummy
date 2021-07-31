@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="additional dependencies">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../spark/core/target/jars/aws-java-sdk-bundle-1.11.375.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../spark/core/target/jars/hadoop-aws-3.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../spark/core/target/jars/hadoop-common-3.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../spark/core/target/jars/aws-java-sdk-1.12.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../spark/core/target/jars/guava-27.0-jre.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../spark/core/target/jars/commons-logging-1.1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../spark/core/target/jars/slf4j-api-1.7.31.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

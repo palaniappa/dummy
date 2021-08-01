@@ -11,13 +11,25 @@ conn = t.dbapi.connect(
     port=8080,
     user='admin',
     catalog='tpcds',
-    schema='tiny',
+    schema='sf1'
 )
 cur = conn.cursor()
-cur.execute('SELECT * FROM store_sales')
-metadata = cur.getMetadata()
-rows = cur.fetchall()
-dataFrame = pd.DataFrame(rows)
+use_arrow = True
+
+dataFrame = None
+if use_arrow:
+    dataFrame = cur.to_pandas('SELECT * FROM store_sales')
+else:
+    cur.execute('SELECT * FROM store_sales')
+    startTime = time.time()
+    rows = cur.fetchall()
+    endTime = time.time()
+    elapsed = endTime - startTime
+    print ('Time taken for fetch',elapsed)
+    dataFrame = pd.DataFrame(rows)
+
+metadata = cur.get_metadata()
+
 colNames = []
 for col in metadata:
     colNames.append(col['name'])
@@ -36,8 +48,11 @@ dataFrame['ss_net_paid'] = pd.to_numeric(dataFrame['ss_net_paid'])
 dataFrame['ss_net_paid_inc_tax'] = pd.to_numeric(dataFrame['ss_net_paid_inc_tax'])
 dataFrame['ss_net_profit'] = pd.to_numeric(dataFrame['ss_net_profit'])
 #print(dataFrame.dtypes)
-
-print(dataFrame.groupby(['ss_item_sk'])['ss_net_profit'].sum())
+endTime = time.time()
+elapsed = endTime - startTime
+print ('Time taken before group by',elapsed)
+#print(dataFrame.groupby(['ss_item_sk'])['ss_net_profit'].sum())
+print(dataFrame.count())
 endTime = time.time()
 elapsed = endTime - startTime
 print ('Time taken ',elapsed)

@@ -11,7 +11,7 @@ conn = t.dbapi.connect(
     port=8080,
     user='admin',
     catalog='tpcds',
-    schema='sf1'
+    schema='tiny'
 )
 cur = conn.cursor()
 use_arrow = True
@@ -21,11 +21,7 @@ if use_arrow:
     dataFrame = cur.to_pandas('SELECT * FROM store_sales')
 else:
     cur.execute('SELECT * FROM store_sales')
-    startTime = time.time()
     rows = cur.fetchall()
-    endTime = time.time()
-    elapsed = endTime - startTime
-    print ('Time taken for fetch',elapsed)
     dataFrame = pd.DataFrame(rows)
 
 metadata = cur.get_metadata()
